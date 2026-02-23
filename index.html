@@ -2,145 +2,184 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Google Search - Study Resources</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Search | Resources</title>
     <style>
         :root {
-            --google-blue: #1a0dab;
-            --google-gray: #4d5156;
-            --google-border: #dfe1e5;
+            --accent: #3b82f6;
+            --glass: rgba(255, 255, 255, 0.05);
         }
-        body { font-family: 'arial', sans-serif; margin: 0; background: white; color: #202124; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Arial', sans-serif; overflow: hidden; background: #000; }
 
-        /* Google Header */
-        header { 
-            display: flex; align-items: center; padding: 20px 30px; 
-            border-bottom: 1px solid #ebebeb; position: sticky; top: 0; background: white;
+        /* --- LOGIN SCREEN --- */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 10000; display: flex; align-items: center; justify-content: center;
         }
-        .logo { font-size: 24px; font-weight: bold; margin-right: 30px; cursor: pointer; text-decoration: none; }
-        .g { color: #4285F4; } .o1 { color: #EA4335; } .o2 { color: #FBBC05; } .g2 { color: #4285F4; } .l { color: #34A853; } .e { color: #EA4335; }
+        .login-box { text-align: center; color: white; }
+        .login-box input { 
+            padding: 12px; border-radius: 8px; border: 1px solid #333; 
+            background: #111; color: white; width: 250px; text-align: center; 
+        }
+
+        /* --- VERBO SPACE BACKGROUND --- */
+        #space-bg {
+            position: fixed; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at center, #111, #000);
+        }
+        .planet { position: absolute; border-radius: 50%; filter: blur(40px); opacity: 0.4; animation: drift 30s infinite alternate; }
+        @keyframes drift { from { transform: translate(0,0); } to { transform: translate(60px, 60px); } }
+
+        /* --- DASHBOARD LAYOUT --- */
+        .wrapper { display: none; height: 100vh; flex-direction: column; backdrop-filter: blur(15px); }
         
-        .search-box-container { 
-            display: flex; align-items: center; border: 1px solid var(--google-border); 
-            border-radius: 24px; width: 600px; padding: 5px 20px; box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+        /* Navigation (Google Style) */
+        nav { 
+            display: flex; align-items: center; padding: 15px 30px; 
+            background: rgba(0,0,0,0.8); border-bottom: 1px solid #222; 
         }
-        .search-box-container input { 
-            border: none; outline: none; width: 100%; height: 34px; font-size: 16px; 
-        }
+        .nav-logo { font-size: 20px; font-weight: bold; margin-right: 30px; }
+        .tab { padding: 10px 18px; cursor: pointer; color: #aaa; transition: 0.3s; font-size: 14px; }
+        .tab.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
 
-        /* Results Layout */
-        main { padding: 20px 150px; }
-        .stats { color: var(--google-gray); font-size: 14px; margin-bottom: 20px; }
-        
-        .result { margin-bottom: 30px; max-width: 650px; }
-        .result .site-name { font-size: 14px; color: #202124; margin-bottom: 4px; display: block; }
-        .result a { font-size: 20px; color: var(--google-blue); text-decoration: none; display: block; margin-bottom: 4px; }
-        .result a:hover { text-decoration: underline; }
-        .result p { font-size: 14px; color: var(--google-gray); line-height: 1.58; margin: 0; }
+        /* Content Sections */
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; display: none; }
+        .main-content.active { display: block; }
 
-        /* Hidden Space Mode (The Verbo Style) */
-        #space-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; cursor: crosshair;
+        /* The Grid System */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .card { 
+            background: var(--glass); border: 1px solid rgba(255,255,255,0.1); 
+            padding: 25px; border-radius: 15px; color: white; text-decoration: none;
+            transition: 0.3s; display: block;
         }
-        .planet { position: absolute; border-radius: 50%; filter: blur(40px); opacity: 0.6; animation: float 20s infinite alternate; }
-        @keyframes float { from { transform: translate(0,0); } to { transform: translate(30px, 30px); } }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); background: rgba(59, 130, 246, 0.15); }
+        .card h3 { margin: 0 0 10px 0; color: var(--accent); }
+        .card p { margin: 0; font-size: 13px; color: #ccc; }
 
-        /* Persistent Music/Movie Footer */
-        footer {
-            position: fixed; bottom: 0; width: 100%; height: 65px; 
-            background: #f8f9fa; border-top: 1px solid #dadce0; 
-            display: flex; align-items: center; padding: 0 30px;
+        /* Footer Player */
+        footer { 
+            height: 80px; background: #000; border-top: 1px solid #222; 
+            display: flex; align-items: center; padding: 0 20px; 
         }
-        .badge { background: #34A853; color: white; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: bold; margin-right: 15px; }
+        .badge { color: #10b981; font-weight: bold; font-size: 10px; border: 1px solid #10b981; padding: 2px 6px; border-radius: 4px; margin-right: 15px; }
+
+        /* Panic Key */
+        .panic-hint { position: fixed; bottom: 90px; right: 20px; font-size: 10px; color: #444; }
     </style>
 </head>
 <body>
 
-<header>
-    <a href="/" class="logo"><span class="g">G</span><span class="o1">o</span><span class="o2">o</span><span class="g2">g</span><span class="l">l</span><span class="e">e</span></a>
-    <div class="search-box-container">
-        <input type="text" id="proxy-input" placeholder="Search or enter URL..." onkeypress="handleProxy(event)">
-    </div>
-</header>
-
-<main>
-    <div class="stats">About 1,337,000 results (0.35 seconds)</div>
-
-    <div class="result">
-        <span class="site-name">https://secure.proxy-tunnel.io</span>
-        <a href="#" onclick="activateProxy()">Web Proxy - Browse Unblocked Content Privately</a>
-        <p>A secure way to access restricted websites. This proxy uses high-speed encryption to bypass school filters. labeling: FREE ACCESS.</p>
+    <div id="login-screen">
+        <div class="login-box">
+            <h2 style="font-weight: 300; margin-bottom: 20px;">System Protected</h2>
+            <input type="password" id="pass-input" placeholder="Enter Access Key..." onkeypress="checkPass(event)">
+            <p id="error" style="color: red; font-size: 12px; margin-top: 10px; display:none;">Access Denied</p>
+        </div>
     </div>
 
-    <div class="result">
-        <span class="site-name">https://central-games.hub</span>
-        <a href="#" onclick="toggleSpace()">Nexus Games Hub - Play Unblocked Retro Games</a>
-        <p>Access 1v1.lol, Retro Bowl, Slope, and more. Optimized for Chromebooks and school networks. Click "Gmail" to toggle Dark Mode.</p>
+    <div id="space-bg"></div>
+
+    <div class="wrapper" id="hub">
+        <nav>
+            <div class="nav-logo"><span style="color:#4285F4">G</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">o</span><span style="color:#4285F4">g</span><span style="color:#34A853">l</span><span style="color:#EA4335">e</span></div>
+            <div class="tab active" onclick="tab('games', this)">Games</div>
+            <div class="tab" onclick="tab('movies', this)">Movies</div>
+            <div class="tab" onclick="tab('apps', this)">AI Tools</div>
+            <div class="tab" onclick="tab('proxy', this)">Proxy</div>
+        </nav>
+
+        <section id="games" class="main-content active">
+            <div class="grid">
+                <a href="https://retrobowl.me" target="_blank" class="card"><h3>Retro Bowl</h3><p>Play the classic unblocked football game.</p></a>
+                <a href="https://1v1.lol" target="_blank" class="card"><h3>1v1.LOL</h3><p>Building and shooter simulator.</p></a>
+                <a href="https://poki.com" target="_blank" class="card"><h3>Poki Hub</h3><p>Access 1000+ web games instantly.</p></a>
+                <a href="https://slopegame.io" target="_blank" class="card"><h3>Slope</h3><p>The original unblocked 3D runner.</p></a>
+            </div>
+        </section>
+
+        <section id="movies" class="main-content">
+            <div class="grid">
+                <a href="https://movie-web.app" target="_blank" class="card"><h3>Movie-Web</h3><p>Ad-free movies and shows.</p></a>
+                <a href="https://vidsrc.to" target="_blank" class="card"><h3>VidSource</h3><p>Large library of free streaming media.</p></a>
+                <a href="https://lookmovie2.to" target="_blank" class="card"><h3>LookMovie</h3><p>High quality streaming, safe access.</p></a>
+            </div>
+        </section>
+
+        <section id="apps" class="main-content">
+            <div class="grid">
+                <a href="https://chat.openai.com" target="_blank" class="card"><h3>ChatGPT</h3><p>Original AI assistant for essays.</p></a>
+                <a href="https://bing.com/chat" target="_blank" class="card"><h3>Bing AI</h3><p>Connected AI for real-time research.</p></a>
+                <a href="https://claude.ai" target="_blank" class="card"><h3>Claude</h3><p>Smart writing and code help.</p></a>
+            </div>
+        </section>
+
+        <section id="proxy" class="main-content">
+            <div class="grid">
+                <div class="card" style="grid-column: 1 / -1; text-align: center;">
+                    <h3>Secure Web Proxy</h3>
+                    <input type="text" id="proxy-box" placeholder="https://youtube.com" style="width:80%; padding:15px; margin-top:10px; border-radius:10px; border:none; background:#000; color:white;" onkeypress="launchProxy(event)">
+                    <p style="margin-top:15px;">Tunnel through filters using encrypted HTTPS.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="panic-hint">Press ESC to panic redirect</div>
+
+        <footer>
+            <div class="badge">FREE MUSIC</div>
+            <iframe src="https://vapor.my/page/music/index.html" style="width: 100%; height: 65px; border: none;" allow="autoplay"></iframe>
+        </footer>
     </div>
 
-    <div class="result">
-        <span class="site-name">https://streaming-library.edu</span>
-        <a href="https://movie-web.app" target="_blank">Free Movies & Cinema - Educational Documentaries</a>
-        <p>Watch free movies and high-quality video content without restrictions. Includes ad-free player and safe streaming servers.</p>
-    </div>
-
-    <div class="result">
-        <span class="site-name">https://ai-learning.tools</span>
-        <a href="#" onclick="alert('AI Tool Launching...')">AI Study Assistant & Creative Writing Tool</a>
-        <p>Use AI to generate essay outlines, solve math problems, or create digital art. Features ChatGPT-4 level intelligence.</p>
-    </div>
-</main>
-
-<div id="space-overlay" onclick="toggleSpace()">
-    <div style="color: white; padding: 20px;">Press ESC to return to Google Search</div>
-</div>
-
-<footer>
-    <span class="badge">FREE MUSIC</span>
-    <iframe src="https://vapor.my/page/music/index.html" style="width: 100%; height: 55px; border: none;" allow="autoplay"></iframe>
-</footer>
-
-<script>
-    // 1. Proxy Redirect Logic
-    function handleProxy(e) {
-        if (e.key === 'Enter') {
-            const url = document.getElementById('proxy-input').value;
-            // This opens the URL through a public unblocker
-            window.open("https://api.allorigins.win/raw?url=" + encodeURIComponent(url), "_blank");
+    <script>
+        // PASSWORD LOGIC
+        function checkPass(e) {
+            if (e.key === 'Enter') {
+                const pass = document.getElementById('pass-input').value;
+                if (pass === 'Jesus247') {
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('hub').style.display = 'flex';
+                } else {
+                    document.getElementById('error').style.display = 'block';
+                }
+            }
         }
-    }
 
-    function activateProxy() {
-        document.getElementById('proxy-input').focus();
-    }
-
-    // 2. Planet Generation for the Secret Dashboard
-    const overlay = document.getElementById('space-overlay');
-    const colors = ['#4285F4', '#EA4335', '#FBBC05', '#34A853'];
-    
-    for(let i=0; i<6; i++) {
-        const p = document.createElement('div');
-        p.className = 'planet';
-        const size = Math.random()*200 + 100 + 'px';
-        p.style.width = p.style.height = size;
-        p.style.left = Math.random()*90+'vw'; p.style.top = Math.random()*90+'vh';
-        p.style.background = `radial-gradient(circle, ${colors[i%4]}, transparent)`;
-        overlay.appendChild(p);
-    }
-
-    function toggleSpace() {
-        const current = overlay.style.display;
-        overlay.style.display = (current === 'block') ? 'none' : 'block';
-    }
-
-    // 3. Panic Key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === "Escape") {
-            overlay.style.display = 'none';
-            // Optional: window.location.href = "https://classroom.google.com";
+        // TAB LOGIC
+        function tab(id, el) {
+            document.querySelectorAll('.main-content').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            el.classList.add('active');
         }
-    });
-</script>
 
+        // PROXY LOGIC
+        function launchProxy(e) {
+            if (e.key === 'Enter') {
+                const url = document.getElementById('proxy-box').value;
+                window.open("https://api.allorigins.win/raw?url=" + encodeURIComponent(url), "_blank");
+            }
+        }
+
+        // PANIC KEY (ESC)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") window.location.href = "https://classroom.google.com";
+        });
+
+        // PLANET BG
+        const space = document.getElementById('space-bg');
+        const colors = ['#1e40af', '#4c1d95', '#1e1b4b'];
+        for(let i=0; i<6; i++){
+            let p = document.createElement('div');
+            p.className = 'planet';
+            let size = Math.random()*200 + 100 + 'px';
+            p.style.width = p.style.height = size;
+            p.style.left = Math.random()*100+'vw'; p.style.top = Math.random()*100+'vh';
+            p.style.background = `radial-gradient(circle, ${colors[i%3]}, transparent)`;
+            p.style.animationDelay = (i * -4) + 's';
+            space.appendChild(p);
+        }
+    </script>
 </body>
 </html>
