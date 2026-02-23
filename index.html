@@ -1,36 +1,19 @@
-<script>
-    // THE "ENGINE" URL - This is the satellite signal
-    // You can change this URL if it ever gets blocked
-    const proxyGate = "https://uv.student-unblock.workers.dev/main/"; 
+<script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.6/dist/uv.bundle.js"></script>
+<script src="uv.config.js"></script>
 
-    function openApp(url) {
-        const overlay = document.getElementById('app-overlay');
+<script>
+    async function openApp(url) {
         const frame = document.getElementById('app-frame');
-        
-        // We use 'Base64' encoding to hide the URL from the network filter
-        let encodedUrl = btoa(url).replace(/\//g, '_').replace(/\+/g, '-');
-        
-        // This combines your UI with the Proxy Engine
-        frame.src = proxyGate + encodedUrl;
+        const overlay = document.getElementById('app-overlay');
+
+        // This registers the 'engine' (sw.js)
+        await navigator.serviceWorker.register('./sw.js', {
+            scope: '/service/'
+        });
+
+        // This scrambles the URL and loads it through the proxy
+        let encodedUrl = __uv$config.prefix + __uv$config.encodeUrl(url);
+        frame.src = encodedUrl;
         overlay.style.display = 'block';
     }
-
-    // This handles the Search Tab
-    function handleSearch(e) {
-        if (e.key === 'Enter') {
-            let q = e.target.value;
-            let targetUrl = "";
-
-            if (q.includes('.') && !q.includes(' ')) {
-                targetUrl = q.startsWith('http') ? q : 'https://' + q;
-            } else {
-                targetUrl = 'https://duckduckgo.com/?q=' + encodeURIComponent(q);
-            }
-            
-            document.getElementById('history').innerText = "Recent: " + q;
-            openApp(targetUrl);
-        }
-    }
-
-    // ... Keep your Login and Tab switching functions ...
 </script>
