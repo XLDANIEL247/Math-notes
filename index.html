@@ -3,183 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Search | Resources</title>
+    <title>Nexus Hub | Secure Access</title>
     <style>
-        :root {
-            --accent: #3b82f6;
-            --glass: rgba(255, 255, 255, 0.05);
-        }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Arial', sans-serif; overflow: hidden; background: #000; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
-        /* --- LOGIN SCREEN --- */
-        #login-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 10000; display: flex; align-items: center; justify-content: center;
+        :root {
+            --bg: #030303;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
-        .login-box { text-align: center; color: white; }
-        .login-box input { 
-            padding: 12px; border-radius: 8px; border: 1px solid #333; 
-            background: #111; color: white; width: 250px; text-align: center; 
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg); color: #fff; overflow: hidden;
         }
 
         /* --- VERBO SPACE BACKGROUND --- */
-        #space-bg {
-            position: fixed; width: 100%; height: 100%; z-index: -1;
-            background: radial-gradient(circle at center, #111, #000);
+        #space {
+            position: fixed; width: 100vw; height: 100vh; z-index: -1;
+            background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
         }
-        .planet { position: absolute; border-radius: 50%; filter: blur(40px); opacity: 0.4; animation: drift 30s infinite alternate; }
-        @keyframes drift { from { transform: translate(0,0); } to { transform: translate(60px, 60px); } }
+        .planet {
+            position: absolute; border-radius: 50%; filter: blur(60px);
+            opacity: 0.3; animation: drift 25s infinite alternate ease-in-out;
+        }
+        @keyframes drift {
+            from { transform: translate(-5%, -5%) scale(1); }
+            to { transform: translate(5%, 5%) scale(1.1); }
+        }
 
-        /* --- DASHBOARD LAYOUT --- */
-        .wrapper { display: none; height: 100vh; flex-direction: column; backdrop-filter: blur(15px); }
+        /* --- LOGIN SCREEN --- */
+        #login-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 1000;
+            backdrop-filter: blur(20px);
+        }
+        .login-card {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            padding: 40px; border-radius: 24px; text-align: center; width: 320px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+        .login-card h2 { font-weight: 300; letter-spacing: 2px; margin-bottom: 20px; }
+        .login-card input {
+            width: 100%; padding: 12px; background: rgba(0,0,0,0.4);
+            border: 1px solid var(--glass-border); border-radius: 12px;
+            color: white; text-align: center; outline: none; transition: 0.3s;
+        }
+        .login-card input:focus { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
+
+        /* --- MAIN HUB LAYOUT --- */
+        #main-hub { display: none; flex-direction: column; height: 100vh; opacity: 0; transition: 1s; }
         
-        /* Navigation (Google Style) */
-        nav { 
-            display: flex; align-items: center; padding: 15px 30px; 
-            background: rgba(0,0,0,0.8); border-bottom: 1px solid #222; 
+        header {
+            display: flex; justify-content: center; padding: 25px;
+            background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--glass-border);
         }
-        .nav-logo { font-size: 20px; font-weight: bold; margin-right: 30px; }
-        .tab { padding: 10px 18px; cursor: pointer; color: #aaa; transition: 0.3s; font-size: 14px; }
-        .tab.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
-
-        /* Content Sections */
-        .main-content { flex: 1; padding: 30px; overflow-y: auto; display: none; }
-        .main-content.active { display: block; }
-
-        /* The Grid System */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
-        .card { 
-            background: var(--glass); border: 1px solid rgba(255,255,255,0.1); 
-            padding: 25px; border-radius: 15px; color: white; text-decoration: none;
-            transition: 0.3s; display: block;
+        .nav-box {
+            display: flex; gap: 10px; background: var(--glass);
+            padding: 5px; border-radius: 15px; border: 1px solid var(--glass-border);
         }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); background: rgba(59, 130, 246, 0.15); }
-        .card h3 { margin: 0 0 10px 0; color: var(--accent); }
-        .card p { margin: 0; font-size: 13px; color: #ccc; }
-
-        /* Footer Player */
-        footer { 
-            height: 80px; background: #000; border-top: 1px solid #222; 
-            display: flex; align-items: center; padding: 0 20px; 
+        .tab {
+            padding: 10px 25px; border-radius: 10px; cursor: pointer;
+            font-size: 14px; font-weight: 500; color: #888; transition: 0.3s;
         }
-        .badge { color: #10b981; font-weight: bold; font-size: 10px; border: 1px solid #10b981; padding: 2px 6px; border-radius: 4px; margin-right: 15px; }
+        .tab:hover { color: #fff; }
+        .tab.active { background: var(--accent); color: #fff; box-shadow: 0 0 20px var(--accent-glow); }
 
-        /* Panic Key */
-        .panic-hint { position: fixed; bottom: 90px; right: 20px; font-size: 10px; color: #444; }
+        /* --- SECTIONS --- */
+        .viewport { flex: 1; overflow-y: auto; padding: 40px; }
+        .section { display: none; animation: fadeIn 0.5s ease forwards; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- CARDS (VERBO NEAT STYLE) --- */
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px; max-width: 1100px; margin: 0 auto;
+        }
+        .card {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            padding: 25px; border-radius: 20px; text-decoration: none; color: white;
+            transition: 0.3s ease; position: relative; overflow: hidden;
+        }
+        .card:hover {
+            background: rgba(255,255,255,0.06); border-color: var(--accent);
+            transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .card h3 { margin: 0; font-size: 18px; font-weight: 600; color: var(--accent); }
+        .card p { margin: 10px 0 0; font-size: 13px; color: #aaa; line-height: 1.5; }
+
+        /* --- FOOTER (MUSIC) --- */
+        footer {
+            height: 90px; background: rgba(0,0,0,0.8);
+            border-top: 1px solid var(--glass-border);
+            display: flex; align-items: center; padding: 0 30px;
+        }
+        .free-label {
+            color: #10b981; font-size: 10px; font-weight: bold;
+            border: 1px solid #10b981; padding: 3px 8px; border-radius: 5px;
+            margin-right: 20px; letter-spacing: 1px;
+        }
+
+        /* --- PROXY INPUT --- */
+        .proxy-wrapper {
+            max-width: 600px; margin: 100px auto; text-align: center;
+        }
+        .proxy-input {
+            width: 100%; padding: 18px; border-radius: 15px; border: 1px solid var(--glass-border);
+            background: #000; color: white; font-size: 16px; outline: none; transition: 0.3s;
+        }
+        .proxy-input:focus { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
     </style>
 </head>
 <body>
 
-    <div id="login-screen">
-        <div class="login-box">
-            <h2 style="font-weight: 300; margin-bottom: 20px;">System Protected</h2>
-            <input type="password" id="pass-input" placeholder="Enter Access Key..." onkeypress="checkPass(event)">
-            <p id="error" style="color: red; font-size: 12px; margin-top: 10px; display:none;">Access Denied</p>
+    <div id="space"></div>
+
+    <div id="login-overlay">
+        <div class="login-card">
+            <h2>NEXUS</h2>
+            <input type="password" id="pw" placeholder="Access Key" onkeypress="handleLogin(event)">
+            <p id="err" style="color:#ef4444; font-size:12px; margin-top:15px; display:none;">Invalid Key</p>
         </div>
     </div>
 
-    <div id="space-bg"></div>
-
-    <div class="wrapper" id="hub">
-        <nav>
-            <div class="nav-logo"><span style="color:#4285F4">G</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">o</span><span style="color:#4285F4">g</span><span style="color:#34A853">l</span><span style="color:#EA4335">e</span></div>
-            <div class="tab active" onclick="tab('games', this)">Games</div>
-            <div class="tab" onclick="tab('movies', this)">Movies</div>
-            <div class="tab" onclick="tab('apps', this)">AI Tools</div>
-            <div class="tab" onclick="tab('proxy', this)">Proxy</div>
-        </nav>
-
-        <section id="games" class="main-content active">
-            <div class="grid">
-                <a href="https://retrobowl.me" target="_blank" class="card"><h3>Retro Bowl</h3><p>Play the classic unblocked football game.</p></a>
-                <a href="https://1v1.lol" target="_blank" class="card"><h3>1v1.LOL</h3><p>Building and shooter simulator.</p></a>
-                <a href="https://poki.com" target="_blank" class="card"><h3>Poki Hub</h3><p>Access 1000+ web games instantly.</p></a>
-                <a href="https://slopegame.io" target="_blank" class="card"><h3>Slope</h3><p>The original unblocked 3D runner.</p></a>
+    <div id="main-hub">
+        <header>
+            <div class="nav-box">
+                <div class="tab active" onclick="showTab('games', this)">Games</div>
+                <div class="tab" onclick="showTab('movies', this)">Movies</div>
+                <div class="tab" onclick="showTab('apps', this)">AI Tools</div>
+                <div class="tab" onclick="showTab('proxy', this)">Proxy</div>
             </div>
-        </section>
+        </header>
 
-        <section id="movies" class="main-content">
-            <div class="grid">
-                <a href="https://movie-web.app" target="_blank" class="card"><h3>Movie-Web</h3><p>Ad-free movies and shows.</p></a>
-                <a href="https://vidsrc.to" target="_blank" class="card"><h3>VidSource</h3><p>Large library of free streaming media.</p></a>
-                <a href="https://lookmovie2.to" target="_blank" class="card"><h3>LookMovie</h3><p>High quality streaming, safe access.</p></a>
-            </div>
-        </section>
-
-        <section id="apps" class="main-content">
-            <div class="grid">
-                <a href="https://chat.openai.com" target="_blank" class="card"><h3>ChatGPT</h3><p>Original AI assistant for essays.</p></a>
-                <a href="https://bing.com/chat" target="_blank" class="card"><h3>Bing AI</h3><p>Connected AI for real-time research.</p></a>
-                <a href="https://claude.ai" target="_blank" class="card"><h3>Claude</h3><p>Smart writing and code help.</p></a>
-            </div>
-        </section>
-
-        <section id="proxy" class="main-content">
-            <div class="grid">
-                <div class="card" style="grid-column: 1 / -1; text-align: center;">
-                    <h3>Secure Web Proxy</h3>
-                    <input type="text" id="proxy-box" placeholder="https://youtube.com" style="width:80%; padding:15px; margin-top:10px; border-radius:10px; border:none; background:#000; color:white;" onkeypress="launchProxy(event)">
-                    <p style="margin-top:15px;">Tunnel through filters using encrypted HTTPS.</p>
+        <div class="viewport">
+            <div id="games" class="section active">
+                <div class="grid">
+                    <a href="https://retrobowl.me" target="_blank" class="card"><h3>Retro Bowl</h3><p>Optimized American football classic for Chromebooks.</p></a>
+                    <a href="https://1v1.lol" target="_blank" class="card"><h3>1v1.LOL</h3><p>Competitive building and combat simulator.</p></a>
+                    <a href="https://poki.com" target="_blank" class="card"><h3>Poki</h3><p>Massive library of web-based entertainment.</p></a>
+                    <a href="https://slopegame.io" target="_blank" class="card"><h3>Slope</h3><p>High-speed survival 3D runner.</p></a>
                 </div>
             </div>
-        </section>
 
-        <div class="panic-hint">Press ESC to panic redirect</div>
+            <div id="movies" class="section">
+                <div class="grid">
+                    <a href="https://movie-web.app" target="_blank" class="card"><h3>Movie-Web</h3><p>Clean, ad-free interface for cinema.</p></a>
+                    <a href="https://vidsrc.to" target="_blank" class="card"><h3>VidSrc</h3><p>Reliable streaming for all trending media.</p></a>
+                </div>
+            </div>
+
+            <div id="apps" class="section">
+                <div class="grid">
+                    <a href="https://chat.openai.com" target="_blank" class="card"><h3>ChatGPT</h3><p>AI assistant for study and research.</p></a>
+                    <a href="https://claude.ai" target="_blank" class="card"><h3>Claude</h3><p>Advanced writing and analysis tool.</p></a>
+                </div>
+            </div>
+
+            <div id="proxy" class="section">
+                <div class="proxy-wrapper">
+                    <h2 style="font-weight: 300;">Secure Web Proxy</h2>
+                    <p style="color: #666; margin-bottom: 30px;">Tunnel through restrictions via encrypted HTTPS</p>
+                    <input type="text" class="proxy-input" placeholder="https://youtube.com" onkeypress="launchProxy(event)">
+                </div>
+            </div>
+        </div>
 
         <footer>
-            <div class="badge">FREE MUSIC</div>
-            <iframe src="https://vapor.my/page/music/index.html" style="width: 100%; height: 65px; border: none;" allow="autoplay"></iframe>
+            <div class="free-label">FREE MUSIC</div>
+            <iframe src="https://vapor.my/page/music/index.html" style="width: 100%; height: 60px; border: none;" allow="autoplay"></iframe>
         </footer>
     </div>
 
     <script>
-        // PASSWORD LOGIC
-        function checkPass(e) {
+        // --- Planets (Verbo Style) ---
+        const space = document.getElementById('space');
+        const colors = ['#1e40af', '#3b82f6', '#1d4ed8'];
+        for(let i=0; i<6; i++) {
+            const p = document.createElement('div');
+            p.className = 'planet';
+            const size = Math.random() * 250 + 100 + 'px';
+            p.style.width = p.style.height = size;
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            p.style.background = `radial-gradient(circle, ${colors[i%3]}, transparent)`;
+            p.style.animationDelay = (i * -3) + 's';
+            space.appendChild(p);
+        }
+
+        // --- Login Logic ---
+        function handleLogin(e) {
             if (e.key === 'Enter') {
-                const pass = document.getElementById('pass-input').value;
-                if (pass === 'Jesus247') {
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('hub').style.display = 'flex';
+                const input = document.getElementById('pw').value;
+                if (input === 'Jesus247') {
+                    document.getElementById('login-overlay').style.display = 'none';
+                    const hub = document.getElementById('main-hub');
+                    hub.style.display = 'flex';
+                    setTimeout(() => hub.style.opacity = "1", 50);
                 } else {
-                    document.getElementById('error').style.display = 'block';
+                    document.getElementById('err').style.display = 'block';
                 }
             }
         }
 
-        // TAB LOGIC
-        function tab(id, el) {
-            document.querySelectorAll('.main-content').forEach(s => s.classList.remove('active'));
+        // --- Tab Logic ---
+        function showTab(id, el) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             el.classList.add('active');
         }
 
-        // PROXY LOGIC
+        // --- Proxy Logic ---
         function launchProxy(e) {
             if (e.key === 'Enter') {
-                const url = document.getElementById('proxy-box').value;
+                const url = e.target.value;
                 window.open("https://api.allorigins.win/raw?url=" + encodeURIComponent(url), "_blank");
             }
         }
 
-        // PANIC KEY (ESC)
+        // --- Panic Key (Esc) ---
         document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") window.location.href = "https://classroom.google.com";
+            if (e.key === 'Escape') window.location.href = 'https://classroom.google.com';
         });
-
-        // PLANET BG
-        const space = document.getElementById('space-bg');
-        const colors = ['#1e40af', '#4c1d95', '#1e1b4b'];
-        for(let i=0; i<6; i++){
-            let p = document.createElement('div');
-            p.className = 'planet';
-            let size = Math.random()*200 + 100 + 'px';
-            p.style.width = p.style.height = size;
-            p.style.left = Math.random()*100+'vw'; p.style.top = Math.random()*100+'vh';
-            p.style.background = `radial-gradient(circle, ${colors[i%3]}, transparent)`;
-            p.style.animationDelay = (i * -4) + 's';
-            space.appendChild(p);
-        }
     </script>
 </body>
 </html>
