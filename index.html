@@ -2,118 +2,145 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Google - Search</title>
+    <title>Google Search - Study Resources</title>
     <style>
-        body { font-family: arial, sans-serif; margin: 0; background: white; color: #202124; }
-        
-        /* Top Bar */
-        .header { display: flex; justify-content: flex-end; padding: 15px; gap: 15px; font-size: 13px; align-items: center; }
-        .header a { text-decoration: none; color: #000; }
-        
-        /* The "Search" Area */
-        .container { display: flex; flex-direction: column; align-items: center; padding-top: 100px; }
-        .logo { font-size: 90px; font-weight: bold; margin-bottom: 30px; }
+        :root {
+            --google-blue: #1a0dab;
+            --google-gray: #4d5156;
+            --google-border: #dfe1e5;
+        }
+        body { font-family: 'arial', sans-serif; margin: 0; background: white; color: #202124; }
+
+        /* Google Header */
+        header { 
+            display: flex; align-items: center; padding: 20px 30px; 
+            border-bottom: 1px solid #ebebeb; position: sticky; top: 0; background: white;
+        }
+        .logo { font-size: 24px; font-weight: bold; margin-right: 30px; cursor: pointer; text-decoration: none; }
         .g { color: #4285F4; } .o1 { color: #EA4335; } .o2 { color: #FBBC05; } .g2 { color: #4285F4; } .l { color: #34A853; } .e { color: #EA4335; }
         
-        .search-bar { width: 580px; padding: 12px 20px; border: 1px solid #dfe1e5; border-radius: 24px; font-size: 16px; box-shadow: none; outline: none; }
-        .search-bar:hover { box-shadow: 0 1px 6px rgba(32,33,36,0.28); }
+        .search-box-container { 
+            display: flex; align-items: center; border: 1px solid var(--google-border); 
+            border-radius: 24px; width: 600px; padding: 5px 20px; box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+        }
+        .search-box-container input { 
+            border: none; outline: none; width: 100%; height: 34px; font-size: 16px; 
+        }
 
-        /* The Game Results (Hidden until you "search" or click) */
-        #results { display: none; padding: 20px 100px; }
-        .result-item { margin-bottom: 30px; max-width: 600px; }
-        .result-item a { color: #1a0dab; font-size: 20px; text-decoration: none; cursor: pointer; }
-        .result-item p { color: #4d5156; font-size: 14px; margin-top: 5px; }
+        /* Results Layout */
+        main { padding: 20px 150px; }
+        .stats { color: var(--google-gray); font-size: 14px; margin-bottom: 20px; }
+        
+        .result { margin-bottom: 30px; max-width: 650px; }
+        .result .site-name { font-size: 14px; color: #202124; margin-bottom: 4px; display: block; }
+        .result a { font-size: 20px; color: var(--google-blue); text-decoration: none; display: block; margin-bottom: 4px; }
+        .result a:hover { text-decoration: underline; }
+        .result p { font-size: 14px; color: var(--google-gray); line-height: 1.58; margin: 0; }
 
-        /* The Planet Background (Secret Mode) */
-        #space { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; }
-        .planet { position: absolute; border-radius: 50%; filter: blur(30px); opacity: 0.5; }
+        /* Hidden Space Mode (The Verbo Style) */
+        #space-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; cursor: crosshair;
+        }
+        .planet { position: absolute; border-radius: 50%; filter: blur(40px); opacity: 0.6; animation: float 20s infinite alternate; }
+        @keyframes float { from { transform: translate(0,0); } to { transform: translate(30px, 30px); } }
 
-        /* Persistent Music Footer */
-        .music-footer { position: fixed; bottom: 0; width: 100%; height: 60px; background: #f8f9fa; border-top: 1px solid #dadce0; display: flex; align-items: center; }
+        /* Persistent Music/Movie Footer */
+        footer {
+            position: fixed; bottom: 0; width: 100%; height: 65px; 
+            background: #f8f9fa; border-top: 1px solid #dadce0; 
+            display: flex; align-items: center; padding: 0 30px;
+        }
+        .badge { background: #34A853; color: white; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: bold; margin-right: 15px; }
     </style>
 </head>
 <body>
 
-    <div id="google-home">
-        <div class="header">
-            <a href="#" onclick="activateSpace()">Gmail</a>
-            <a href="#" onclick="activateSpace()">Images</a>
-            <div style="background:#5f6368; color:white; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center;">S</div>
-        </div>
-        <div class="container">
-            <div class="logo"><span class="g">G</span><span class="o1">o</span><span class="o2">o</span><span class="g2">g</span><span class="l">l</span><span class="e">e</span></div>
-            <input type="text" class="search-bar" placeholder="Search Google or type a URL" onkeypress="showResults(event)">
-            <div style="margin-top:30px;">
-                <button style="padding:10px 20px; border:none; background:#f8f9fa; border:1px solid transparent; cursor:pointer;" onclick="showResults({key:'Enter'})">Google Search</button>
-                <button style="padding:10px 20px; border:none; background:#f8f9fa; border:1px solid transparent; cursor:pointer;">I'm Feeling Lucky</button>
-            </div>
-        </div>
+<header>
+    <a href="/" class="logo"><span class="g">G</span><span class="o1">o</span><span class="o2">o</span><span class="g2">g</span><span class="l">l</span><span class="e">e</span></a>
+    <div class="search-box-container">
+        <input type="text" id="proxy-input" placeholder="Search or enter URL..." onkeypress="handleProxy(event)">
+    </div>
+</header>
+
+<main>
+    <div class="stats">About 1,337,000 results (0.35 seconds)</div>
+
+    <div class="result">
+        <span class="site-name">https://secure.proxy-tunnel.io</span>
+        <a href="#" onclick="activateProxy()">Web Proxy - Browse Unblocked Content Privately</a>
+        <p>A secure way to access restricted websites. This proxy uses high-speed encryption to bypass school filters. labeling: FREE ACCESS.</p>
     </div>
 
-    <div id="results">
-        <p style="color:#70757a; font-size:14px;">About 10 results (0.42 seconds)</p>
-        
-        <div class="result-item">
-            <a onclick="openGame('https://retrobowl.me')">Retro Bowl - Play Online for Free</a>
-            <p>Play the official Retro Bowl game unblocked. Experience American football with 8-bit graphics...</p>
-        </div>
-
-        <div class="result-item">
-            <a onclick="openGame('https://1v1.lol')">1v1.LOL | Building Simulator, Battle Royale</a>
-            <p>Practice your building skills or fight in 1v1 battles. Unblocked version for school access.</p>
-        </div>
-        
-        <div class="result-item">
-            <a onclick="openGame('https://vapor.my/page/music/index.html')">FREE Music Streaming - Study Beats</a>
-            <p>Access free music and radio for studying and focus. labeling: FREE access.</p>
-        </div>
+    <div class="result">
+        <span class="site-name">https://central-games.hub</span>
+        <a href="#" onclick="toggleSpace()">Nexus Games Hub - Play Unblocked Retro Games</a>
+        <p>Access 1v1.lol, Retro Bowl, Slope, and more. Optimized for Chromebooks and school networks. Click "Gmail" to toggle Dark Mode.</p>
     </div>
 
-    <div id="space">
-        <button onclick="hideSpace()" style="position:absolute; top:20px; right:20px; z-index:1001; background:none; border:1px solid white; color:white; cursor:pointer;">Back to Class</button>
-        </div>
-
-    <div class="music-footer">
-        <span style="font-size:10px; font-weight:bold; color:#34A853; margin: 0 20px;">FREE</span>
-        <iframe id="music-player" src="https://vapor.my/page/music/index.html" style="width:100%; height:50px; border:none;"></iframe>
+    <div class="result">
+        <span class="site-name">https://streaming-library.edu</span>
+        <a href="https://movie-web.app" target="_blank">Free Movies & Cinema - Educational Documentaries</a>
+        <p>Watch free movies and high-quality video content without restrictions. Includes ad-free player and safe streaming servers.</p>
     </div>
 
-    <script>
-        function showResults(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('google-home').style.display = 'none';
-                document.getElementById('results').style.display = 'block';
-                document.body.style.overflow = 'auto';
-            }
-        }
+    <div class="result">
+        <span class="site-name">https://ai-learning.tools</span>
+        <a href="#" onclick="alert('AI Tool Launching...')">AI Study Assistant & Creative Writing Tool</a>
+        <p>Use AI to generate essay outlines, solve math problems, or create digital art. Features ChatGPT-4 level intelligence.</p>
+    </div>
+</main>
 
-        function openGame(url) {
-            // To prevent the "Blocked" error, we open in a new tab.
-            // This is the ONLY way to bypass the X-Frame-Options security.
-            window.open(url, '_blank');
-        }
+<div id="space-overlay" onclick="toggleSpace()">
+    <div style="color: white; padding: 20px;">Press ESC to return to Google Search</div>
+</div>
 
-        function activateSpace() {
-            document.getElementById('space').style.display = 'block';
-            generatePlanets();
-        }
+<footer>
+    <span class="badge">FREE MUSIC</span>
+    <iframe src="https://vapor.my/page/music/index.html" style="width: 100%; height: 55px; border: none;" allow="autoplay"></iframe>
+</footer>
 
-        function hideSpace() {
-            document.getElementById('space').style.display = 'none';
+<script>
+    // 1. Proxy Redirect Logic
+    function handleProxy(e) {
+        if (e.key === 'Enter') {
+            const url = document.getElementById('proxy-input').value;
+            // This opens the URL through a public unblocker
+            window.open("https://api.allorigins.win/raw?url=" + encodeURIComponent(url), "_blank");
         }
+    }
 
-        function generatePlanets() {
-            const s = document.getElementById('space');
-            s.innerHTML = '<button onclick="hideSpace()" style="position:absolute; top:20px; right:20px; z-index:1001; background:none; border:1px solid white; color:white; cursor:pointer;">Back to Class</button>';
-            for(let i=0; i<5; i++) {
-                const p = document.createElement('div');
-                p.className = 'planet';
-                p.style.width = p.style.height = (Math.random()*200 + 100) + 'px';
-                p.style.left = Math.random()*100+'vw'; p.style.top = Math.random()*100+'vh';
-                p.style.background = 'radial-gradient(circle, #3b82f6, transparent)';
-                s.appendChild(p);
-            }
+    function activateProxy() {
+        document.getElementById('proxy-input').focus();
+    }
+
+    // 2. Planet Generation for the Secret Dashboard
+    const overlay = document.getElementById('space-overlay');
+    const colors = ['#4285F4', '#EA4335', '#FBBC05', '#34A853'];
+    
+    for(let i=0; i<6; i++) {
+        const p = document.createElement('div');
+        p.className = 'planet';
+        const size = Math.random()*200 + 100 + 'px';
+        p.style.width = p.style.height = size;
+        p.style.left = Math.random()*90+'vw'; p.style.top = Math.random()*90+'vh';
+        p.style.background = `radial-gradient(circle, ${colors[i%4]}, transparent)`;
+        overlay.appendChild(p);
+    }
+
+    function toggleSpace() {
+        const current = overlay.style.display;
+        overlay.style.display = (current === 'block') ? 'none' : 'block';
+    }
+
+    // 3. Panic Key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape") {
+            overlay.style.display = 'none';
+            // Optional: window.location.href = "https://classroom.google.com";
         }
-    </script>
+    });
+</script>
+
 </body>
 </html>
