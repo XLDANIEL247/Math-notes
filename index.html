@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Academic Portal | Dashboard</title>
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #3b82f6;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg); color: #fff; overflow: hidden;
+        }
+
+        /* --- VERBO STYLE BACKGROUND --- */
+        #space {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; background: radial-gradient(circle at center, #111, #000);
+        }
+        .planet {
+            position: absolute; border-radius: 50%; filter: blur(30px);
+            opacity: 0.4; animation: drift 30s infinite alternate ease-in-out;
+        }
+        @keyframes drift {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(50px, 50px) scale(1.1); }
+        }
+
+        /* --- LAYOUT --- */
+        .wrapper { display: flex; flex-direction: column; height: 100vh; backdrop-filter: blur(10px); }
+
+        nav {
+            display: flex; justify-content: center; gap: 15px; padding: 20px;
+            background: var(--glass); border-bottom: 1px solid var(--border);
+        }
+
+        .tab {
+            padding: 10px 25px; cursor: pointer; border-radius: 8px;
+            transition: 0.3s; color: #888; font-weight: 600;
+        }
+        .tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
+        .tab.active { background: var(--accent); color: white; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+
+        /* --- CONTENT AREAS --- */
+        .content { flex: 1; overflow-y: auto; padding: 40px; display: none; }
+        .content.active { display: block; }
+
+        /* --- GAME GRID --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px; max-width: 1000px; margin: 0 auto;
+        }
+        .card {
+            background: var(--glass); border: 1px solid var(--border);
+            padding: 20px; border-radius: 15px; text-align: center;
+            text-decoration: none; color: white; transition: 0.3s;
+        }
+        .card:hover { border-color: var(--accent); transform: translateY(-5px); background: rgba(59,130,246,0.1); }
+        .card img { width: 50px; height: 50px; margin-bottom: 10px; opacity: 0.8; }
+
+        /* --- MUSIC FOOTER --- */
+        footer {
+            height: 90px; background: #000; border-top: 1px solid var(--border);
+            display: flex; align-items: center; padding: 0 20px;
+        }
+        .free-tag {
+            color: #10b981; font-weight: bold; font-size: 10px;
+            border: 1px solid #10b981; padding: 2px 6px; border-radius: 4px;
+            margin-right: 15px; white-space: nowrap;
+        }
+
+        /* --- DECOY OVERLAY --- */
+        #decoy {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; color: black; z-index: 9999;
+            display: none; padding: 50px; font-family: serif;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="decoy">
+        <h1>Notes: Period 4 History</h1>
+        <hr>
+        <p>The industrial revolution began in Great Britain in the late 1700s...</p>
+        <textarea style="width:100%; height:300px; margin-top:20px; padding:10px;">Type your notes here...</textarea>
+    </div>
+
+    <div id="space"></div>
+
+    <div class="wrapper">
+        <nav>
+            <div class="tab active" onclick="showTab('games', this)">Games</div>
+            <div class="tab" onclick="showTab('apps', this)">AI Apps</div>
+            <div class="tab" onclick="showTab('music', this)">Full Player</div>
+        </nav>
+
+        <div id="games" class="content active">
+            <div class="grid">
+                <a href="https://poki.com" target="_blank" class="card">🎮<div>Poki Games</div></a>
+                <a href="https://crazygames.com" target="_blank" class="card">🔥<div>CrazyGames</div></a>
+                <a href="https://retrobowl.me" target="_blank" class="card">🏈<div>Retro Bowl</div></a>
+                <a href="https://1v1.lol" target="_blank" class="card">🔫<div>1v1.LOL</div></a>
+                <a href="https://slopegame.io" target="_blank" class="card">🟢<div>Slope</div></a>
+                <a href="https://bitlifeonline.com" target="_blank" class="card">👤<div>BitLife</div></a>
+            </div>
+        </div>
+
+        <div id="apps" class="content">
+            <div class="grid">
+                <div class="card">🤖<div>Study AI</div><small>Homework Help</small></div>
+                <div class="card">🎨<div>GenArt</div><small>AI Images</small></div>
+                <div class="card">📝<div>Summarizer</div><small>FREE App</small></div>
+            </div>
+        </div>
+
+        <div id="music" class="content">
+            <iframe src="https://vapor.my/page/music/index.html" style="width:100%; height:500px; border:none; border-radius:20px;"></iframe>
+        </div>
+
+        <footer>
+            <div class="free-tag">FREE MUSIC</div>
+            <iframe src="https://vapor.my/page/music/index.html" style="width:100%; height:70px; border:none;" allow="autoplay"></iframe>
+        </footer>
+    </div>
+
+    <script>
+        // 1. Generate Verbo Planets
+        const space = document.getElementById('space');
+        const colors = ['#1e40af', '#4c1d95', '#1e1b4b'];
+        for(let i=0; i<6; i++) {
+            const p = document.createElement('div');
+            p.className = 'planet';
+            const size = Math.random() * 200 + 100 + 'px';
+            p.style.width = size; p.style.height = size;
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            p.style.background = `radial-gradient(circle, ${colors[i%3]}, transparent)`;
+            p.style.animationDelay = (i * -4) + 's';
+            space.appendChild(p);
+        }
+
+        // 2. Tab Navigation Logic
+        function showTab(id, el) {
+            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            el.classList.add('active');
+        }
+
+        // 3. Stealth Controls
+        document.addEventListener('keydown', (e) => {
+            // PRESS 'ESC' to instantly go to Google
+            if (e.key === 'Escape') {
+                window.location.href = 'https://google.com';
+            }
+            // PRESS '~' (Tilde) to toggle the Decoy Notes page
+            if (e.key === '`') {
+                const decoy = document.getElementById('decoy');
+                decoy.style.display = decoy.style.display === 'block' ? 'none' : 'block';
+            }
+        });
+    </script>
+</body>
+</html>
