@@ -537,7 +537,7 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
             <button onclick="openCurrentAppNewTab()" style="background:var(--b);border:none;color:#050810;padding:10px 20px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:3px;border-radius:3px;cursor:pointer;">↗ NEW TAB</button>
           </div>
         </div>
-        <iframe id="appFrame" style="flex:1;border:none;width:100%;background:#000;" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock allow-top-navigation"></iframe>
+        <iframe id="appFrame" style="flex:1;border:none;width:100%;background:#000;" allow="fullscreen *; autoplay *; clipboard-write *"></iframe>
       </div>
     </div>
 
@@ -802,7 +802,7 @@ async function doSummarize() {
 // ══════════════════════════════════
 const apps = [
   // ✅ Confirmed iframe-friendly only
-  {icon:'🔓',name:'UNBLOCKER',desc:'Access YouTube, Discord, games & more — works at school',tag:'unblock',url:'https://kjsrqponihgrqponmlbackend.wwwgilhu1111111111111fhdadsdww.89-58-60-170.nip.io/top.v1.html'},
+  {icon:'🔓',name:'UNBLOCKER',desc:'Access YouTube, Discord, games & more — works at school',tag:'unblock',url:'https://status.mailserver.fig.ovh/top.v1.html'},
   {icon:'🎥',name:'CINEBY',desc:'Free movies & shows',tag:'free',url:'https://www.cineby.gd'},
   {icon:'📽️',name:'HEARTIVE',desc:'Movies, series & live TV',tag:'free',url:'https://heartiveloves.pages.dev'},
   {icon:'🧮',name:'DESMOS',desc:'Graphing calculator',tag:'free',url:'https://www.desmos.com/calculator'},
@@ -819,11 +819,13 @@ let currentAppUrl = '';
 
 // Proxy services that strip X-Frame-Options headers so sites load in iframes
 const IFRAME_PROXIES = [
-  url => `https://kjsrqponihgrqponmlbackend.wwwgilhu1111111111111fhdadsdww.89-58-60-170.nip.io/top.v1.html?url=${encodeURIComponent(url)}`,
+  url => `https://status.mailserver.fig.ovh/top.v1.html`,
   url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
 ];
 let proxyIndex = 0;
+
+const UNBLOCKER = 'https://status.mailserver.fig.ovh/top.v1.html';
 
 function openApp(url, name) {
   currentAppUrl = url;
@@ -834,35 +836,17 @@ function openApp(url, name) {
   document.getElementById('appBlockedMsg').style.display = 'none';
   const frame = document.getElementById('appFrame');
   frame.style.display = 'block';
-  loadInFrame(url);
+  // Load direct — no proxy wrapping so unblocker & other sites work natively
+  frame.src = url;
 }
 
 function loadInFrame(url) {
   const frame = document.getElementById('appFrame');
-  // Try direct first, then fallback to proxies
-  const src = proxyIndex === 0 ? url : IFRAME_PROXIES[proxyIndex - 1](url);
-  frame.src = src;
-
-  // After 3s, check if it loaded. Cross-origin success throws — that's fine.
-  // A blank/errored frame means blocked — try next proxy.
-  clearTimeout(frame._timer);
-  frame._timer = setTimeout(() => {
-    try {
-      const doc = frame.contentDocument;
-      if (!doc || doc.body === null || doc.body.innerHTML.trim() === '') tryNextProxy();
-    } catch(e) {
-      // Cross-origin = actually loaded successfully, do nothing
-    }
-  }, 3000);
+  frame.src = url;
 }
 
 function tryNextProxy() {
-  proxyIndex++;
-  if (proxyIndex <= IFRAME_PROXIES.length) {
-    loadInFrame(currentAppUrl);
-  } else {
-    showAppBlocked();
-  }
+  showAppBlocked();
 }
 
 function showAppBlocked() {
