@@ -726,7 +726,7 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
           <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--y);letter-spacing:3px;margin-bottom:6px;">🔓 UNBLOCKER URL</div>
           <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:12px;">Change the unblocker link — password required so only you can change it</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <input id="settingUnblocker" type="text" value="https://learn.szczech.com.ar/" style="background:rgba(255,204,0,.04);border:1px solid rgba(255,204,0,.2);border-radius:3px;color:var(--y);font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:10px 14px;outline:none;letter-spacing:1px;width:100%;" placeholder="New unblocker URL...">
+            <input id="settingUnblocker" type="text" value="https://outerspace.is-a.software/&" style="background:rgba(255,204,0,.04);border:1px solid rgba(255,204,0,.2);border-radius:3px;color:var(--y);font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:10px 14px;outline:none;letter-spacing:1px;width:100%;" placeholder="New unblocker URL...">
             <div style="display:flex;gap:0;">
               <input id="unblockerPassInput" type="password" placeholder="Enter your password to save..." style="flex:1;background:rgba(255,204,0,.04);border:1px solid rgba(255,204,0,.2);border-right:none;border-radius:3px 0 0 3px;color:var(--y);font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:10px 14px;outline:none;letter-spacing:2px;" onkeydown="if(event.key==='Enter')saveUnblocker()">
               <button onclick="saveUnblocker()" style="background:var(--y);border:none;color:#050810;padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:0 3px 3px 0;cursor:pointer;">SAVE</button>
@@ -1317,10 +1317,11 @@ async function doSummarize() {
 // ══════════════════════════════════
 // APPS
 // ══════════════════════════════════
-const UNBLOCKER_URL = 'https://learn.szczech.com.ar/';
+const UNBLOCKER_URL = 'https://outerspace.is-a.software/&';
 
 const apps = [
-  {icon:'🔓',name:'UNBLOCKER',desc:'Equinox — YouTube, Discord, games & more',tag:'unblock',url:UNBLOCKER_URL,mode:'direct'},
+  {icon:'🔓',name:'UNBLOCKER 1',desc:'Equinox — games, YouTube, Discord & more',tag:'unblock',url:'https://learn.szczech.com.ar/',mode:'direct'},
+  {icon:'🚀',name:'UNBLOCKER 2',desc:'Space — games, apps & proxy built in',tag:'unblock',url:'https://outerspace.is-a.software/&',mode:'direct'},
   {icon:'📺',name:'YOUTUBE',desc:'Watch videos & shorts',tag:'blocked',url:'https://www.youtube.com',mode:'routed'},
   {icon:'💬',name:'DISCORD',desc:'Chat with friends',tag:'blocked',url:'https://discord.com/app',mode:'routed'},
   {icon:'🎮',name:'ROBLOX',desc:'Play Roblox online',tag:'blocked',url:'https://www.roblox.com',mode:'routed'},
@@ -1361,7 +1362,7 @@ let currentAppUrl = '';
 
 // Proxy services that strip X-Frame-Options headers so sites load in iframes
 const IFRAME_PROXIES = [
-  url => `https://learn.szczech.com.ar/`,
+  url => `https://outerspace.is-a.software/&`,
   url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
 ];
