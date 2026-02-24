@@ -802,7 +802,7 @@ async function doSummarize() {
 // ══════════════════════════════════
 const apps = [
   // ✅ Confirmed iframe-friendly only
-  {icon:'🔓',name:'UNBLOCKER',desc:'Access YouTube, Discord, games & more — works at school',tag:'unblock',url:'https://status.mailserver.fig.ovh/top.v1.html'},
+  {icon:'🔓',name:'UNBLOCKER',desc:'Equinox — games, apps & proxy built in',tag:'unblock',url:'https://learn.szczech.com.ar/'},
   {icon:'🎥',name:'CINEBY',desc:'Free movies & shows',tag:'free',url:'https://www.cineby.gd'},
   {icon:'📽️',name:'HEARTIVE',desc:'Movies, series & live TV',tag:'free',url:'https://heartiveloves.pages.dev'},
   {icon:'🧮',name:'DESMOS',desc:'Graphing calculator',tag:'free',url:'https://www.desmos.com/calculator'},
@@ -819,13 +819,13 @@ let currentAppUrl = '';
 
 // Proxy services that strip X-Frame-Options headers so sites load in iframes
 const IFRAME_PROXIES = [
-  url => `https://status.mailserver.fig.ovh/top.v1.html`,
+  url => `https://learn.szczech.com.ar/`,
   url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
 ];
 let proxyIndex = 0;
 
-const UNBLOCKER = 'https://status.mailserver.fig.ovh/top.v1.html';
+const UNBLOCKER = 'https://learn.szczech.com.ar/';
 
 function openApp(url, name) {
   currentAppUrl = url;
