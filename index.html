@@ -896,21 +896,11 @@ function unlock() {
 // NAV
 // ══════════════════════════════════
 function switchPage(id, btn) {
-  // ⚡ Neon loader bar
-  const bar = document.getElementById('neonLoader');
-  if (bar) {
-    bar.style.cssText = 'transition:none;width:0%;opacity:1;';
-    bar.offsetHeight;
-    bar.style.cssText = 'transition:width .35s ease;width:85%;opacity:1;';
-    setTimeout(() => {
-      bar.style.cssText = 'transition:width .2s ease, opacity .4s ease .1s;width:100%;opacity:0;';
-      setTimeout(() => { bar.style.width='0%'; }, 700);
-    }, 350);
-  }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.navtab').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   btn.classList.add('active');
+  runLoader();
 }
 
 // ══════════════════════════════════
@@ -1495,26 +1485,21 @@ function initMatrix() {
 // ══════════════════════════════════
 // NEON LOADER BAR
 // ══════════════════════════════════
-function showLoader() {
+function runLoader() {
   const bar = document.getElementById('neonLoader');
-  bar.style.transition = 'none';
-  bar.style.opacity = '1';
-  bar.style.width = '0%';
+  if (!bar) return;
+  bar.classList.remove('done');
+  bar.style.cssText = 'transition:none;width:0%;opacity:1;';
   bar.offsetHeight;
-  bar.style.transition = 'width 0.4s ease';
-  bar.style.width = '70%';
+  bar.style.cssText = 'transition:width .5s ease;width:100%;opacity:1;';
   setTimeout(() => {
-    bar.style.width = '100%';
-    setTimeout(() => { bar.classList.add('done'); setTimeout(() => { bar.classList.remove('done'); bar.style.width='0%'; }, 500); }, 300);
-  }, 400);
+    bar.style.cssText = 'transition:opacity .4s ease;width:100%;opacity:0;';
+    setTimeout(() => { bar.style.width = '0%'; }, 450);
+  }, 520);
 }
+function showLoader() { runLoader(); }
 
-// Override switchPage to show loader
-const _origSwitchPage = switchPage;
-function switchPage(id, btn) {
-  showLoader();
-  setTimeout(() => _origSwitchPage(id, btn), 80);
-}
+// Loader fires on tab click without overriding switchPage
 
 // ══════════════════════════════════
 // TOAST NOTIFICATIONS
