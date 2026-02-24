@@ -1,19 +1,29 @@
-<script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.6/dist/uv.bundle.js"></script>
-<script src="uv.config.js"></script>
+<div class="container">
+  <aside class="sidebar">
+    <h2 class="logo">G-HUB</h2>
+    <nav>
+      <button onclick="openTab('home')"><i class="fas fa-home"></i> Home</button>
+      <button onclick="openTab('games')"><i class="fas fa-gamepad"></i> Games</button>
+      <button onclick="openTab('music')"><i class="fas fa-music"></i> Music</button>
+      <button onclick="openTab('proxy')"><i class="fas fa-globe"></i> Browser</button>
+    </nav>
+  </aside>
 
-<script>
-    async function openApp(url) {
-        const frame = document.getElementById('app-frame');
-        const overlay = document.getElementById('app-overlay');
+  <main class="content">
+    <div id="home" class="tab active">
+      <h1>Welcome, Gamer</h1>
+      <p>Your all-in-one unblocked station.</p>
+    </div>
+    
+    <div id="music" class="tab">
+      <iframe src="https://vapor.my/page/music/index.html" class="full-frame"></iframe>
+    </div>
 
-        // This registers the 'engine' (sw.js)
-        await navigator.serviceWorker.register('./sw.js', {
-            scope: '/service/'
-        });
-
-        // This scrambles the URL and loads it through the proxy
-        let encodedUrl = __uv$config.prefix + __uv$config.encodeUrl(url);
-        frame.src = encodedUrl;
-        overlay.style.display = 'block';
-    }
-</script>
+    <div id="proxy" class="tab">
+      <div class="search-bar">
+        <input type="text" id="uv-address" placeholder="Search the web freely...">
+      </div>
+      <iframe id="uv-iframe" class="full-frame"></iframe>
+    </div>
+  </main>
+</div>
