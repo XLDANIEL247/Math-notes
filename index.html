@@ -329,6 +329,7 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 .app-tag.free { background:rgba(0,255,136,.1); color:var(--g); border:1px solid rgba(0,255,136,.2); }
 .app-tag.proxy { background:rgba(0,207,255,.1); color:var(--b); border:1px solid rgba(0,207,255,.2); }
 .app-tag.unblock { background:rgba(255,204,0,.12); color:var(--y); border:1px solid rgba(255,204,0,.3); }
+.app-tag.blocked { background:rgba(0,207,255,.08); color:var(--b); border:1px solid rgba(0,207,255,.2); }
 
 /* ── GAMES built-in ── */
 #page-builtin { flex-direction:column; overflow:hidden; }
@@ -367,6 +368,7 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
       <button class="navtab" onclick="switchPage('music',this)">🎵 MUSIC</button>
       <button class="navtab" onclick="switchPage('ai',this)">🤖 AI</button>
       <button class="navtab" onclick="switchPage('apps',this)">📱 APPS</button>
+      <button class="navtab" onclick="switchPage('settings',this)">⚙️ SETTINGS</button>
     </div>
     <div class="badge-online">🟢 UNLOCKED</div>
   </div>
@@ -541,6 +543,76 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
       </div>
     </div>
 
+    <!-- SETTINGS -->
+    <div class="page" id="page-settings">
+      <div style="overflow-y:auto;flex:1;padding:30px 40px;display:flex;flex-direction:column;gap:28px;max-width:700px;">
+
+        <div style="font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--g);letter-spacing:4px;text-shadow:0 0 20px var(--g);">⚙️ SETTINGS</div>
+
+        <!-- UNBLOCKER URL -->
+        <div style="background:var(--card2);border:1px solid rgba(255,204,0,.2);border-radius:8px;padding:20px;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--y);letter-spacing:3px;margin-bottom:6px;">🔓 UNBLOCKER URL</div>
+          <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:12px;">Change the unblocker link — password required so only you can change it</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <input id="settingUnblocker" type="text" value="https://learn.szczech.com.ar/" style="background:rgba(255,204,0,.04);border:1px solid rgba(255,204,0,.2);border-radius:3px;color:var(--y);font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:10px 14px;outline:none;letter-spacing:1px;width:100%;" placeholder="New unblocker URL...">
+            <div style="display:flex;gap:0;">
+              <input id="unblockerPassInput" type="password" placeholder="Enter your password to save..." style="flex:1;background:rgba(255,204,0,.04);border:1px solid rgba(255,204,0,.2);border-right:none;border-radius:3px 0 0 3px;color:var(--y);font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:10px 14px;outline:none;letter-spacing:2px;" onkeydown="if(event.key==='Enter')saveUnblocker()">
+              <button onclick="saveUnblocker()" style="background:var(--y);border:none;color:#050810;padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:0 3px 3px 0;cursor:pointer;">SAVE</button>
+            </div>
+          </div>
+          <div id="unblockerSaved" style="display:none;font-size:.63rem;color:var(--g);margin-top:8px;letter-spacing:1px;">✅ Unblocker URL saved!</div>
+          <div id="unblockerError" style="display:none;font-size:.63rem;color:var(--p);margin-top:8px;letter-spacing:1px;">❌ Wrong password — only the owner can change this</div>
+        </div>
+
+        <!-- PASSWORD -->
+        <div style="background:var(--card2);border:1px solid rgba(0,255,136,.15);border-radius:8px;padding:20px;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--g);letter-spacing:3px;margin-bottom:6px;">🔒 CHANGE PASSWORD</div>
+          <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:12px;">Change the password for the loading screen</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <input id="settingPassOld" type="password" placeholder="Current password" style="background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.15);border-radius:3px;color:var(--g);font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:10px 14px;outline:none;letter-spacing:2px;">
+            <input id="settingPassNew" type="password" placeholder="New password" style="background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.15);border-radius:3px;color:var(--g);font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:10px 14px;outline:none;letter-spacing:2px;">
+            <button onclick="savePassword()" style="background:var(--g);border:none;color:#050810;padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;width:fit-content;">SAVE PASSWORD</button>
+          </div>
+          <div id="passSaved" style="display:none;font-size:.63rem;color:var(--g);margin-top:8px;letter-spacing:1px;">✅ Password changed!</div>
+          <div id="passError" style="display:none;font-size:.63rem;color:var(--p);margin-top:8px;letter-spacing:1px;">❌ Wrong current password</div>
+        </div>
+
+        <!-- THEME -->
+        <div style="background:var(--card2);border:1px solid rgba(0,207,255,.15);border-radius:8px;padding:20px;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--b);letter-spacing:3px;margin-bottom:6px;">🎨 THEME COLOR</div>
+          <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:14px;">Pick your accent color</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <div class="theme-btn" onclick="setTheme('#00ff88','#00cfff')" style="background:linear-gradient(135deg,#00ff88,#00cfff);width:44px;height:44px;border-radius:50%;cursor:pointer;border:2px solid #fff;box-shadow:0 0 12px #00ff88;" title="Green/Blue"></div>
+            <div class="theme-btn" onclick="setTheme('#ff00aa','#ff6600')" style="background:linear-gradient(135deg,#ff00aa,#ff6600);width:44px;height:44px;border-radius:50%;cursor:pointer;border:2px solid transparent;" title="Pink/Orange"></div>
+            <div class="theme-btn" onclick="setTheme('#a855f7','#ec4899')" style="background:linear-gradient(135deg,#a855f7,#ec4899);width:44px;height:44px;border-radius:50%;cursor:pointer;border:2px solid transparent;" title="Purple/Pink"></div>
+            <div class="theme-btn" onclick="setTheme('#f59e0b','#ef4444')" style="background:linear-gradient(135deg,#f59e0b,#ef4444);width:44px;height:44px;border-radius:50%;cursor:pointer;border:2px solid transparent;" title="Amber/Red"></div>
+            <div class="theme-btn" onclick="setTheme('#06b6d4','#3b82f6')" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);width:44px;height:44px;border-radius:50%;cursor:pointer;border:2px solid transparent;" title="Cyan/Blue"></div>
+            <div class="theme-btn" onclick="setTheme('#10b981','#14b8a6')" style="background:linear-gradient(135deg,#10b981,#14b8a6);width:44px;height:44px;border-radius:50%;cursor:pointer;border:2px solid transparent;" title="Emerald/Teal"></div>
+          </div>
+          <div id="themeSaved" style="display:none;font-size:.63rem;color:var(--g);margin-top:10px;letter-spacing:1px;">✅ Theme applied!</div>
+        </div>
+
+        <!-- COVER SCREEN -->
+        <div style="background:var(--card2);border:1px solid rgba(255,0,170,.15);border-radius:8px;padding:20px;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--p);letter-spacing:3px;margin-bottom:6px;">🎭 COVER SCREEN</div>
+          <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:14px;">Choose what the page looks like before the password is entered</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button onclick="setCover('loading')" class="cover-opt active-cover" id="cover-loading" style="background:rgba(255,0,170,.08);border:1px solid rgba(255,0,170,.3);color:var(--p);padding:8px 16px;font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:1px;border-radius:3px;cursor:pointer;">⏳ Loading Spinner</button>
+            <button onclick="setCover('classroom')" class="cover-opt" id="cover-classroom" style="background:none;border:1px solid rgba(255,0,170,.15);color:#556677;padding:8px 16px;font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:1px;border-radius:3px;cursor:pointer;">📚 Google Classroom</button>
+            <button onclick="setCover('docs')" class="cover-opt" id="cover-docs" style="background:none;border:1px solid rgba(255,0,170,.15);color:#556677;padding:8px 16px;font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:1px;border-radius:3px;cursor:pointer;">📝 Google Docs</button>
+            <button onclick="setCover('blank')" class="cover-opt" id="cover-blank" style="background:none;border:1px solid rgba(255,0,170,.15);color:#556677;padding:8px 16px;font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:1px;border-radius:3px;cursor:pointer;">⬜ Blank White</button>
+          </div>
+        </div>
+
+        <!-- ABOUT -->
+        <div style="background:var(--card2);border:1px solid rgba(0,255,136,.08);border-radius:8px;padding:20px;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:#446688;letter-spacing:3px;margin-bottom:10px;">ℹ️ ABOUT</div>
+          <div style="font-size:.65rem;color:#334455;letter-spacing:1px;line-height:2;">NEXUS.GG — Your school arcade<br>Password protected · Offline games · AI tools · Music player</div>
+        </div>
+
+      </div>
+    </div>
+
   </div><!-- /main -->
 </div><!-- /app -->
 
@@ -548,7 +620,7 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 // ══════════════════════════════════
 // PASSWORD / COVER
 // ══════════════════════════════════
-const PASSWORD = 'Jesus247';
+let currentPassword = 'Jesus247'; // will be overridden by settings
 let typed = '';
 
 // Keep focus on hidden input when on cover
@@ -558,7 +630,7 @@ document.getElementById('cover').addEventListener('click', () => {
 
 document.getElementById('coverPass').addEventListener('input', function() {
   typed = this.value;
-  if (typed === PASSWORD) unlock();
+  if (typed === currentPassword) unlock();
 });
 
 // Also listen to keydown on the whole cover for keyboards that bypass input
@@ -588,22 +660,56 @@ function switchPage(id, btn) {
 // GAMES
 // ══════════════════════════════════
 const games = [
+  // IO GAMES
   { name:'SLITHER.IO', emoji:'🐍', cat:'io', url:'https://slither.io', rating:'4.9', plays:'50M+' },
   { name:'AGAR.IO', emoji:'🔵', cat:'io', url:'https://agar.io', rating:'4.8', plays:'30M+' },
+  { name:'PAPER.IO 2', emoji:'📄', cat:'io', url:'https://paper-io.com', rating:'4.7', plays:'20M+' },
+  { name:'LORDZ.IO', emoji:'👑', cat:'io', url:'https://www.lordz.io', rating:'4.5', plays:'5M+' },
+  { name:'DIEP.IO', emoji:'🔫', cat:'io', url:'https://diep.io', rating:'4.6', plays:'12M+' },
+  { name:'MOPE.IO', emoji:'🐻', cat:'io', url:'https://mope.io', rating:'4.4', plays:'8M+' },
+  { name:'ZOMBS ROYALE', emoji:'🧟', cat:'io', url:'https://zombsroyale.io', rating:'4.7', plays:'15M+' },
+  { name:'SURVIV.IO', emoji:'🪖', cat:'io', url:'https://surviv.io', rating:'4.8', plays:'20M+' },
+  { name:'WORMATE.IO', emoji:'🍭', cat:'io', url:'https://wormate.io', rating:'4.5', plays:'7M+' },
+  { name:'WINGS.IO', emoji:'✈️', cat:'io', url:'https://wings.io', rating:'4.4', plays:'5M+' },
+  // SHOOTER
   { name:'KRUNKER.IO', emoji:'🎯', cat:'shooter', url:'https://krunker.io', rating:'4.9', plays:'15M+' },
   { name:'SHELL SHOCKERS', emoji:'🥚', cat:'shooter', url:'https://shellshock.io', rating:'4.8', plays:'10M+' },
+  { name:'BULLET FORCE', emoji:'🔫', cat:'shooter', url:'https://www.crazygames.com/game/bullet-force-multiplayer', rating:'4.7', plays:'8M+' },
+  { name:'COMBAT ONLINE', emoji:'💥', cat:'shooter', url:'https://www.crazygames.com/game/combat-online', rating:'4.5', plays:'4M+' },
+  // RACING
   { name:'MOTO X3M', emoji:'🏍️', cat:'racing', url:'https://www.motox3m.com', rating:'4.8', plays:'8M+' },
   { name:'DRIFT BOSS', emoji:'🚗', cat:'racing', url:'https://driftboss.io', rating:'4.6', plays:'5M+' },
+  { name:'ROAD FURY', emoji:'🚙', cat:'racing', url:'https://www.crazygames.com/game/road-fury', rating:'4.5', plays:'3M+' },
+  { name:'MOTO X3M WINTER', emoji:'❄️', cat:'racing', url:'https://www.crazygames.com/game/moto-x3m-winter', rating:'4.7', plays:'4M+' },
+  { name:'BURNOUT DRIFT', emoji:'💨', cat:'racing', url:'https://www.crazygames.com/game/burnout-drift', rating:'4.6', plays:'3M+' },
+  // PUZZLE
   { name:'2048', emoji:'🧩', cat:'puzzle', url:'https://play2048.co', rating:'4.7', plays:'100M+' },
+  { name:'UNBLOCK ME', emoji:'🟧', cat:'puzzle', url:'https://www.crazygames.com/game/unblock-it', rating:'4.5', plays:'5M+' },
+  { name:'CUT THE ROPE', emoji:'🍬', cat:'puzzle', url:'https://www.crazygames.com/game/cut-the-rope-remastered', rating:'4.8', plays:'10M+' },
+  { name:'MAHJONG', emoji:'🀄', cat:'puzzle', url:'https://www.crazygames.com/game/mahjong-classic', rating:'4.6', plays:'8M+' },
+  { name:'SUDOKU', emoji:'🔢', cat:'puzzle', url:'https://sudoku.com', rating:'4.7', plays:'20M+' },
+  // ACTION
+  { name:'MINECRAFT CLASSIC', emoji:'⛏️', cat:'action', url:'https://classic.minecraft.net', rating:'4.9', plays:'50M+' },
+  { name:'AMONG US ONLINE', emoji:'🔴', cat:'action', url:'https://www.crazygames.com/game/among-us-online-edition', rating:'4.7', plays:'20M+' },
+  { name:'STICKMAN HOOK', emoji:'🕸️', cat:'action', url:'https://www.crazygames.com/game/stickman-hook', rating:'4.8', plays:'12M+' },
+  { name:'VENGE.IO', emoji:'⚔️', cat:'action', url:'https://venge.io', rating:'4.7', plays:'6M+' },
+  { name:'TEMPLE RUN', emoji:'🏃', cat:'action', url:'https://poki.com/en/g/temple-run-2', rating:'4.8', plays:'40M+' },
+  { name:'SUBWAY SURFERS', emoji:'🛹', cat:'action', url:'https://poki.com/en/g/subway-surfers', rating:'4.9', plays:'80M+' },
+  { name:'GEOMETRY DASH LITE', emoji:'🔷', cat:'action', url:'https://www.crazygames.com/game/geometry-dash-classic', rating:'4.8', plays:'15M+' },
+  { name:'FNAF ONLINE', emoji:'🐻', cat:'action', url:'https://www.crazygames.com/game/five-nights-at-freddys', rating:'4.7', plays:'8M+' },
+  // CLASSIC
   { name:'TETRIS', emoji:'🟦', cat:'classic', url:'https://tetris.com/play-tetris', rating:'4.9', plays:'1B+' },
   { name:'PAC-MAN', emoji:'👾', cat:'classic', url:'https://www.google.com/logos/2010/pacman10-i.html', rating:'4.9', plays:'1B+' },
   { name:'COOKIE CLICKER', emoji:'🍪', cat:'classic', url:'https://orteil.dashnet.org/cookieclicker/', rating:'4.6', plays:'10M+' },
-  { name:'MINECRAFT CLASSIC', emoji:'⛏️', cat:'action', url:'https://classic.minecraft.net', rating:'4.9', plays:'50M+' },
-  { name:'PAPER.IO 2', emoji:'📄', cat:'io', url:'https://paper-io.com', rating:'4.7', plays:'20M+' },
+  { name:'SNAKE', emoji:'🐍', cat:'classic', url:'https://www.google.com/fbx?fbx=snake_arcade', rating:'4.7', plays:'500M+' },
+  { name:'DINOSAUR GAME', emoji:'🦖', cat:'classic', url:'https://chromedino.com', rating:'4.8', plays:'200M+' },
+  { name:'FLAPPY BIRD', emoji:'🐤', cat:'classic', url:'https://flappybird.io', rating:'4.5', plays:'100M+' },
+  // SPORTS
   { name:'BASKETBALL STARS', emoji:'🏀', cat:'sports', url:'https://www.miniclip.com/games/basketball-stars/en/', rating:'4.7', plays:'3M+' },
-  { name:'AMONG US ONLINE', emoji:'🔴', cat:'action', url:'https://www.crazygames.com/game/among-us-online-edition', rating:'4.7', plays:'20M+' },
-  { name:'LORDZ.IO', emoji:'👑', cat:'io', url:'https://www.lordz.io', rating:'4.5', plays:'5M+' },
   { name:'SOCCER SKILLS', emoji:'⚽', cat:'sports', url:'https://www.crazygames.com/game/soccer-skills-world-cup', rating:'4.5', plays:'2M+' },
+  { name:'PENALTY SHOOTERS', emoji:'🥅', cat:'sports', url:'https://www.crazygames.com/game/penalty-shooters-2', rating:'4.6', plays:'5M+' },
+  { name:'GOLF ORBIT', emoji:'⛳', cat:'sports', url:'https://www.crazygames.com/game/golf-orbit', rating:'4.4', plays:'2M+' },
+  { name:'BOXING RANDOM', emoji:'🥊', cat:'sports', url:'https://www.crazygames.com/game/boxing-random', rating:'4.7', plays:'4M+' },
 ];
 
 let activeGameCat = 'all';
@@ -800,19 +906,44 @@ async function doSummarize() {
 // ══════════════════════════════════
 // APPS
 // ══════════════════════════════════
+const UNBLOCKER_URL = 'https://learn.szczech.com.ar/';
+
 const apps = [
-  // ✅ Confirmed iframe-friendly only
-  {icon:'🔓',name:'UNBLOCKER',desc:'Equinox — games, apps & proxy built in',tag:'unblock',url:'https://learn.szczech.com.ar/'},
-  {icon:'🎥',name:'CINEBY',desc:'Free movies & shows',tag:'free',url:'https://www.cineby.gd'},
-  {icon:'📽️',name:'HEARTIVE',desc:'Movies, series & live TV',tag:'free',url:'https://heartiveloves.pages.dev'},
-  {icon:'🧮',name:'DESMOS',desc:'Graphing calculator',tag:'free',url:'https://www.desmos.com/calculator'},
-  {icon:'🌍',name:'WIKIPEDIA',desc:'All human knowledge',tag:'free',url:'https://en.m.wikipedia.org'},
-  {icon:'📚',name:'KHAN ACADEMY',desc:'Free lessons & practice',tag:'free',url:'https://www.khanacademy.org'},
-  {icon:'🗺️',name:'GOOGLE MAPS',desc:'Maps & directions',tag:'free',url:'https://maps.google.com/maps?output=embed'},
-  {icon:'📖',name:'GUTENBERG',desc:'10,000+ free books',tag:'free',url:'https://www.gutenberg.org'},
-  {icon:'🎮',name:'COOLMATHGAMES',desc:'Math & puzzle games',tag:'free',url:'https://www.coolmathgames.com'},
-  {icon:'🕹️',name:'POKI',desc:'Free browser games',tag:'free',url:'https://poki.com'},
-  {icon:'📰',name:'GOOGLE SCHOLAR',desc:'Research & papers',tag:'free',url:'https://scholar.google.com'},
+  {icon:'🔓',name:'UNBLOCKER',desc:'Equinox — YouTube, Discord, games & more',tag:'unblock',url:UNBLOCKER_URL,mode:'direct'},
+  {icon:'📺',name:'YOUTUBE',desc:'Watch videos & shorts',tag:'blocked',url:'https://www.youtube.com',mode:'routed'},
+  {icon:'💬',name:'DISCORD',desc:'Chat with friends',tag:'blocked',url:'https://discord.com/app',mode:'routed'},
+  {icon:'🎮',name:'ROBLOX',desc:'Play Roblox online',tag:'blocked',url:'https://www.roblox.com',mode:'routed'},
+  {icon:'🎵',name:'SPOTIFY',desc:'Stream music',tag:'blocked',url:'https://open.spotify.com',mode:'routed'},
+  {icon:'🟠',name:'REDDIT',desc:'Browse communities',tag:'blocked',url:'https://www.reddit.com',mode:'routed'},
+  {icon:'🐦',name:'TWITTER/X',desc:'Posts & trending news',tag:'blocked',url:'https://twitter.com',mode:'routed'},
+  {icon:'🎬',name:'TWITCH',desc:'Live game streaming',tag:'blocked',url:'https://www.twitch.tv',mode:'routed'},
+  {icon:'📸',name:'INSTAGRAM',desc:'Photos & reels',tag:'blocked',url:'https://www.instagram.com',mode:'routed'},
+  {icon:'🤖',name:'CHATGPT',desc:'OpenAI chatbot',tag:'blocked',url:'https://chat.openai.com',mode:'routed'},
+  {icon:'🎵',name:'TIKTOK',desc:'Short videos',tag:'blocked',url:'https://www.tiktok.com',mode:'routed'},
+  {icon:'👻',name:'SNAPCHAT',desc:'Snaps & stories',tag:'blocked',url:'https://web.snapchat.com',mode:'routed'},
+  {icon:'🎮',name:'STEAM',desc:'PC gaming platform',tag:'blocked',url:'https://store.steampowered.com',mode:'routed'},
+  {icon:'🎥',name:'NETFLIX',desc:'Stream movies & shows',tag:'blocked',url:'https://www.netflix.com',mode:'routed'},
+  {icon:'🎥',name:'CINEBY',desc:'Free movies & shows',tag:'free',url:'https://www.cineby.gd',mode:'direct'},
+  {icon:'📽️',name:'HEARTIVE',desc:'Movies, series & live TV',tag:'free',url:'https://heartiveloves.pages.dev',mode:'direct'},
+  {icon:'🧮',name:'DESMOS',desc:'Graphing calculator',tag:'free',url:'https://www.desmos.com/calculator',mode:'direct'},
+  {icon:'🌍',name:'WIKIPEDIA',desc:'All human knowledge',tag:'free',url:'https://en.m.wikipedia.org',mode:'direct'},
+  {icon:'📚',name:'KHAN ACADEMY',desc:'Free lessons & practice',tag:'free',url:'https://www.khanacademy.org',mode:'direct'},
+  {icon:'🗺️',name:'GOOGLE MAPS',desc:'Maps & directions',tag:'free',url:'https://maps.google.com/maps?output=embed',mode:'direct'},
+  {icon:'📖',name:'GUTENBERG',desc:'10,000+ free classic books',tag:'free',url:'https://www.gutenberg.org',mode:'direct'},
+  {icon:'🎮',name:'COOLMATHGAMES',desc:'Math & puzzle games',tag:'free',url:'https://www.coolmathgames.com',mode:'direct'},
+  {icon:'🕹️',name:'POKI',desc:'100s of free browser games',tag:'free',url:'https://poki.com',mode:'direct'},
+  {icon:'📰',name:'GOOGLE SCHOLAR',desc:'Research & papers',tag:'free',url:'https://scholar.google.com',mode:'direct'},
+  {icon:'🌐',name:'GOOGLE TRANSLATE',desc:'Translate any language',tag:'free',url:'https://translate.google.com',mode:'direct'},
+  {icon:'🎨',name:'SKETCHPAD',desc:'Draw & create art online',tag:'free',url:'https://sketch.io/sketchpad/',mode:'direct'},
+  {icon:'🎵',name:'SOUNDCLOUD',desc:'Free music & podcasts',tag:'free',url:'https://soundcloud.com',mode:'direct'},
+  {icon:'📝',name:'GOOGLE DOCS',desc:'Write & collaborate',tag:'free',url:'https://docs.google.com',mode:'direct'},
+  {icon:'📊',name:'GOOGLE SLIDES',desc:'Make presentations',tag:'free',url:'https://slides.google.com',mode:'direct'},
+  {icon:'🔢',name:'GOOGLE SHEETS',desc:'Spreadsheets online',tag:'free',url:'https://sheets.google.com',mode:'direct'},
+  {icon:'🔎',name:'PERPLEXITY AI',desc:'AI-powered search',tag:'free',url:'https://www.perplexity.ai',mode:'direct'},
+  {icon:'💡',name:'QUIZLET',desc:'Flashcards & study tools',tag:'free',url:'https://quizlet.com',mode:'direct'},
+  {icon:'🧠',name:'BRAINPOP',desc:'Educational videos & quizzes',tag:'free',url:'https://www.brainpop.com',mode:'direct'},
+  {icon:'🎯',name:'GIMKIT',desc:'Fun learning games',tag:'free',url:'https://www.gimkit.com',mode:'direct'},
+  {icon:'🕹️',name:'GAMEFLARE',desc:'Free HTML5 games',tag:'free',url:'https://gameflare.com',mode:'direct'},
 ];
 
 let currentAppUrl = '';
@@ -825,24 +956,30 @@ const IFRAME_PROXIES = [
 ];
 let proxyIndex = 0;
 
-const UNBLOCKER = 'https://learn.szczech.com.ar/';
-
-function openApp(url, name) {
+function openApp(url, name, mode) {
   currentAppUrl = url;
-  proxyIndex = 0;
   document.getElementById('appsListView').style.display = 'none';
   document.getElementById('appViewer').style.display = 'flex';
   document.getElementById('appViewerName').textContent = name;
   document.getElementById('appBlockedMsg').style.display = 'none';
   const frame = document.getElementById('appFrame');
   frame.style.display = 'block';
-  // Load direct — no proxy wrapping so unblocker & other sites work natively
-  frame.src = url;
+  if (mode === 'routed') {
+    // Open blocked sites via Equinox unblocker
+    frame.src = UNBLOCKER_URL;
+    // After Equinox loads, user can navigate to the site inside it
+    // Show a helpful tip
+    setTimeout(() => {
+      document.getElementById('appViewerName').textContent = name + ' — search it inside Equinox ↑';
+    }, 1500);
+  } else {
+    // Load direct
+    frame.src = url;
+  }
 }
 
 function loadInFrame(url) {
-  const frame = document.getElementById('appFrame');
-  frame.src = url;
+  document.getElementById('appFrame').src = url;
 }
 
 function tryNextProxy() {
@@ -869,17 +1006,167 @@ function openCurrentAppNewTab() {
 }
 
 document.getElementById('appsGrid').innerHTML = apps.map(a=>`
-  <div class="app-card${a.tag==='unblock'?' featured':''}" onclick="openApp('${a.url}','${a.icon} ${a.name}')">
+  <div class="app-card${a.tag==='unblock'?' featured':''}" onclick="openApp('${a.url}','${a.icon} ${a.name}','${a.mode}')">
     <div class="app-icon">${a.icon}</div>
     <div class="app-name">${a.name}</div>
     <div class="app-desc">${a.desc}</div>
-    <span class="app-tag ${a.tag}">${a.tag==='unblock'?'⚡ UNBLOCKER':a.tag.toUpperCase()}</span>
+    <span class="app-tag ${a.tag}">${
+      a.tag==='unblock'?'⚡ UNBLOCKER':
+      a.tag==='blocked'?'🔓 VIA PROXY':
+      '✅ FREE'
+    }</span>
   </div>`).join('');
 
 // Focus the hidden input immediately
 window.addEventListener('load', () => {
   document.getElementById('coverPass').focus();
 });
+
+// ══════════════════════════════════
+// SETTINGS
+// ══════════════════════════════════
+let currentCover = 'loading';
+
+// Load saved settings
+(function() {
+  const savedPass = localStorage.getItem('nx_pass');
+  if (savedPass) currentPassword = savedPass;
+  const savedUnblocker = localStorage.getItem('nx_unblocker');
+  if (savedUnblocker) {
+    UNBLOCKER_URL = savedUnblocker;
+    document.getElementById('settingUnblocker').value = savedUnblocker;
+    // Update the app card
+    const app = apps.find(a => a.tag === 'unblock');
+    if (app) app.url = savedUnblocker;
+  }
+  const savedCover = localStorage.getItem('nx_cover');
+  if (savedCover) { currentCover = savedCover; applyCoverStyle(savedCover); }
+  const savedTheme = localStorage.getItem('nx_theme');
+  if (savedTheme) {
+    const [g, b] = JSON.parse(savedTheme);
+    applyTheme(g, b);
+  }
+})();
+
+function saveUnblocker() {
+  const val = document.getElementById('settingUnblocker').value.trim();
+  const pass = document.getElementById('unblockerPassInput').value;
+  const okEl = document.getElementById('unblockerSaved');
+  const errEl = document.getElementById('unblockerError');
+  okEl.style.display = 'none';
+  errEl.style.display = 'none';
+  if (!val) return;
+  if (pass !== currentPassword) {
+    errEl.style.display = 'block';
+    document.getElementById('unblockerPassInput').value = '';
+    setTimeout(() => errEl.style.display = 'none', 3000);
+    return;
+  }
+  UNBLOCKER_URL = val;
+  localStorage.setItem('nx_unblocker', val);
+  const app = apps.find(a => a.tag === 'unblock');
+  if (app) app.url = val;
+  document.getElementById('unblockerPassInput').value = '';
+  okEl.style.display = 'block';
+  setTimeout(() => okEl.style.display = 'none', 2000);
+}
+
+function savePassword() {
+  const oldP = document.getElementById('settingPassOld').value;
+  const newP = document.getElementById('settingPassNew').value.trim();
+  const errEl = document.getElementById('passError');
+  const okEl = document.getElementById('passSaved');
+  errEl.style.display = 'none'; okEl.style.display = 'none';
+  if (oldP !== currentPassword) { errEl.style.display = 'block'; return; }
+  if (!newP) return;
+  currentPassword = newP;
+  localStorage.setItem('nx_pass', newP);
+  okEl.style.display = 'block';
+  document.getElementById('settingPassOld').value = '';
+  document.getElementById('settingPassNew').value = '';
+  setTimeout(() => okEl.style.display = 'none', 2000);
+}
+
+function setTheme(g, b) {
+  applyTheme(g, b);
+  localStorage.setItem('nx_theme', JSON.stringify([g, b]));
+  const el = document.getElementById('themeSaved');
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 2000);
+}
+
+function applyTheme(g, b) {
+  document.documentElement.style.setProperty('--g', g);
+  document.documentElement.style.setProperty('--b', b);
+}
+
+function setCover(type) {
+  currentCover = type;
+  localStorage.setItem('nx_cover', type);
+  document.querySelectorAll('.cover-opt').forEach(el => {
+    el.style.background = 'none';
+    el.style.borderColor = 'rgba(255,0,170,.15)';
+    el.style.color = '#556677';
+  });
+  const active = document.getElementById('cover-' + type);
+  if (active) {
+    active.style.background = 'rgba(255,0,170,.08)';
+    active.style.borderColor = 'rgba(255,0,170,.3)';
+    active.style.color = 'var(--p)';
+  }
+}
+
+function applyCoverStyle(type) {
+  const cover = document.getElementById('cover');
+  if (type === 'classroom') {
+    cover.style.background = '#fff';
+    cover.innerHTML = `
+      <div style="width:100%;max-width:800px;padding:20px;">
+        <div style="background:#1967d2;color:#fff;padding:16px 24px;border-radius:8px 8px 0 0;font-family:Arial,sans-serif;font-size:18px;font-weight:500;">Google Classroom</div>
+        <div style="background:#f8f9fa;border:1px solid #e0e0e0;border-top:none;padding:40px 24px;border-radius:0 0 8px 8px;font-family:Arial,sans-serif;">
+          <div style="color:#3c4043;font-size:14px;margin-bottom:20px;">To-do</div>
+          <div style="background:#fff;border:1px solid #e0e0e0;border-radius:4px;padding:16px;margin-bottom:12px;color:#5f6368;font-size:13px;">No work due soon</div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:20px;"><div style="width:18px;height:18px;border:2px solid #dadce0;border-top-color:#1967d2;border-radius:50%;animation:cspin .9s linear infinite;"></div><span style="color:#5f6368;font-size:13px;">Loading assignments...</span></div>
+        </div>
+      </div>
+      <input id="coverPass" type="password" autocomplete="off" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;">`;
+  } else if (type === 'docs') {
+    cover.style.background = '#fff';
+    cover.innerHTML = `
+      <div style="width:100%;max-width:900px;font-family:Arial,sans-serif;">
+        <div style="background:#fff;border-bottom:1px solid #e0e0e0;padding:8px 16px;display:flex;align-items:center;gap:12px;">
+          <div style="width:28px;height:28px;background:#4285f4;border-radius:2px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;">D</div>
+          <div style="color:#3c4043;font-size:16px;">Untitled document</div>
+        </div>
+        <div style="padding:60px 120px;min-height:400px;background:#fff;">
+          <div style="width:100%;height:12px;background:#f1f3f4;border-radius:4px;margin-bottom:12px;"></div>
+          <div style="width:80%;height:12px;background:#f1f3f4;border-radius:4px;margin-bottom:12px;"></div>
+          <div style="width:90%;height:12px;background:#f1f3f4;border-radius:4px;margin-bottom:24px;"></div>
+          <div style="display:flex;gap:8px;align-items:center;"><div style="width:16px;height:16px;border:2px solid #dadce0;border-top-color:#4285f4;border-radius:50%;animation:cspin .9s linear infinite;"></div><span style="color:#80868b;font-size:12px;">Loading...</span></div>
+        </div>
+      </div>
+      <input id="coverPass" type="password" autocomplete="off" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;">`;
+  } else if (type === 'blank') {
+    cover.style.background = '#fff';
+    cover.innerHTML = `<input id="coverPass" type="password" autocomplete="off" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;">`;
+  } else {
+    // default loading spinner
+    cover.style.background = '#f1f3f4';
+    cover.innerHTML = `
+      <div class="cover-spinner"></div>
+      <div class="cover-text">Loading resources...</div>
+      <input id="coverPass" type="password" autocomplete="off" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;">`;
+  }
+  // Re-attach password listener after rebuilding cover HTML
+  const inp = document.getElementById('coverPass');
+  if (inp) {
+    inp.addEventListener('input', function() {
+      if (this.value === currentPassword) unlock();
+    });
+  }
+}
+
+
 </script>
 </body>
 </html>
