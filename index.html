@@ -178,13 +178,7 @@ body::before {
 /* ─── PROXY PAGE ─── */
 #page-proxy {
   flex-direction:column;
-}
-
-#proxyFrame {
-  flex:1;
-  border:none;
-  width:100%;
-  background:#000;
+  overflow-y:auto;
 }
 
 .proxy-landing {
@@ -192,9 +186,9 @@ body::before {
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
-  gap:20px;
-  padding:40px;
+  justify-content:flex-start;
+  gap:22px;
+  padding:40px 40px 60px;
 }
 
 .proxy-landing h2 {
@@ -210,7 +204,7 @@ body::before {
   color:#556677;
   letter-spacing:1px;
   text-align:center;
-  max-width:500px;
+  max-width:520px;
   line-height:2;
 }
 
@@ -218,7 +212,7 @@ body::before {
   display:flex;
   gap:0;
   width:100%;
-  max-width:600px;
+  max-width:640px;
   border:1px solid rgba(0,207,255,.3);
   border-radius:4px;
   overflow:hidden;
@@ -248,13 +242,16 @@ body::before {
   font-weight:700;
   letter-spacing:2px;
   cursor:pointer;
+  transition:opacity .2s;
 }
+.proxy-big-input button:hover { opacity:.85; }
 
 .quick-sites {
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   justify-content:center;
+  max-width:640px;
 }
 
 .quick-site {
@@ -269,6 +266,60 @@ body::before {
   transition:all .2s;
 }
 .quick-site:hover { background:rgba(0,207,255,.15); box-shadow:0 0 12px rgba(0,207,255,.2); }
+
+/* Proxy service cards */
+.proxy-services-title {
+  font-family:'Orbitron',sans-serif;
+  font-size:.65rem;
+  color:#446688;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  align-self:flex-start;
+  max-width:640px;
+  width:100%;
+  border-bottom:1px solid rgba(0,207,255,.1);
+  padding-bottom:10px;
+}
+
+.proxy-services {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:12px;
+  width:100%;
+  max-width:640px;
+}
+
+.proxy-service-card {
+  background:rgba(0,207,255,.04);
+  border:1px solid rgba(0,207,255,.12);
+  border-radius:6px;
+  padding:16px;
+  cursor:pointer;
+  transition:all .2s;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.proxy-service-card:hover {
+  border-color:var(--b);
+  box-shadow:0 4px 20px rgba(0,207,255,.15);
+  transform:translateY(-2px);
+}
+.proxy-service-card .ps-name { font-family:'Orbitron',sans-serif; font-size:.68rem; color:#c0d8ff; letter-spacing:1px; display:flex; align-items:center; gap:8px; }
+.proxy-service-card .ps-type { font-size:.58rem; color:var(--b); background:rgba(0,207,255,.1); border:1px solid rgba(0,207,255,.2); padding:2px 7px; border-radius:2px; letter-spacing:1px; }
+.proxy-service-card .ps-desc { font-size:.62rem; color:#446688; line-height:1.6; }
+.proxy-service-card .ps-btn { margin-top:4px; background:var(--b); border:none; color:#050810; padding:6px 14px; font-family:'Orbitron',monospace; font-size:.58rem; font-weight:700; letter-spacing:2px; border-radius:3px; cursor:pointer; width:fit-content; }
+
+.proxy-note {
+  font-size:.62rem;
+  color:#334455;
+  letter-spacing:1px;
+  text-align:center;
+  max-width:520px;
+  line-height:1.8;
+}
+.proxy-note a { color:var(--b); text-decoration:none; }
+.proxy-note a:hover { text-decoration:underline; }
 
 /* ─── GAMES PAGE ─── */
 #page-games {
@@ -1148,31 +1199,67 @@ input[type=range].vol::-webkit-slider-thumb {
 
   <!-- PROXY PAGE -->
   <div class="page" id="page-proxy">
-    <div class="proxy-landing" id="proxyLanding">
+    <div class="proxy-landing">
       <div style="font-size:3rem;">🔒</div>
       <h2>SECURE PROXY BROWSER</h2>
-      <p>Browse any website securely through our proxy. Your traffic is encrypted and your identity is protected. Access blocked sites from school, work, or anywhere.</p>
+      <p>Type any URL below and pick a proxy to open it unblocked. All proxies open in a new tab — this is how real proxies work (iframes are blocked by websites themselves, not us).</p>
+
       <div class="proxy-big-input">
-        <input id="proxyBigInput" type="text" placeholder="Enter any URL (e.g. google.com or https://...)" onkeydown="if(event.key==='Enter')goProxyBig()">
-        <button onclick="goProxyBig()">BROWSE →</button>
+        <input id="proxyBigInput" type="text" placeholder="google.com · youtube.com · discord.com · roblox.com..." onkeydown="if(event.key==='Enter')sendToProxy('ultrasurf')">
+        <button onclick="sendToProxy('ultrasurf')">GO →</button>
       </div>
+
       <div class="quick-sites">
-        <div class="quick-site" onclick="quickProxy('https://www.google.com')">🔍 Google</div>
-        <div class="quick-site" onclick="quickProxy('https://www.youtube.com')">▶ YouTube</div>
-        <div class="quick-site" onclick="quickProxy('https://www.wikipedia.org')">📖 Wikipedia</div>
-        <div class="quick-site" onclick="quickProxy('https://www.reddit.com')">🟠 Reddit</div>
-        <div class="quick-site" onclick="quickProxy('https://www.twitch.tv')">💜 Twitch</div>
-        <div class="quick-site" onclick="quickProxy('https://discord.com/app')">💬 Discord</div>
-        <div class="quick-site" onclick="quickProxy('https://www.spotify.com')">🎵 Spotify</div>
-        <div class="quick-site" onclick="quickProxy('https://www.roblox.com')">🎮 Roblox</div>
+        <div class="quick-site" onclick="setProxyUrl('google.com')">🔍 Google</div>
+        <div class="quick-site" onclick="setProxyUrl('youtube.com')">▶ YouTube</div>
+        <div class="quick-site" onclick="setProxyUrl('discord.com')">💬 Discord</div>
+        <div class="quick-site" onclick="setProxyUrl('reddit.com')">🟠 Reddit</div>
+        <div class="quick-site" onclick="setProxyUrl('roblox.com')">🎮 Roblox</div>
+        <div class="quick-site" onclick="setProxyUrl('twitch.tv')">💜 Twitch</div>
+        <div class="quick-site" onclick="setProxyUrl('spotify.com')">🎵 Spotify</div>
+        <div class="quick-site" onclick="setProxyUrl('instagram.com')">📸 Instagram</div>
       </div>
-      <div class="proxy-note">Uses <a href="https://corsproxy.io" target="_blank">CORS Proxy</a> technology. For full proxy, <a href="https://ultrasurf.us" target="_blank">try Ultrasurf</a> or <a href="https://www.proxysite.com" target="_blank">ProxySite.com</a>.</div>
-    </div>
-    <iframe id="proxyFrame" style="display:none;flex:1;border:none;width:100%;" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
-    <div id="proxyBar2" style="display:none;align-items:center;gap:8px;padding:8px 16px;background:rgba(0,0,0,.8);border-top:1px solid var(--border);">
-      <span style="font-size:.65rem;color:#446688;letter-spacing:1px;">PROXIED:</span>
-      <span id="proxyCurrentUrl" style="font-size:.65rem;color:var(--b);letter-spacing:1px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-      <button onclick="resetProxy()" style="background:none;border:1px solid rgba(255,0,170,.3);color:var(--p);padding:4px 12px;font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:1px;border-radius:2px;cursor:pointer;">✕ CLOSE</button>
+
+      <div class="proxy-services-title">CHOOSE A PROXY SERVICE</div>
+
+      <div class="proxy-services">
+        <div class="proxy-service-card" onclick="sendToProxy('proxysite')">
+          <div class="ps-name">🌐 PROXYSITE <span class="ps-type">WEB</span></div>
+          <div class="ps-desc">Most popular web proxy. Fast, simple, works on school networks. Best for browsing any site.</div>
+          <button class="ps-btn">OPEN →</button>
+        </div>
+        <div class="proxy-service-card" onclick="sendToProxy('croxyproxy')">
+          <div class="ps-name">🔵 CROXYPROXY <span class="ps-type">WEB</span></div>
+          <div class="ps-desc">Advanced web proxy with YouTube & video support. Handles HTTPS perfectly.</div>
+          <button class="ps-btn">OPEN →</button>
+        </div>
+        <div class="proxy-service-card" onclick="sendToProxy('hide')">
+          <div class="ps-name">👻 HIDE.ME <span class="ps-type">ENCRYPTED</span></div>
+          <div class="ps-desc">Encrypted proxy. Great for accessing blocked content securely.</div>
+          <button class="ps-btn">OPEN →</button>
+        </div>
+        <div class="proxy-service-card" onclick="sendToProxy('4everproxy')">
+          <div class="ps-name">♾️ 4EVERPROXY <span class="ps-type">FAST</span></div>
+          <div class="ps-desc">Multiple server locations. Choose US, UK, or EU servers for fast speeds.</div>
+          <button class="ps-btn">OPEN →</button>
+        </div>
+        <div class="proxy-service-card" onclick="sendToProxy('ultrasurf')">
+          <div class="ps-name">⚡ ULTRASURF <span class="ps-type">BYPASS</span></div>
+          <div class="ps-desc">Ultra-fast, bypasses deep packet inspection. Popular at school & work.</div>
+          <button class="ps-btn">OPEN →</button>
+        </div>
+        <div class="proxy-service-card" onclick="sendToProxy('spyoff')">
+          <div class="ps-name">🛡️ SPYOFF <span class="ps-type">PRIVATE</span></div>
+          <div class="ps-desc">Anonymous browsing proxy. Hides your IP and location completely.</div>
+          <button class="ps-btn">OPEN →</button>
+        </div>
+      </div>
+
+      <div class="proxy-note">
+        💡 <strong style="color:#446688;">How it works:</strong> Enter a URL above → click a proxy → it opens in a new tab fully unblocked.<br>
+        Proxies work by routing your traffic through their servers, bypassing school/work filters.<br>
+        Best picks: <a href="https://www.proxysite.com" target="_blank">ProxySite</a> · <a href="https://www.croxyproxy.com" target="_blank">CroxyProxy</a> · <a href="https://hide.me/en/proxy" target="_blank">Hide.me</a>
+      </div>
     </div>
   </div>
 
@@ -1190,58 +1277,59 @@ function switchPage(id, btn) {
 }
 
 // ══════════════════════════════════
-// PROXY
+// PROXY — opens in new tab (correct approach)
+// iframes CANNOT load most sites due to X-Frame-Options,
+// this is a browser-level security rule, not fixable in HTML.
+// Real proxies (Ultraviolet, Rammerhead, etc.) all open new tabs.
 // ══════════════════════════════════
+
+const PROXY_SERVICES = {
+  proxysite:  u => `https://www.proxysite.com/index.php?q=${encodeURIComponent(u)}&hl=on`,
+  croxyproxy: u => `https://www.croxyproxy.com/requests/get?url=${encodeURIComponent(u)}`,
+  hide:       u => `https://hide.me/en/proxy?url=${encodeURIComponent(u)}`,
+  '4everproxy': u => `https://www.4everproxy.com/?u=${encodeURIComponent(u)}&server=us`,
+  ultrasurf:  u => `https://ultrasurf.us/api/request?url=${encodeURIComponent(u)}`,
+  spyoff:     u => `https://spyoff.com/proxy/?url=${encodeURIComponent(u)}`,
+};
+
 function normalizeUrl(u) {
-  u = u.trim();
+  u = (u || '').trim();
   if (!u) return '';
   if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
   return u;
 }
 
+function setProxyUrl(url) {
+  document.getElementById('proxyBigInput').value = url;
+}
+
+function sendToProxy(service) {
+  let raw = document.getElementById('proxyBigInput').value.trim();
+  // If empty, just open the proxy homepage
+  const proxies = {
+    proxysite:    'https://www.proxysite.com',
+    croxyproxy:   'https://www.croxyproxy.com',
+    hide:         'https://hide.me/en/proxy',
+    '4everproxy': 'https://www.4everproxy.com',
+    ultrasurf:    'https://ultrasurf.us',
+    spyoff:       'https://spyoff.com/proxy/',
+  };
+  if (!raw) {
+    window.open(proxies[service] || proxies.proxysite, '_blank');
+    return;
+  }
+  const url = normalizeUrl(raw);
+  const builder = PROXY_SERVICES[service];
+  const finalUrl = builder ? builder(url) : proxies[service];
+  window.open(finalUrl, '_blank');
+}
+
+// Top bar proxy GO button
 function goProxy() {
-  const u = normalizeUrl(document.getElementById('proxyInput').value);
-  if (!u) return;
-  openProxy(u);
-}
-
-function goProxyBig() {
-  const u = normalizeUrl(document.getElementById('proxyBigInput').value);
-  if (!u) return;
-  openProxy(u);
-}
-
-function quickProxy(u) { openProxy(u); }
-
-function openProxy(url) {
-  // Switch to proxy page
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.navtab').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-proxy').classList.add('active');
-  document.querySelector('[onclick*="proxy"]').classList.add('active');
-
-  const landing = document.getElementById('proxyLanding');
-  const frame = document.getElementById('proxyFrame');
-  const bar2 = document.getElementById('proxyBar2');
-  const curUrl = document.getElementById('proxyCurrentUrl');
-
-  // Try loading via proxy workers
-  // Use allorigins as a CORS proxy wrapper
-  const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
-
-  landing.style.display = 'none';
-  frame.style.display = 'block';
-  bar2.style.display = 'flex';
-  frame.src = proxyUrl;
-  curUrl.textContent = url;
-  document.getElementById('proxyInput').value = url;
-}
-
-function resetProxy() {
-  document.getElementById('proxyFrame').src = 'about:blank';
-  document.getElementById('proxyFrame').style.display = 'none';
-  document.getElementById('proxyLanding').style.display = 'flex';
-  document.getElementById('proxyBar2').style.display = 'none';
+  const raw = document.getElementById('proxyInput').value.trim();
+  if (!raw) { window.open('https://www.proxysite.com', '_blank'); return; }
+  const url = normalizeUrl(raw);
+  window.open(PROXY_SERVICES.proxysite(url), '_blank');
 }
 
 // ══════════════════════════════════
@@ -1608,8 +1696,12 @@ const apps = [
   { icon:'🎲', name:'ROBLOX', desc:'Play Roblox games', tag:'proxy', url:'https://www.roblox.com' },
 ];
 
+function openAppProxy(url) {
+  window.open(PROXY_SERVICES.proxysite(url), '_blank');
+}
+
 document.getElementById('appsGrid').innerHTML = apps.map(a => `
-  <div class="app-card" onclick="openProxy('${a.url}')">
+  <div class="app-card" onclick="openAppProxy('${a.url}')">
     <div class="app-icon">${a.icon}</div>
     <div class="app-name">${a.name}</div>
     <div class="app-desc">${a.desc}</div>
