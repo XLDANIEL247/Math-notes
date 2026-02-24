@@ -320,12 +320,15 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 .apps-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:14px; padding:20px 26px; }
 .app-card { background:var(--card2); border:1px solid rgba(0,207,255,.08); border-radius:8px; padding:18px 14px; cursor:pointer; transition:all .2s; display:flex; flex-direction:column; gap:9px; text-decoration:none; }
 .app-card:hover { border-color:var(--b); box-shadow:0 4px 18px rgba(0,207,255,.12); transform:translateY(-2px); }
+.app-card.featured { border-color:rgba(255,204,0,.3); background:rgba(255,204,0,.04); box-shadow:0 0 20px rgba(255,204,0,.08); }
+.app-card.featured:hover { border-color:var(--y); box-shadow:0 4px 24px rgba(255,204,0,.2); }
 .app-icon { font-size:1.8rem; }
 .app-name { font-family:'Orbitron',sans-serif; font-size:.63rem; color:#c0d8ff; letter-spacing:1px; }
 .app-desc { font-size:.58rem; color:#446688; line-height:1.6; }
 .app-tag { display:inline-block; font-size:.53rem; letter-spacing:2px; padding:3px 7px; border-radius:2px; margin-top:auto; }
 .app-tag.free { background:rgba(0,255,136,.1); color:var(--g); border:1px solid rgba(0,255,136,.2); }
 .app-tag.proxy { background:rgba(0,207,255,.1); color:var(--b); border:1px solid rgba(0,207,255,.2); }
+.app-tag.unblock { background:rgba(255,204,0,.12); color:var(--y); border:1px solid rgba(255,204,0,.3); }
 
 /* ── GAMES built-in ── */
 #page-builtin { flex-direction:column; overflow:hidden; }
@@ -779,30 +782,28 @@ async function doSummarize() {
 // APPS
 // ══════════════════════════════════
 const apps = [
-  {icon:'📺',name:'YOUTUBE',desc:'Watch videos',tag:'proxy',url:'https://www.youtube.com'},
-  {icon:'💬',name:'DISCORD',desc:'Chat with friends',tag:'proxy',url:'https://discord.com/app'},
-  {icon:'🎵',name:'SPOTIFY',desc:'Stream music',tag:'proxy',url:'https://open.spotify.com'},
-  {icon:'🟠',name:'REDDIT',desc:'Browse communities',tag:'proxy',url:'https://www.reddit.com'},
-  {icon:'📸',name:'INSTAGRAM',desc:'Photos & reels',tag:'proxy',url:'https://www.instagram.com'},
-  {icon:'🐦',name:'TWITTER/X',desc:'Posts & news',tag:'proxy',url:'https://twitter.com'},
-  {icon:'🎬',name:'TWITCH',desc:'Live streaming',tag:'proxy',url:'https://www.twitch.tv'},
-  {icon:'🎮',name:'ROBLOX',desc:'Play Roblox',tag:'proxy',url:'https://www.roblox.com'},
-  {icon:'📚',name:'KHAN ACADEMY',desc:'Free education',tag:'free',url:'https://www.khanacademy.org'},
-  {icon:'🌍',name:'WIKIPEDIA',desc:'All knowledge',tag:'free',url:'https://www.wikipedia.org'},
-  {icon:'🎨',name:'CANVA',desc:'Design anything',tag:'free',url:'https://www.canva.com'},
+  {icon:'🔓',name:'IXL.ROCKS',desc:'School unblocker — YouTube, Discord, games & more disguised as IXL',tag:'unblock',url:'https://ixl.rocks/'},
+  {icon:'🤖',name:'CHATGPT',desc:'OpenAI AI chatbot',tag:'free',url:'https://chat.openai.com'},
+  {icon:'🎥',name:'CINEBY',desc:'Free movies & shows',tag:'free',url:'https://www.cineby.gd'},
+  {icon:'📽️',name:'HEARTIVE',desc:'Movies, series & live TV',tag:'free',url:'https://heartiveloves.pages.dev'},
+  {icon:'📚',name:'KHAN ACADEMY',desc:'Free lessons & practice',tag:'free',url:'https://www.khanacademy.org'},
+  {icon:'🌍',name:'WIKIPEDIA',desc:'All human knowledge',tag:'free',url:'https://www.wikipedia.org'},
   {icon:'📝',name:'GOOGLE DOCS',desc:'Write & collaborate',tag:'free',url:'https://docs.google.com'},
-  {icon:'🤖',name:'CHATGPT',desc:'OpenAI chatbot',tag:'proxy',url:'https://chat.openai.com'},
-  {icon:'🔎',name:'PERPLEXITY AI',desc:'AI search',tag:'free',url:'https://www.perplexity.ai'},
-  {icon:'🎥',name:'CINEBY',desc:'Free movies & shows',tag:'proxy',url:'https://www.cineby.gd'},
-  {icon:'📽️',name:'HEARTIVE',desc:'Movies & series',tag:'proxy',url:'https://heartiveloves.pages.dev'},
+  {icon:'📊',name:'GOOGLE SLIDES',desc:'Presentations',tag:'free',url:'https://slides.google.com'},
+  {icon:'🔢',name:'GOOGLE SHEETS',desc:'Spreadsheets',tag:'free',url:'https://sheets.google.com'},
+  {icon:'🎨',name:'CANVA',desc:'Design posters & more',tag:'free',url:'https://www.canva.com'},
+  {icon:'🔎',name:'PERPLEXITY AI',desc:'AI search engine',tag:'free',url:'https://www.perplexity.ai'},
+  {icon:'🧮',name:'DESMOS',desc:'Graphing calculator',tag:'free',url:'https://www.desmos.com/calculator'},
+  {icon:'🗺️',name:'GOOGLE MAPS',desc:'Maps & directions',tag:'free',url:'https://maps.google.com'},
+  {icon:'🌐',name:'GOOGLE TRANSLATE',desc:'Translate anything',tag:'free',url:'https://translate.google.com'},
 ];
 
 document.getElementById('appsGrid').innerHTML = apps.map(a=>`
-  <div class="app-card" onclick="window.open('${a.url}','_blank')">
+  <div class="app-card${a.tag==='unblock'?' featured':''}" onclick="window.open('${a.url}','_blank')">
     <div class="app-icon">${a.icon}</div>
     <div class="app-name">${a.name}</div>
     <div class="app-desc">${a.desc}</div>
-    <span class="app-tag ${a.tag}">${a.tag.toUpperCase()}</span>
+    <span class="app-tag ${a.tag}">${a.tag==='unblock'?'⚡ UNBLOCKER':a.tag.toUpperCase()}</span>
   </div>`).join('');
 
 // Focus the hidden input immediately
