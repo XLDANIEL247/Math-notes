@@ -531,69 +531,9 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 <!-- ══════════════════════════════════
      COVER SCREEN
      ══════════════════════════════════ -->
-<div id="cover">
-  <div style="display:flex;flex-direction:column;align-items:center;width:100%;min-height:100vh;background:#fff;justify-content:space-between;padding:28px 0 16px;">
+<div id="cover"></div>
 
-    <!-- Google logo top left -->
-    <div style="width:100%;padding:0 24px;display:flex;align-items:center;">
-      <svg width="74" height="24" viewBox="0 0 74 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.24 8.19v2.46h5.88c-.18 1.38-.64 2.39-1.34 3.1-.86.86-2.2 1.8-4.54 1.8-3.62 0-6.45-2.92-6.45-6.54s2.83-6.54 6.45-6.54c1.95 0 3.38.77 4.43 1.76L15.4 2.5C13.86 1.05 11.8 0 9.24 0 4.28 0 .11 4.04.11 9s4.17 9 9.13 9c2.68 0 4.7-.88 6.28-2.52 1.62-1.62 2.13-3.91 2.13-5.75 0-.57-.04-1.1-.13-1.54H9.24z" fill="#4285F4"/><path d="M25 6.19c-3.21 0-5.83 2.44-5.83 5.81 0 3.34 2.62 5.81 5.83 5.81s5.83-2.46 5.83-5.81c0-3.37-2.62-5.81-5.83-5.81zm0 9.33c-1.76 0-3.28-1.45-3.28-3.52 0-2.09 1.52-3.52 3.28-3.52s3.28 1.43 3.28 3.52c0 2.07-1.52 3.52-3.28 3.52z" fill="#EA4335"/><path d="M53.58 7.49h-.09c-.57-.68-1.67-1.3-3.06-1.3C47.53 6.19 45 8.72 45 12c0 3.26 2.53 5.81 5.43 5.81 1.39 0 2.49-.62 3.06-1.32h.09v.81c0 2.22-1.19 3.41-3.1 3.41-1.56 0-2.53-1.12-2.93-2.07l-2.22.92c.64 1.54 2.33 3.43 5.15 3.43 2.99 0 5.52-1.76 5.52-6.05V6.49h-2.42v1zm-2.93 8.03c-1.76 0-3.1-1.5-3.1-3.52 0-2.05 1.34-3.52 3.1-3.52 1.74 0 3.1 1.5 3.1 3.54.01 2.03-1.36 3.5-3.1 3.5z" fill="#4285F4"/><path d="M38 6.19c-3.21 0-5.83 2.44-5.83 5.81 0 3.34 2.62 5.81 5.83 5.81s5.83-2.46 5.83-5.81c0-3.37-2.62-5.81-5.83-5.81zm0 9.33c-1.76 0-3.28-1.45-3.28-3.52 0-2.09 1.52-3.52 3.28-3.52s3.28 1.43 3.28 3.52c0 2.07-1.52 3.52-3.28 3.52z" fill="#FBBC05"/><path d="M58.77 1h2.55v16.8h-2.55z" fill="#34A853"/><path d="M63.81 12.18c-.06-3.77 2.93-5.99 5.09-5.99 1.7 0 3.14.85 3.62 2.07l-8.71 3.92zm8.86 2.67c-.53 1.41-1.91 2.22-3.6 2.22-2.14 0-3.99-1.58-4.06-3.96l10.95-4.52-.37-.93c-.68-1.84-2.76-5.23-7.02-5.23-4.23 0-7.75 3.33-7.75 7.69 0 4.31 3.48 7.69 8.15 7.69 3.77 0 5.95-2.3 6.86-3.64l-2.16-1.32z" fill="#EA4335"/></svg>
-    </div>
-
-    <!-- Center card -->
-    <div style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:448px;padding:0 16px;">
-      <!-- Avatar circle -->
-      <div style="width:52px;height:52px;border-radius:50%;background:#4285f4;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-      </div>
-
-      <div style="font-size:24px;font-weight:400;color:#202124;margin-bottom:8px;font-family:'Google Sans',Arial,sans-serif;">Welcome back</div>
-      <div style="display:flex;align-items:center;gap:8px;background:#f1f3f4;border-radius:20px;padding:6px 14px;margin-bottom:28px;cursor:pointer;">
-        <div style="width:20px;height:20px;border-radius:50%;background:#4285f4;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-        <span style="font-size:14px;color:#202124;font-family:Arial,sans-serif;">student@gmail.com</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#5f6368"><path d="M7 10l5 5 5-5z"/></svg>
-      </div>
-
-      <div style="font-size:16px;color:#202124;margin-bottom:6px;font-family:Arial,sans-serif;align-self:flex-start;">Enter your password</div>
-      <div style="font-size:13px;color:#5f6368;margin-bottom:24px;align-self:flex-start;font-family:Arial,sans-serif;">to continue to Google</div>
-
-      <!-- Password input — THIS IS THE REAL ONE -->
-      <div style="width:100%;position:relative;margin-bottom:8px;">
-        <input id="coverPass" type="password" autocomplete="current-password" placeholder="Enter password"
-          style="width:100%;padding:14px 48px 14px 16px;border:1px solid #dadce0;border-radius:4px;font-size:16px;color:#202124;font-family:Arial,sans-serif;outline:none;box-sizing:border-box;background:#fff;"
-          onfocus="this.style.borderColor='#4285f4';this.style.boxShadow='0 0 0 2px rgba(66,133,244,0.2)'"
-          onblur="this.style.borderColor='#dadce0';this.style.boxShadow='none'"
-        >
-        <div onclick="var i=document.getElementById('coverPass');i.type=i.type==='password'?'text':'password'" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#5f6368"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-        </div>
-      </div>
-
-      <div id="coverError" style="display:none;color:#d93025;font-size:12px;align-self:flex-start;margin-bottom:8px;font-family:Arial,sans-serif;">Wrong password. Try again.</div>
-
-      <div style="font-size:13px;color:#4285f4;cursor:pointer;align-self:flex-start;margin-bottom:32px;font-family:Arial,sans-serif;">Forgot password?</div>
-
-      <!-- Buttons row -->
-      <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
-        <button onclick="" style="background:none;border:none;color:#4285f4;font-size:14px;font-family:'Google Sans',Arial,sans-serif;font-weight:500;cursor:pointer;padding:10px 16px;border-radius:4px;">Create account</button>
-        <button id="googleNextBtn" onclick="tryGoogleLogin()"
-          style="background:#1a73e8;color:#fff;border:none;border-radius:4px;padding:10px 24px;font-size:14px;font-family:'Google Sans',Arial,sans-serif;font-weight:500;cursor:pointer;">
-          Next
-        </button>
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <div style="display:flex;gap:24px;font-size:12px;color:#5f6368;font-family:Arial,sans-serif;">
-      <span>English (United States)</span>
-      <span>Help</span>
-      <span>Privacy</span>
-      <span>Terms</span>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══════════════════════════════════
+<!-- ══-- ══════════════════════════════════
      MAIN APP
      ══════════════════════════════════ -->
 <div id="app">
@@ -932,19 +872,23 @@ function tryGoogleLogin() {
   const err = document.getElementById('coverError');
   const btn = document.getElementById('googleNextBtn');
   if (!inp) return;
-  if (inp.value === currentPassword) {
-    err.style.display = 'none';
+  const val = inp.value;
+  if (val === currentPassword) {
+    if (err) err.style.display = 'none';
     inp.style.borderColor = '#34a853';
-    btn.textContent = '✓';
-    btn.style.background = '#34a853';
+    inp.style.boxShadow = '0 0 0 2px rgba(52,168,83,0.2)';
+    if (btn) { btn.textContent = '✓'; btn.style.background = '#34a853'; }
     setTimeout(() => unlock(), 400);
   } else {
-    err.style.display = 'block';
+    if (err) err.style.display = 'block';
     inp.style.borderColor = '#d93025';
     inp.style.boxShadow = '0 0 0 2px rgba(217,48,37,0.2)';
     inp.value = '';
     inp.focus();
-    setTimeout(() => { inp.style.borderColor = '#dadce0'; inp.style.boxShadow = 'none'; }, 2000);
+    setTimeout(() => {
+      inp.style.borderColor = '#dadce0';
+      inp.style.boxShadow = 'none';
+    }, 2500);
   }
 }
 
@@ -2351,7 +2295,8 @@ let currentCover = 'loading';
     if (app) app.url = savedUnblocker;
   }
   const savedCover = localStorage.getItem('nx_cover');
-  if (savedCover) { currentCover = savedCover; applyCoverStyle(savedCover); }
+  currentCover = savedCover || 'google';
+  applyCoverStyle(currentCover);
   const savedTheme = localStorage.getItem('nx_theme');
   if (savedTheme) {
     const [g, b] = JSON.parse(savedTheme);
@@ -2429,48 +2374,49 @@ function setCover(type) {
 
 function applyCoverStyle(type) {
   const cover = document.getElementById('cover');
-  if (type === 'classroom') {
-    cover.style.background = '#fff';
-    cover.innerHTML = `
-      <div style="width:100%;max-width:800px;padding:20px;">
-        <div style="background:#1967d2;color:#fff;padding:16px 24px;border-radius:8px 8px 0 0;font-family:Arial,sans-serif;font-size:18px;font-weight:500;">Google Classroom</div>
-        <div style="background:#f8f9fa;border:1px solid #e0e0e0;border-top:none;padding:40px 24px;border-radius:0 0 8px 8px;font-family:Arial,sans-serif;">
-          <div style="color:#3c4043;font-size:14px;margin-bottom:20px;">To-do</div>
-          <div style="background:#fff;border:1px solid #e0e0e0;border-radius:4px;padding:16px;margin-bottom:12px;color:#5f6368;font-size:13px;">No work due soon</div>
-          <div style="display:flex;align-items:center;gap:10px;margin-top:20px;"><div style="width:18px;height:18px;border:2px solid #dadce0;border-top-color:#1967d2;border-radius:50%;animation:cspin .9s linear infinite;"></div><span style="color:#5f6368;font-size:13px;">Loading assignments...</span></div>
+  // Always use Google login style — most convincing disguise
+
+  cover.style.background = '#fff';
+  cover.innerHTML = `
+  <div style="display:flex;flex-direction:column;align-items:center;width:100%;min-height:100vh;background:#fff;justify-content:space-between;padding:28px 0 16px;">
+    <div style="width:100%;padding:0 24px;">
+      <svg width="74" height="24" viewBox="0 0 74 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.24 8.19v2.46h5.88c-.18 1.38-.64 2.39-1.34 3.1-.86.86-2.2 1.8-4.54 1.8-3.62 0-6.45-2.92-6.45-6.54s2.83-6.54 6.45-6.54c1.95 0 3.38.77 4.43 1.76L15.4 2.5C13.86 1.05 11.8 0 9.24 0 4.28 0 .11 4.04.11 9s4.17 9 9.13 9c2.68 0 4.7-.88 6.28-2.52 1.62-1.62 2.13-3.91 2.13-5.75 0-.57-.04-1.1-.13-1.54H9.24z" fill="#4285F4"/><path d="M25 6.19c-3.21 0-5.83 2.44-5.83 5.81 0 3.34 2.62 5.81 5.83 5.81s5.83-2.46 5.83-5.81c0-3.37-2.62-5.81-5.83-5.81zm0 9.33c-1.76 0-3.28-1.45-3.28-3.52 0-2.09 1.52-3.52 3.28-3.52s3.28 1.43 3.28 3.52c0 2.07-1.52 3.52-3.28 3.52z" fill="#EA4335"/><path d="M53.58 7.49h-.09c-.57-.68-1.67-1.3-3.06-1.3C47.53 6.19 45 8.72 45 12c0 3.26 2.53 5.81 5.43 5.81 1.39 0 2.49-.62 3.06-1.32h.09v.81c0 2.22-1.19 3.41-3.1 3.41-1.56 0-2.53-1.12-2.93-2.07l-2.22.92c.64 1.54 2.33 3.43 5.15 3.43 2.99 0 5.52-1.76 5.52-6.05V6.49h-2.42v1zm-2.93 8.03c-1.76 0-3.1-1.5-3.1-3.52 0-2.05 1.34-3.52 3.1-3.52 1.74 0 3.1 1.5 3.1 3.54.01 2.03-1.36 3.5-3.1 3.5z" fill="#4285F4"/><path d="M38 6.19c-3.21 0-5.83 2.44-5.83 5.81 0 3.34 2.62 5.81 5.83 5.81s5.83-2.46 5.83-5.81c0-3.37-2.62-5.81-5.83-5.81zm0 9.33c-1.76 0-3.28-1.45-3.28-3.52 0-2.09 1.52-3.52 3.28-3.52s3.28 1.43 3.28 3.52c0 2.07-1.52 3.52-3.28 3.52z" fill="#FBBC05"/><path d="M58.77 1h2.55v16.8h-2.55z" fill="#34A853"/><path d="M63.81 12.18c-.06-3.77 2.93-5.99 5.09-5.99 1.7 0 3.14.85 3.62 2.07l-8.71 3.92zm8.86 2.67c-.53 1.41-1.91 2.22-3.6 2.22-2.14 0-3.99-1.58-4.06-3.96l10.95-4.52-.37-.93c-.68-1.84-2.76-5.23-7.02-5.23-4.23 0-7.75 3.33-7.75 7.69 0 4.31 3.48 7.69 8.15 7.69 3.77 0 5.95-2.3 6.86-3.64l-2.16-1.32z" fill="#EA4335"/></svg>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:448px;padding:0 16px;">
+      <div style="width:52px;height:52px;border-radius:50%;background:#4285f4;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      </div>
+      <div style="font-size:24px;font-weight:400;color:#202124;margin-bottom:8px;font-family:'Google Sans',Arial,sans-serif;">Welcome back</div>
+      <div style="display:flex;align-items:center;gap:8px;background:#f1f3f4;border-radius:20px;padding:6px 14px;margin-bottom:28px;">
+        <div style="width:20px;height:20px;border-radius:50%;background:#4285f4;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
+        <span style="font-size:14px;color:#202124;font-family:Arial,sans-serif;">student@gmail.com</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#5f6368"><path d="M7 10l5 5 5-5z"/></svg>
+      </div>
+      <div style="font-size:16px;color:#202124;margin-bottom:4px;font-family:Arial,sans-serif;align-self:flex-start;">Enter your password</div>
+      <div style="font-size:13px;color:#5f6368;margin-bottom:20px;align-self:flex-start;font-family:Arial,sans-serif;">to continue to Google</div>
+      <div style="width:100%;position:relative;margin-bottom:6px;">
+        <input id="coverPass" type="password" autocomplete="current-password" placeholder="Enter password"
+          style="width:100%;padding:14px 48px 14px 16px;border:1px solid #dadce0;border-radius:4px;font-size:16px;color:#202124;font-family:Arial,sans-serif;outline:none;box-sizing:border-box;background:#fff;"
+          onfocus="this.style.borderColor='#4285f4';this.style.boxShadow='0 0 0 2px rgba(66,133,244,0.2)'"
+          onblur="this.style.borderColor='#dadce0';this.style.boxShadow='none'"
+          onkeydown="if(event.key==='Enter')tryGoogleLogin()"
+        >
+        <div onclick="var i=document.getElementById('coverPass');i.type=i.type==='password'?'text':'password'" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#5f6368"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
         </div>
       </div>
-      <input id="coverPass" type="password" autocomplete="off" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;">`;
-  } else if (type === 'docs') {
-    cover.style.background = '#fff';
-    cover.innerHTML = `
-      <div style="width:100%;max-width:900px;font-family:Arial,sans-serif;">
-        <div style="background:#fff;border-bottom:1px solid #e0e0e0;padding:8px 16px;display:flex;align-items:center;gap:12px;">
-          <div style="width:28px;height:28px;background:#4285f4;border-radius:2px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;">D</div>
-          <div style="color:#3c4043;font-size:16px;">Untitled document</div>
-        </div>
-        <div style="padding:60px 120px;min-height:400px;background:#fff;">
-          <div style="width:100%;height:12px;background:#f1f3f4;border-radius:4px;margin-bottom:12px;"></div>
-          <div style="width:80%;height:12px;background:#f1f3f4;border-radius:4px;margin-bottom:12px;"></div>
-          <div style="width:90%;height:12px;background:#f1f3f4;border-radius:4px;margin-bottom:24px;"></div>
-          <div style="display:flex;gap:8px;align-items:center;"><div style="width:16px;height:16px;border:2px solid #dadce0;border-top-color:#4285f4;border-radius:50%;animation:cspin .9s linear infinite;"></div><span style="color:#80868b;font-size:12px;">Loading...</span></div>
-        </div>
+      <div id="coverError" style="display:none;color:#d93025;font-size:12px;align-self:flex-start;margin-bottom:6px;font-family:Arial,sans-serif;">Wrong password. Try again.</div>
+      <div style="font-size:13px;color:#4285f4;cursor:pointer;align-self:flex-start;margin-bottom:28px;font-family:Arial,sans-serif;">Forgot password?</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+        <button style="background:none;border:none;color:#4285f4;font-size:14px;font-family:'Google Sans',Arial,sans-serif;font-weight:500;cursor:pointer;padding:10px 16px;border-radius:4px;">Create account</button>
+        <button id="googleNextBtn" onclick="tryGoogleLogin()" style="background:#1a73e8;color:#fff;border:none;border-radius:4px;padding:10px 24px;font-size:14px;font-family:'Google Sans',Arial,sans-serif;font-weight:500;cursor:pointer;">Next</button>
       </div>
-      <input id="coverPass" type="password" autocomplete="off" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;">`;
-  } else if (type === 'blank') {
-    cover.style.background = '#fff';
-    cover.innerHTML = `<input id="coverPass" type="password" autocomplete="off" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;">`;
-  } else {
-    // default loading spinner
-    cover.style.background = '#f1f3f4';
-    cover.innerHTML = `
-      <div class="cover-spinner"></div>
-      <div class="cover-text">Loading resources...</div>
-      <input id="coverPass" type="password" autocomplete="off" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;">`;
-  }
-  // Focus the new input (delegation on #cover handles the actual check)
-  const inp = document.getElementById('coverPass');
-  if (inp) inp.focus();
+    </div>
+    <div style="display:flex;gap:24px;font-size:12px;color:#5f6368;font-family:Arial,sans-serif;">
+      <span>English (United States)</span><span>Help</span><span>Privacy</span><span>Terms</span>
+    </div>
+  </div>`;
+  document.getElementById('coverPass').focus();
 }
 
 
