@@ -867,20 +867,35 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 let currentPassword = 'Jesus247'; // will be overridden by settings
 let typed = '';
 
-// Keep focus on hidden input when on cover
+// Use event delegation on cover so it works even after cover HTML is rebuilt
 document.getElementById('cover').addEventListener('click', () => {
-  document.getElementById('coverPass').focus();
+  const inp = document.getElementById('coverPass');
+  if (inp) inp.focus();
 });
 
-document.getElementById('coverPass').addEventListener('input', function() {
-  typed = this.value;
-  if (typed === currentPassword) unlock();
-});
-
-// Also listen to keydown on the whole cover for keyboards that bypass input
+// Listen for ANY keypress and forward to the hidden input
 document.addEventListener('keydown', (e) => {
-  if (!document.getElementById('cover').style.display !== 'none') return;
-  document.getElementById('coverPass').focus();
+  if (document.getElementById('cover').style.display === 'none') return;
+  const inp = document.getElementById('coverPass');
+  if (inp && document.activeElement !== inp) inp.focus();
+});
+
+// Use delegated input event so it fires even if cover is rebuilt
+document.getElementById('cover').addEventListener('input', function(e) {
+  if (e.target && e.target.id === 'coverPass') {
+    if (e.target.value === currentPassword) {
+      e.target.value = '';
+      unlock();
+    }
+  }
+});
+
+// Also direct listener as fallback (works on initial load before any rebuild)
+document.getElementById('coverPass').addEventListener('input', function() {
+  if (this.value === currentPassword) {
+    this.value = '';
+    unlock();
+  }
 });
 
 function unlock() {
@@ -2396,13 +2411,9 @@ function applyCoverStyle(type) {
       <div class="cover-text">Loading resources...</div>
       <input id="coverPass" type="password" autocomplete="off" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;">`;
   }
-  // Re-attach password listener after rebuilding cover HTML
+  // Focus the new input (delegation on #cover handles the actual check)
   const inp = document.getElementById('coverPass');
-  if (inp) {
-    inp.addEventListener('input', function() {
-      if (this.value === currentPassword) unlock();
-    });
-  }
+  if (inp) inp.focus();
 }
 
 
