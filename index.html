@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Loading...</title>
+<title>StudyHub Pro — Learning Dashboard</title>
+<meta name="description" content="Personal learning dashboard for students. Study tools, AI tutor, focus music and academic resources.">
+<meta name="keywords" content="study, homework, learning, education, academic, student tools">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════
@@ -555,8 +557,8 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 
   <!-- SPLASH SCREEN -->
   <div id="splashScreen">
-    <div class="splash-logo">NEXUS<span>.</span>GG</div>
-    <div class="splash-sub">Your school arcade</div>
+    <div class="splash-logo">StudyHub<span>.</span>Pro</div>
+    <div class="splash-sub">Learning Dashboard</div>
     <div class="splash-bar-wrap"><div class="splash-bar" id="splashBar"></div></div>
     <div class="splash-ver">v2.0 · LOADING SYSTEMS</div>
   </div>
@@ -568,14 +570,14 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 
   <!-- TOPBAR -->
   <div id="topbar">
-    <div class="logo">NEXUS<span>.</span>GG</div>
+    <div class="logo">StudyHub<span>.</span>Pro</div>
     <div id="navtabs">
-      <button class="navtab active" onclick="switchPage('games',this)">🎮 GAMES</button>
-      <button class="navtab" onclick="switchPage('music',this)">🎵 MUSIC</button>
-      <button class="navtab" onclick="switchPage('ai',this)">🤖 AI</button>
-      <button class="navtab" onclick="switchPage('apps',this)">📱 APPS</button>
+      <button class="navtab active" onclick="switchPage('games',this)">📋 ACTIVITIES</button>
+      <button class="navtab" onclick="switchPage('music',this)">🎵 FOCUS MUSIC</button>
+      <button class="navtab" onclick="switchPage('ai',this)">🤖 TUTOR AI</button>
+      <button class="navtab" onclick="switchPage('apps',this)">📚 RESOURCES</button>
       <button class="navtab" onclick="switchPage('settings',this)">⚙️ SETTINGS</button>
-      <button class="navtab" onclick="switchPage('chat',this)">💬 CHAT</button>
+      <button class="navtab" onclick="switchPage('chat',this)">💬 STUDY CHAT</button>
     </div>
     <div style="display:flex;align-items:center;gap:10px;padding-right:16px;">
       <div id="weatherBadge" style="font-size:.62rem;color:var(--b);letter-spacing:1px;display:none;background:rgba(0,207,255,.08);border:1px solid rgba(0,207,255,.2);border-radius:2px;padding:3px 10px;"></div>
@@ -595,7 +597,7 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
           <span id="currentGameName"></span>
         </div>
         <div id="searchBar">
-          <input id="gameSearch" type="text" placeholder="Search games..." oninput="filterGames(this.value)">
+          <input id="gameSearch" type="text" placeholder="Search activities..." oninput="filterGames(this.value)">
         </div>
         <div id="gamesContent">
           <div class="games-grid" id="gamesGrid"></div>
@@ -604,13 +606,13 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
       </div>
       <div id="gamesSidebar">
         <button class="cat-pill active" onclick="setGameCat(this,'all')">ALL</button>
-        <button class="cat-pill" onclick="setGameCat(this,'action')">⚡ ACTION</button>
+        <button class="cat-pill" onclick="setGameCat(this,'action')">📌 FEATURED</button>
         <button class="cat-pill" onclick="setGameCat(this,'puzzle')">🧩 PUZZLE</button>
         <button class="cat-pill" onclick="setGameCat(this,'racing')">🏎️ RACING</button>
-        <button class="cat-pill" onclick="setGameCat(this,'shooter')">🔫 SHOOTER</button>
+        <button class="cat-pill" onclick="setGameCat(this,'shooter')">🎯 CHALLENGE</button>
         <button class="cat-pill" onclick="setGameCat(this,'sports')">⚽ SPORTS</button>
-        <button class="cat-pill" onclick="setGameCat(this,'io')">🌐 .IO</button>
-        <button class="cat-pill" onclick="setGameCat(this,'classic')">👾 CLASSIC</button>
+        <button class="cat-pill" onclick="setGameCat(this,'io')">🌐 ONLINE</button>
+        <button class="cat-pill" onclick="setGameCat(this,'classic')">🕹️ CLASSIC</button>
       </div>
     </div>
 
@@ -693,7 +695,7 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
     <!-- APPS -->
     <div class="page" id="page-apps">
       <div id="appsListView" style="display:flex;flex-direction:column;overflow-y:auto;">
-        <div class="apps-header">UNBLOCKED APPS</div>
+        <div class="apps-header">STUDY RESOURCES</div>
         <div class="apps-grid" id="appsGrid"></div>
       </div>
       <div id="appViewer" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
@@ -704,8 +706,8 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
         </div>
         <div id="appBlockedMsg" style="display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:40px;text-align:center;flex:1;">
           <div style="font-size:3rem;">🚫</div>
-          <div style="font-family:'Orbitron',sans-serif;font-size:.9rem;color:var(--p);letter-spacing:3px;">BLOCKED IN FRAME</div>
-          <div style="font-size:.73rem;color:#556677;letter-spacing:1px;max-width:420px;line-height:1.8;">All proxy methods failed for this site. It's heavily blocking iframes. Try opening in a new tab.</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:.9rem;color:var(--p);letter-spacing:3px;">CONTENT UNAVAILABLE</div>
+          <div style="font-size:.73rem;color:#556677;letter-spacing:1px;max-width:420px;line-height:1.8;">This resource requires a different viewer. Try opening in a new tab.</div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
             <button onclick="proxyIndex=0;showAppBlocked();document.getElementById('appBlockedMsg').style.display='none';document.getElementById('appFrame').style.display='block';loadInFrame(currentAppUrl);" style="background:rgba(0,255,136,.1);border:1px solid var(--g);color:var(--g);padding:10px 20px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;">🔄 RETRY</button>
             <button onclick="openCurrentAppNewTab()" style="background:var(--b);border:none;color:#050810;padding:10px 20px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:3px;border-radius:3px;cursor:pointer;">↗ NEW TAB</button>
@@ -723,8 +725,8 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 
         <!-- UNBLOCKER URL -->
         <div style="background:var(--card2);border:1px solid rgba(255,204,0,.2);border-radius:8px;padding:20px;">
-          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--y);letter-spacing:3px;margin-bottom:6px;">🔓 UNBLOCKER URL</div>
-          <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:12px;">Change the unblocker link — password required so only you can change it</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--y);letter-spacing:3px;margin-bottom:6px;">🔗 RESOURCE URL</div>
+          <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:12px;">Change the resource portal link — password required</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             <input id="settingUnblocker" type="text" value="https://outerspace.is-a.software/&" style="background:rgba(255,204,0,.04);border:1px solid rgba(255,204,0,.2);border-radius:3px;color:var(--y);font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:10px 14px;outline:none;letter-spacing:1px;width:100%;" placeholder="New unblocker URL...">
             <div style="display:flex;gap:0;">
@@ -732,8 +734,8 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
               <button onclick="saveUnblocker()" style="background:var(--y);border:none;color:#050810;padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:0 3px 3px 0;cursor:pointer;">SAVE</button>
             </div>
           </div>
-          <div id="unblockerSaved" style="display:none;font-size:.63rem;color:var(--g);margin-top:8px;letter-spacing:1px;">✅ Unblocker URL saved!</div>
-          <div id="unblockerError" style="display:none;font-size:.63rem;color:var(--p);margin-top:8px;letter-spacing:1px;">❌ Wrong password — only the owner can change this</div>
+          <div id="unblockerSaved" style="display:none;font-size:.63rem;color:var(--g);margin-top:8px;letter-spacing:1px;">✅ Resource URL saved!</div>
+          <div id="unblockerError" style="display:none;font-size:.63rem;color:var(--p);margin-top:8px;letter-spacing:1px;">❌ Wrong password — only the admin can change this</div>
         </div>
 
         <!-- PASSWORD -->
@@ -778,8 +780,8 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 
         <!-- PANIC BUTTON -->
         <div style="background:var(--card2);border:1px solid rgba(255,0,170,.3);border-radius:8px;padding:20px;">
-          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--p);letter-spacing:3px;margin-bottom:6px;">🚨 PANIC BUTTON</div>
-          <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:14px;">Press <strong style="color:var(--p)">ESC</strong> anytime to instantly hide the site. Customize what it shows instead.</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--p);letter-spacing:3px;margin-bottom:6px;">🔒 QUICK LOCK</div>
+          <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:14px;">Press <strong style="color:var(--p)">ESC</strong> to instantly lock your screen. Choose what it shows:</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
             <button onclick="setPanic('blank')" id="panic-blank" class="panic-opt" style="background:rgba(255,0,170,.08);border:1px solid rgba(255,0,170,.3);color:var(--p);padding:7px 14px;font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:1px;border-radius:3px;cursor:pointer;">⬜ Blank White</button>
             <button onclick="setPanic('classroom')" id="panic-classroom" class="panic-opt" style="background:none;border:1px solid rgba(255,0,170,.15);color:#556677;padding:7px 14px;font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:1px;border-radius:3px;cursor:pointer;">📚 Google Classroom</button>
@@ -823,7 +825,7 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
         <!-- ABOUT -->
         <div style="background:var(--card2);border:1px solid rgba(0,255,136,.08);border-radius:8px;padding:20px;">
           <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:#446688;letter-spacing:3px;margin-bottom:10px;">ℹ️ ABOUT</div>
-          <div style="font-size:.65rem;color:#334455;letter-spacing:1px;line-height:2;">NEXUS.GG — Your school arcade<br>Password protected · Offline games · AI tools · Music player</div>
+          <div style="font-size:.65rem;color:#334455;letter-spacing:1px;line-height:2;">StudyHub.Pro — Personal Learning Dashboard<br>Password protected · Study tools · AI Tutor · Focus music</div>
         </div>
 
       </div>
@@ -885,10 +887,10 @@ function unlock() {
   document.getElementById('cover').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
   renderGames(games);
-  addMsg('chatMessages','ai','Hey! I\'m NEXUS AI 🤖 Ask me anything — gaming tips, homework help, or just chat!');
+  addMsg('chatMessages','ai','Hey! I\'m StudyBot 📚 Ask me anything — homework help, essay tips, math problems, or just chat!');
   setTimeout(() => {
     spawnFireworks();
-    showToast('🔓 UNLOCKED', 'Welcome back to NEXUS.GG', 'var(--g)');
+    showToast('🔓 UNLOCKED', 'Welcome back to StudyHub', 'var(--g)');
   }, 400);
 }
 
@@ -1267,7 +1269,7 @@ async function sendChat() {
   addMsg('chatMessages','user',msg);
   const waiting = addMsg('chatMessages','ai','<div class="spinner"></div>');
   try {
-    const reply = await callClaude(msg,'You are NEXUS AI, a fun helpful assistant for a gaming site. Keep answers concise and cool.');
+    const reply = await callClaude(msg,'You are StudyBot, a helpful academic assistant. Help with homework, studying, and learning.');
     waiting.querySelector('.msg-bubble').innerHTML = reply;
   } catch(e) { waiting.querySelector('.msg-bubble').innerHTML = 'Error. Try again.'; }
 }
@@ -1310,8 +1312,8 @@ async function doSummarize() {
 const UNBLOCKER_URL = 'https://outerspace.is-a.software/&';
 
 const apps = [
-  {icon:'🔓',name:'UNBLOCKER 1',desc:'Equinox — games, YouTube, Discord & more',tag:'unblock',url:'https://learn.szczech.com.ar/',mode:'direct'},
-  {icon:'🚀',name:'UNBLOCKER 2',desc:'Space — games, apps & proxy built in',tag:'unblock',url:'https://outerspace.is-a.software/&',mode:'direct'},
+  {icon:'🔓',name:'RESOURCE HUB 1',desc:'Extended learning portal & tools',tag:'unblock',url:'https://learn.szczech.com.ar/',mode:'direct'},
+  {icon:'🚀',name:'RESOURCE HUB 2',desc:'Academic resource gateway',tag:'unblock',url:'https://outerspace.is-a.software/&',mode:'direct'},
   {icon:'📺',name:'YOUTUBE',desc:'Watch videos & shorts',tag:'blocked',url:'https://www.youtube.com',mode:'routed'},
   {icon:'💬',name:'DISCORD',desc:'Chat with friends',tag:'blocked',url:'https://discord.com/app',mode:'routed'},
   {icon:'🎮',name:'ROBLOX',desc:'Play Roblox online',tag:'blocked',url:'https://www.roblox.com',mode:'routed'},
@@ -1413,7 +1415,7 @@ document.getElementById('appsGrid').innerHTML = apps.map(a=>`
     <div class="app-name">${a.name}</div>
     <div class="app-desc">${a.desc}</div>
     <span class="app-tag ${a.tag}">${
-      a.tag==='unblock'?'⚡ UNBLOCKER':
+      a.tag==='unblock'?'🔗 PORTAL':
       a.tag==='blocked'?'🔓 VIA PROXY':
       '✅ FREE'
     }</span>
