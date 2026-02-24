@@ -518,8 +518,24 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 
     <!-- APPS -->
     <div class="page" id="page-apps">
-      <div class="apps-header">UNBLOCKED APPS</div>
-      <div class="apps-grid" id="appsGrid"></div>
+      <div id="appsListView" style="display:flex;flex-direction:column;overflow-y:auto;">
+        <div class="apps-header">UNBLOCKED APPS</div>
+        <div class="apps-grid" id="appsGrid"></div>
+      </div>
+      <div id="appViewer" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;background:rgba(0,0,0,.7);border-bottom:1px solid var(--border);flex-shrink:0;">
+          <button onclick="closeAppViewer()" style="background:none;border:1px solid rgba(255,0,170,.3);color:var(--p);padding:5px 14px;font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:2px;border-radius:2px;cursor:pointer;">← BACK</button>
+          <span id="appViewerName" style="font-family:'Orbitron',sans-serif;font-size:.7rem;color:#c0d8ff;letter-spacing:2px;flex:1;"></span>
+          <button onclick="openCurrentAppNewTab()" style="background:none;border:1px solid rgba(0,207,255,.3);color:var(--b);padding:5px 14px;font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:2px;border-radius:2px;cursor:pointer;">↗ NEW TAB</button>
+        </div>
+        <div id="appBlockedMsg" style="display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:40px;text-align:center;flex:1;">
+          <div style="font-size:3rem;">🚫</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:.9rem;color:var(--p);letter-spacing:3px;">BLOCKED IN FRAME</div>
+          <div style="font-size:.73rem;color:#556677;letter-spacing:1px;max-width:420px;line-height:1.8;">This site won't load inside a frame. Open it in a new tab instead.</div>
+          <button onclick="openCurrentAppNewTab()" style="background:var(--b);border:none;color:#050810;padding:11px 24px;font-family:'Orbitron',monospace;font-size:.68rem;font-weight:700;letter-spacing:3px;border-radius:3px;cursor:pointer;">↗ OPEN IN NEW TAB</button>
+        </div>
+        <iframe id="appFrame" style="flex:1;border:none;width:100%;background:#000;" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock allow-top-navigation"></iframe>
+      </div>
     </div>
 
   </div><!-- /main -->
@@ -798,8 +814,46 @@ const apps = [
   {icon:'🌐',name:'GOOGLE TRANSLATE',desc:'Translate anything',tag:'free',url:'https://translate.google.com'},
 ];
 
+let currentAppUrl = '';
+
+function openApp(url, name) {
+  currentAppUrl = url;
+  document.getElementById('appsListView').style.display = 'none';
+  document.getElementById('appViewer').style.display = 'flex';
+  document.getElementById('appViewerName').textContent = name;
+  document.getElementById('appBlockedMsg').style.display = 'none';
+  const frame = document.getElementById('appFrame');
+  frame.style.display = 'block';
+  frame.src = url;
+  // Detect if site blocked the iframe after 3s
+  frame.onerror = () => showAppBlocked();
+  setTimeout(() => {
+    try {
+      // If frame loaded but is blank/blocked, show fallback
+      if (!frame.contentDocument || frame.contentDocument.body.innerHTML === '') showAppBlocked();
+    } catch(e) {
+      // cross-origin means it actually loaded — good!
+    }
+  }, 4000);
+}
+
+function showAppBlocked() {
+  document.getElementById('appFrame').style.display = 'none';
+  document.getElementById('appBlockedMsg').style.display = 'flex';
+}
+
+function closeAppViewer() {
+  document.getElementById('appFrame').src = 'about:blank';
+  document.getElementById('appViewer').style.display = 'none';
+  document.getElementById('appsListView').style.display = 'flex';
+}
+
+function openCurrentAppNewTab() {
+  window.open(currentAppUrl, '_blank');
+}
+
 document.getElementById('appsGrid').innerHTML = apps.map(a=>`
-  <div class="app-card${a.tag==='unblock'?' featured':''}" onclick="window.open('${a.url}','_blank')">
+  <div class="app-card${a.tag==='unblock'?' featured':''}" onclick="openApp('${a.url}','${a.icon} ${a.name}')">
     <div class="app-icon">${a.icon}</div>
     <div class="app-name">${a.name}</div>
     <div class="app-desc">${a.desc}</div>
