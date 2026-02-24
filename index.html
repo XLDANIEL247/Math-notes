@@ -909,56 +909,38 @@ function switchPage(id, btn) {
 // GAMES
 // ══════════════════════════════════
 const games = [
-  // IO GAMES
-  { name:'SLITHER.IO', emoji:'🐍', cat:'io', url:'https://slither.io', rating:'4.9', plays:'50M+', gif:'https://media.giphy.com/media/3oEjHV0z8S7WM4MwnK/giphy.gif' },
-  { name:'AGAR.IO', emoji:'🔵', cat:'io', url:'https://agar.io', rating:'4.8', plays:'30M+', gif:'https://media.giphy.com/media/l0HlQ7LRalQqdWfao/giphy.gif' },
-  { name:'PAPER.IO 2', emoji:'📄', cat:'io', url:'https://paper-io.com', rating:'4.7', plays:'20M+', gif:'' },
-  { name:'LORDZ.IO', emoji:'👑', cat:'io', url:'https://www.lordz.io', rating:'4.5', plays:'5M+', gif:'' },
-  { name:'DIEP.IO', emoji:'🔫', cat:'io', url:'https://diep.io', rating:'4.6', plays:'12M+', gif:'' },
-  { name:'MOPE.IO', emoji:'🐻', cat:'io', url:'https://mope.io', rating:'4.4', plays:'8M+', gif:'' },
-  { name:'ZOMBS ROYALE', emoji:'🧟', cat:'io', url:'https://zombsroyale.io', rating:'4.7', plays:'15M+', gif:'https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/giphy.gif' },
+  // These use github.io / itch.io / classroom-safe domains less likely to be blocked
+  // IO / ONLINE
+  { name:'SLITHER.IO', emoji:'🐍', cat:'io', url:'https://slither.io', rating:'4.9', plays:'50M+', gif:'' },
+  { name:'KRUNKER.IO', emoji:'🎯', cat:'io', url:'https://krunker.io', rating:'4.9', plays:'15M+', gif:'' },
+  { name:'ZOMBS ROYALE', emoji:'🧟', cat:'io', url:'https://zombsroyale.io', rating:'4.7', plays:'15M+', gif:'' },
   { name:'SURVIV.IO', emoji:'🪖', cat:'io', url:'https://surviv.io', rating:'4.8', plays:'20M+', gif:'' },
-  { name:'WORMATE.IO', emoji:'🍭', cat:'io', url:'https://wormate.io', rating:'4.5', plays:'7M+', gif:'' },
-  { name:'WINGS.IO', emoji:'✈️', cat:'io', url:'https://wings.io', rating:'4.4', plays:'5M+', gif:'' },
-  // SHOOTER
-  { name:'KRUNKER.IO', emoji:'🎯', cat:'shooter', url:'https://krunker.io', rating:'4.9', plays:'15M+', gif:'https://media.giphy.com/media/3oEjHWpiMWn7jLExQI/giphy.gif' },
   { name:'SHELL SHOCKERS', emoji:'🥚', cat:'shooter', url:'https://shellshock.io', rating:'4.8', plays:'10M+', gif:'' },
-  { name:'BULLET FORCE', emoji:'🔫', cat:'shooter', url:'https://www.crazygames.com/game/bullet-force-multiplayer', rating:'4.7', plays:'8M+', gif:'https://media.giphy.com/media/xT9IgG50Lg7russbDa/giphy.gif' },
-  { name:'COMBAT ONLINE', emoji:'💥', cat:'shooter', url:'https://www.crazygames.com/game/combat-online', rating:'4.5', plays:'4M+', gif:'' },
-  // RACING
-  { name:'MOTO X3M', emoji:'🏍️', cat:'racing', url:'https://www.motox3m.com', rating:'4.8', plays:'8M+', gif:'https://media.giphy.com/media/26BRBKqUiq586bRVm/giphy.gif' },
-  { name:'DRIFT BOSS', emoji:'🚗', cat:'racing', url:'https://driftboss.io', rating:'4.6', plays:'5M+', gif:'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif' },
-  { name:'ROAD FURY', emoji:'🚙', cat:'racing', url:'https://www.crazygames.com/game/road-fury', rating:'4.5', plays:'3M+', gif:'' },
-  { name:'MOTO X3M WINTER', emoji:'❄️', cat:'racing', url:'https://www.crazygames.com/game/moto-x3m-winter', rating:'4.7', plays:'4M+', gif:'' },
-  { name:'BURNOUT DRIFT', emoji:'💨', cat:'racing', url:'https://www.crazygames.com/game/burnout-drift', rating:'4.6', plays:'3M+', gif:'' },
-  // PUZZLE
-  { name:'2048', emoji:'🧩', cat:'puzzle', url:'https://play2048.co', rating:'4.7', plays:'100M+', gif:'https://media.giphy.com/media/3o7TKDEhaCALECx7a8/giphy.gif' },
-  { name:'UNBLOCK ME', emoji:'🟧', cat:'puzzle', url:'https://www.crazygames.com/game/unblock-it', rating:'4.5', plays:'5M+', gif:'' },
-  { name:'CUT THE ROPE', emoji:'🍬', cat:'puzzle', url:'https://www.crazygames.com/game/cut-the-rope-remastered', rating:'4.8', plays:'10M+', gif:'https://media.giphy.com/media/xT9IgE1zDPQXr9Kqms/giphy.gif' },
-  { name:'MAHJONG', emoji:'🀄', cat:'puzzle', url:'https://www.crazygames.com/game/mahjong-classic', rating:'4.6', plays:'8M+', gif:'' },
-  { name:'SUDOKU', emoji:'🔢', cat:'puzzle', url:'https://sudoku.com', rating:'4.7', plays:'20M+', gif:'' },
-  // ACTION
-  { name:'MINECRAFT CLASSIC', emoji:'⛏️', cat:'action', url:'https://classic.minecraft.net', rating:'4.9', plays:'50M+', gif:'https://media.giphy.com/media/3oEjHAUOqG3lSS0f1C/giphy.gif' },
-  { name:'AMONG US ONLINE', emoji:'🔴', cat:'action', url:'https://www.crazygames.com/game/among-us-online-edition', rating:'4.7', plays:'20M+', gif:'https://media.giphy.com/media/KzCRxnkXuaspcfFGMG/giphy.gif' },
+  // GITHUB.IO HOSTED (most school filters whitelist github.io)
+  { name:'2048', emoji:'🧩', cat:'puzzle', url:'https://gabrielecirulli.github.io/2048/', rating:'4.9', plays:'100M+', gif:'' },
+  { name:'DOOM', emoji:'👹', cat:'action', url:'https://dos.zone/doom-dec-1993/', rating:'4.9', plays:'10M+', gif:'' },
+  { name:'WOLFENSTEIN', emoji:'🔫', cat:'shooter', url:'https://dos.zone/wolfenstein-3d-may-1992/', rating:'4.8', plays:'5M+', gif:'' },
+  { name:'TETRIS', emoji:'🟦', cat:'classic', url:'https://chvin.github.io/react-tetris/', rating:'4.9', plays:'1B+', gif:'' },
+  { name:'PACMAN', emoji:'👾', cat:'classic', url:'https://pacman.platzh1rsch.ch/', rating:'4.9', plays:'1B+', gif:'' },
+  { name:'SNAKE', emoji:'🐍', cat:'classic', url:'https://playsnake.org/', rating:'4.7', plays:'500M+', gif:'' },
+  { name:'FLAPPY BIRD', emoji:'🐤', cat:'classic', url:'https://flappybird.io/', rating:'4.5', plays:'100M+', gif:'' },
+  { name:'DINOSAUR GAME', emoji:'🦖', cat:'classic', url:'https://chromedino.com/', rating:'4.8', plays:'200M+', gif:'' },
+  { name:'COOKIE CLICKER', emoji:'🍪', cat:'classic', url:'https://orteil.dashnet.org/cookieclicker/', rating:'4.6', plays:'10M+', gif:'' },
+  { name:'MINECRAFT CLASSIC', emoji:'⛏️', cat:'action', url:'https://classic.minecraft.net/', rating:'4.9', plays:'50M+', gif:'' },
+  { name:'MOTO X3M', emoji:'🏍️', cat:'racing', url:'https://www.motox3m.com/', rating:'4.8', plays:'8M+', gif:'' },
+  { name:'DRIFT BOSS', emoji:'🚗', cat:'racing', url:'https://driftboss.io/', rating:'4.6', plays:'5M+', gif:'' },
+  { name:'VENGE.IO', emoji:'⚔️', cat:'action', url:'https://venge.io/', rating:'4.7', plays:'6M+', gif:'' },
   { name:'STICKMAN HOOK', emoji:'🕸️', cat:'action', url:'https://www.crazygames.com/game/stickman-hook', rating:'4.8', plays:'12M+', gif:'' },
-  { name:'VENGE.IO', emoji:'⚔️', cat:'action', url:'https://venge.io', rating:'4.7', plays:'6M+', gif:'' },
-  { name:'TEMPLE RUN', emoji:'🏃', cat:'action', url:'https://poki.com/en/g/temple-run-2', rating:'4.8', plays:'40M+', gif:'https://media.giphy.com/media/3oEjI5VtIhAfERmKWk/giphy.gif' },
-  { name:'SUBWAY SURFERS', emoji:'🛹', cat:'action', url:'https://poki.com/en/g/subway-surfers', rating:'4.9', plays:'80M+', gif:'https://media.giphy.com/media/3o6Zt8UGTBCRXqrPag/giphy.gif' },
-  { name:'GEOMETRY DASH LITE', emoji:'🔷', cat:'action', url:'https://www.crazygames.com/game/geometry-dash-classic', rating:'4.8', plays:'15M+', gif:'https://media.giphy.com/media/3oEjHQKtDXpeGN9rW0/giphy.gif' },
-  { name:'FNAF ONLINE', emoji:'🐻', cat:'action', url:'https://www.crazygames.com/game/five-nights-at-freddys', rating:'4.7', plays:'8M+', gif:'https://media.giphy.com/media/l4FGni1RBAR2OWsGk/giphy.gif' },
-  // CLASSIC
-  { name:'TETRIS', emoji:'🟦', cat:'classic', url:'https://tetris.com/play-tetris', rating:'4.9', plays:'1B+', gif:'https://media.giphy.com/media/3o6ZtaO9BZHcOjmErm/giphy.gif' },
-  { name:'PAC-MAN', emoji:'👾', cat:'classic', url:'https://www.google.com/logos/2010/pacman10-i.html', rating:'4.9', plays:'1B+', gif:'https://media.giphy.com/media/3oEjHE6sp5GHuPBLAA/giphy.gif' },
-  { name:'COOKIE CLICKER', emoji:'🍪', cat:'classic', url:'https://orteil.dashnet.org/cookieclicker/', rating:'4.6', plays:'10M+', gif:'https://media.giphy.com/media/3oEdv6oTGJW6ENy6eI/giphy.gif' },
-  { name:'SNAKE', emoji:'🐍', cat:'classic', url:'https://www.google.com/fbx?fbx=snake_arcade', rating:'4.7', plays:'500M+', gif:'' },
-  { name:'DINOSAUR GAME', emoji:'🦖', cat:'classic', url:'https://chromedino.com', rating:'4.8', plays:'200M+', gif:'https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/giphy.gif' },
-  { name:'FLAPPY BIRD', emoji:'🐤', cat:'classic', url:'https://flappybird.io', rating:'4.5', plays:'100M+', gif:'https://media.giphy.com/media/tXL4FHPSnVJ0A/giphy.gif' },
-  // SPORTS
-  { name:'BASKETBALL STARS', emoji:'🏀', cat:'sports', url:'https://www.miniclip.com/games/basketball-stars/en/', rating:'4.7', plays:'3M+', gif:'https://media.giphy.com/media/3oEjHGr1FfjSjS5eMQ/giphy.gif' },
-  { name:'SOCCER SKILLS', emoji:'⚽', cat:'sports', url:'https://www.crazygames.com/game/soccer-skills-world-cup', rating:'4.5', plays:'2M+', gif:'' },
+  { name:'BASKETBALL STARS', emoji:'🏀', cat:'sports', url:'https://www.miniclip.com/games/basketball-stars/en/', rating:'4.7', plays:'3M+', gif:'' },
   { name:'PENALTY SHOOTERS', emoji:'🥅', cat:'sports', url:'https://www.crazygames.com/game/penalty-shooters-2', rating:'4.6', plays:'5M+', gif:'' },
-  { name:'GOLF ORBIT', emoji:'⛳', cat:'sports', url:'https://www.crazygames.com/game/golf-orbit', rating:'4.4', plays:'2M+', gif:'' },
+  { name:'SUDOKU', emoji:'🔢', cat:'puzzle', url:'https://sudoku.com/', rating:'4.7', plays:'20M+', gif:'' },
+  { name:'CHESS', emoji:'♟️', cat:'puzzle', url:'https://www.chess.com/play/computer', rating:'4.9', plays:'50M+', gif:'' },
+  { name:'WORDLE', emoji:'🟩', cat:'puzzle', url:'https://www.nytimes.com/games/wordle/index.html', rating:'4.8', plays:'30M+', gif:'' },
+  { name:'GEOMETRY DASH', emoji:'🔷', cat:'action', url:'https://www.crazygames.com/game/geometry-dash-classic', rating:'4.8', plays:'15M+', gif:'' },
+  { name:'SUBWAY SURFERS', emoji:'🛹', cat:'action', url:'https://poki.com/en/g/subway-surfers', rating:'4.9', plays:'80M+', gif:'' },
+  { name:'AMONG US', emoji:'🔴', cat:'action', url:'https://www.crazygames.com/game/among-us-online-edition', rating:'4.7', plays:'20M+', gif:'' },
   { name:'BOXING RANDOM', emoji:'🥊', cat:'sports', url:'https://www.crazygames.com/game/boxing-random', rating:'4.7', plays:'4M+', gif:'' },
+  { name:'GOLF ORBIT', emoji:'⛳', cat:'sports', url:'https://www.crazygames.com/game/golf-orbit', rating:'4.4', plays:'2M+', gif:'' },
 ];
 
 let activeGameCat = 'all';
@@ -1009,16 +991,57 @@ function openGame(name, emoji, url) {
   document.getElementById('currentGameName').textContent = emoji + ' ' + name;
   document.getElementById('gamesContent').style.display = 'none';
   document.getElementById('gamesBack').style.display = 'flex';
-  document.getElementById('gamesFrame').style.display = 'block';
-  document.getElementById('gamesFrame').src = url;
+  const frame = document.getElementById('gamesFrame');
+  frame.style.display = 'block';
+  frame.src = url;
   showToast('🎮 LOADING', name, 'var(--g)');
+
+  // If game fails to load after 4s, auto-retry through unblocker
+  clearTimeout(frame._gameTimer);
+  frame._gameTimer = setTimeout(() => {
+    try {
+      if (!frame.contentDocument || frame.contentDocument.body === null || frame.contentDocument.title === '') {
+        // show a helper overlay
+        showGameBlockedHelper(name, url);
+      }
+    } catch(e) { /* cross-origin = loaded fine */ }
+  }, 4000);
+}
+
+function showGameBlockedHelper(name, url) {
+  const frame = document.getElementById('gamesFrame');
+  // inject a message into the frame area via overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'gameBlockHelper';
+  overlay.style.cssText = 'position:absolute;inset:0;background:rgba(6,9,16,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:50;';
+  overlay.innerHTML = `
+    <div style="font-size:2.5rem;">🚫</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:.8rem;color:var(--p);letter-spacing:3px;">BLOCKED BY SCHOOL</div>
+    <div style="font-size:.68rem;color:#446688;letter-spacing:1px;text-align:center;max-width:320px;line-height:1.8;">GoGuardian is blocking this game.<br>Open it through your unblocker instead:</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+      <button onclick="document.getElementById('gamesFrame').src='https://learn.szczech.com.ar/';document.getElementById('gameBlockHelper').remove();" style="background:rgba(255,204,0,.1);border:1px solid var(--y);color:var(--y);padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;">🔓 UNBLOCKER 1</button>
+      <button onclick="document.getElementById('gamesFrame').src='https://outerspace.is-a.software/&';document.getElementById('gameBlockHelper').remove();" style="background:rgba(255,204,0,.1);border:1px solid var(--y);color:var(--y);padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;">🚀 UNBLOCKER 2</button>
+      <button onclick="window.open('${url}','_blank');document.getElementById('gameBlockHelper').remove();" style="background:rgba(0,207,255,.1);border:1px solid var(--b);color:var(--b);padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;">↗ NEW TAB</button>
+    </div>
+    <button onclick="document.getElementById('gameBlockHelper').remove();closeGameFrame();" style="background:none;border:none;color:#334455;font-family:'Share Tech Mono',monospace;font-size:.6rem;cursor:pointer;letter-spacing:1px;">← BACK</button>
+  `;
+  const container = document.getElementById('gamesMain');
+  container.style.position = 'relative';
+  // remove old if exists
+  const old = document.getElementById('gameBlockHelper');
+  if (old) old.remove();
+  container.appendChild(overlay);
 }
 
 function closeGameFrame() {
-  document.getElementById('gamesFrame').src = 'about:blank';
-  document.getElementById('gamesFrame').style.display = 'none';
+  const frame = document.getElementById('gamesFrame');
+  clearTimeout(frame._gameTimer);
+  frame.src = 'about:blank';
+  frame.style.display = 'none';
   document.getElementById('gamesContent').style.display = 'block';
   document.getElementById('gamesBack').style.display = 'none';
+  const helper = document.getElementById('gameBlockHelper');
+  if (helper) helper.remove();
 }
 
 // ══════════════════════════════════
