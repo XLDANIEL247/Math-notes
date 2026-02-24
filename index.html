@@ -405,46 +405,7 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 
     <!-- MUSIC -->
     <div class="page" id="page-music">
-      <div id="musicSidebar">
-        <div class="music-sidebar-header">♬ SEARCH MUSIC</div>
-        <input id="musicSearch" type="text" placeholder="Search songs..." onkeydown="if(event.key==='Enter')searchMusic()">
-        <div id="musicResults">
-          <div style="padding:18px 10px;font-size:.63rem;color:#334455;letter-spacing:1px;">Search for a track to play...</div>
-        </div>
-      </div>
-      <div id="musicMain">
-        <div class="now-playing-art"><span id="nowArtwork">🎵</span></div>
-        <div class="now-track-info">
-          <div class="now-title" id="nowTitle">NOT PLAYING</div>
-          <div class="now-artist" id="nowArtist">Search a song on the left</div>
-        </div>
-        <div id="lyricsPanel">
-          <div class="lyric-placeholder">Play a song to see info</div>
-        </div>
-        <div id="musicPlayer" style="position:relative;">
-          <div class="progress-wrap">
-            <span class="time-label" id="timeCur">0:00</span>
-            <div id="progressBar" onclick="seekAudio(event)"><div id="progressFill"></div></div>
-            <span class="time-label" id="timeTot">0:00</span>
-            <div class="waveform" id="waveformEl">
-              <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-              <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-            </div>
-          </div>
-          <div class="music-controls-row">
-            <button class="mc-btn" onclick="shuffleTrack()">🔀</button>
-            <button class="mc-btn" onclick="prevTrack()">⏮</button>
-            <button class="mc-btn play" id="playPauseBtn" onclick="toggleMusicPlay()">▶</button>
-            <button class="mc-btn" onclick="nextTrack()">⏭</button>
-            <button class="mc-btn" onclick="toggleRepeat()" id="repeatBtn">🔁</button>
-          </div>
-          <div class="vol-row">
-            <span>🔈</span>
-            <input type="range" class="vol" min="0" max="100" value="80" oninput="setMusicVol(this.value)">
-            <span>🔊</span>
-          </div>
-        </div>
-      </div>
+      <iframe src="https://vapor.my/page/music/index.html" style="flex:1;border:none;width:100%;height:100%;" allow="autoplay; clipboard-write; fullscreen"></iframe>
     </div>
 
     <!-- AI -->
@@ -762,50 +723,168 @@ let currentMusicIndex = -1;
 let musicQueue = [];
 let repeatMode = false;
 
+// ── MUSIC: Uses iTunes Search API (no key, no CORS issues) + YouTube embed for playback
+let ytPlayer = null;
+let ytReady = false;
+let pendingVideoId = null;
+
+// Load YouTube IFrame API
+(function() {
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+})();
+
+function onYouTubeIframeAPIReady() {
+  ytReady = true;
+  // Create hidden YT player in music panel
+  const div = document.createElement('div');
+  div.id = 'ytPlayerDiv';
+  div.style.cssText = 'position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;';
+  document.body.appendChild(div);
+  ytPlayer = new YT.Player('ytPlayerDiv', {
+    height: '1', width: '1',
+    playerVars: { autoplay: 0, controls: 0 },
+    events: {
+      onReady: () => { if (pendingVideoId) playYT(pendingVideoId); },
+      onStateChange: (e) => {
+        if (e.data === YT.PlayerState.PLAYING) {
+          musicPlaying = true;
+          document.getElementById('playPauseBtn').textContent = '⏸';
+          document.getElementById('waveformEl').classList.remove('paused');
+          startYTProgress();
+        } else if (e.data === YT.PlayerState.PAUSED) {
+          musicPlaying = false;
+          document.getElementById('playPauseBtn').textContent = '▶';
+          document.getElementById('waveformEl').classList.add('paused');
+        } else if (e.data === YT.PlayerState.ENDED) {
+          if (repeatMode) ytPlayer.playVideo();
+          else nextTrack();
+        }
+      }
+    }
+  });
+}
+
+let ytProgressTimer = null;
+function startYTProgress() {
+  clearInterval(ytProgressTimer);
+  ytProgressTimer = setInterval(() => {
+    if (!ytPlayer || !ytPlayer.getDuration) return;
+    const cur = ytPlayer.getCurrentTime() || 0;
+    const dur = ytPlayer.getDuration() || 0;
+    if (dur > 0) {
+      document.getElementById('progressFill').style.width = (cur/dur*100) + '%';
+      document.getElementById('timeCur').textContent = fmtTime(cur);
+      document.getElementById('timeTot').textContent = fmtTime(dur);
+    }
+  }, 500);
+}
+
+function playYT(videoId) {
+  if (!ytPlayer || !ytReady) { pendingVideoId = videoId; return; }
+  pendingVideoId = null;
+  ytPlayer.loadVideoById(videoId);
+  ytPlayer.setVolume(document.querySelector('input.vol')?.value || 80);
+}
+
+async function getYouTubeVideoId(query) {
+  // Use YouTube's oEmbed + search via Invidious public API (no key needed)
+  const instances = [
+    'https://inv.nadeko.net',
+    'https://invidious.slipfox.xyz',
+    'https://invidious.privacydev.net',
+  ];
+  for (const base of instances) {
+    try {
+      const r = await fetch(`${base}/api/v1/search?q=${encodeURIComponent(query)}&type=video&fields=videoId,title,author&page=1`, { signal: AbortSignal.timeout(4000) });
+      if (!r.ok) continue;
+      const data = await r.json();
+      if (data && data[0]) return data[0].videoId;
+    } catch(e) { continue; }
+  }
+  return null;
+}
+
 async function searchMusic() {
   const q = document.getElementById('musicSearch').value.trim();
   if (!q) return;
   const res = document.getElementById('musicResults');
   res.innerHTML = '<div style="padding:16px 10px;display:flex;align-items:center;gap:10px;"><div class="spinner"></div><span style="font-size:.63rem;color:#446688;">Searching...</span></div>';
   try {
-    const resp = await fetch('https://corsproxy.io/?' + encodeURIComponent('https://api.deezer.com/search?q=' + encodeURIComponent(q) + '&limit=25'));
-    const data = await resp.json();
-    musicQueue = data.data || [];
-    if (!musicQueue.length) { res.innerHTML = '<div style="padding:16px 10px;font-size:.63rem;color:#446688;">No results.</div>'; return; }
+    // iTunes Search API — totally free, no key, no CORS
+    const r = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&limit=25&entity=song`);
+    const data = await r.json();
+    musicQueue = (data.results || []).map(t => ({
+      title: t.trackName,
+      artist: t.artistName,
+      album: t.collectionName,
+      duration: Math.floor(t.trackTimeMillis / 1000),
+      preview: t.previewUrl, // 30s preview always available
+      artwork: t.artworkUrl100?.replace('100x100', '300x300'),
+      searchQuery: `${t.artistName} ${t.trackName}`,
+    }));
+    if (!musicQueue.length) {
+      res.innerHTML = '<div style="padding:16px 10px;font-size:.63rem;color:#446688;">No results found.</div>';
+      return;
+    }
     res.innerHTML = musicQueue.map((t,i) => `
       <div class="music-result" id="mr-${i}" onclick="playTrack(${i})">
         <div class="result-num">${i+1}</div>
         <div class="result-info">
           <div class="result-title">${t.title}</div>
-          <div class="result-artist">${t.artist.name}</div>
+          <div class="result-artist">${t.artist}</div>
         </div>
         <div class="result-dur">${fmtTime(t.duration)}</div>
       </div>`).join('');
   } catch(e) {
-    res.innerHTML = '<div style="padding:16px 10px;font-size:.63rem;color:#556688;">Search failed. Try again.</div>';
+    res.innerHTML = '<div style="padding:16px 10px;font-size:.63rem;color:#556688;">Search failed — check your connection.</div>';
   }
 }
 
-function playTrack(i) {
+async function playTrack(i) {
   if (i < 0 || i >= musicQueue.length) return;
   currentMusicIndex = i;
   const t = musicQueue[i];
+
   document.querySelectorAll('.music-result').forEach(el => el.classList.remove('playing'));
   const el = document.getElementById('mr-' + i);
   if (el) el.classList.add('playing');
+
   document.getElementById('nowTitle').textContent = t.title;
-  document.getElementById('nowArtist').textContent = t.artist.name;
-  document.getElementById('nowArtwork').textContent = '🎵';
+  document.getElementById('nowArtist').textContent = t.artist;
+
+  // Show artwork
+  const artEl = document.getElementById('nowArtwork');
+  if (t.artwork) {
+    artEl.style.cssText = 'position:relative;z-index:1;width:100%;height:100%;object-fit:cover;border-radius:8px;';
+    artEl.outerHTML = `<img id="nowArtwork" src="${t.artwork}" style="position:relative;z-index:1;width:100%;height:100%;object-fit:cover;border-radius:8px;" onerror="this.outerHTML='<span id=nowArtwork style=position:relative;z-index:1;font-size:4rem>🎵</span>'">`;
+  } else {
+    document.getElementById('nowArtwork').textContent = '🎵';
+  }
+
   document.getElementById('lyricsPanel').innerHTML = `
     <div class="lyric-placeholder">♬ ${t.title}</div>
-    <div class="lyric-placeholder" style="margin-top:6px;font-size:.6rem;">by ${t.artist.name}</div>
-    <div class="lyric-placeholder" style="margin-top:16px;font-size:.58rem;color:#224433;">30s preview · Deezer</div>`;
-  if (t.preview) {
+    <div class="lyric-placeholder" style="margin-top:6px;font-size:.6rem;">by ${t.artist}</div>
+    <div class="lyric-placeholder" style="margin-top:6px;font-size:.58rem;color:#224433;">💿 ${t.album||''}</div>
+    <div class="lyric-placeholder" style="margin-top:16px;font-size:.58rem;color:#1a3322;" id="musicSourceLabel">Loading full song...</div>`;
+
+  // Try full song via YouTube first, fallback to iTunes 30s preview
+  const videoId = await getYouTubeVideoId(t.searchQuery);
+  if (videoId) {
+    document.getElementById('musicSourceLabel').textContent = '▶ Full song via YouTube';
+    playYT(videoId);
+    audioEl.pause(); // stop any preview
+  } else if (t.preview) {
+    document.getElementById('musicSourceLabel').textContent = '▶ 30s preview · iTunes';
+    if (ytPlayer) ytPlayer.stopVideo();
     audioEl.src = t.preview;
     audioEl.play();
     musicPlaying = true;
     document.getElementById('playPauseBtn').textContent = '⏸';
     document.getElementById('waveformEl').classList.remove('paused');
+  } else {
+    document.getElementById('musicSourceLabel').textContent = '❌ No audio available';
   }
 }
 
@@ -818,16 +897,33 @@ audioEl.addEventListener('timeupdate', () => {
 });
 audioEl.addEventListener('ended', () => { if (repeatMode) { audioEl.play(); return; } nextTrack(); });
 
-function seekAudio(e) { const b = document.getElementById('progressBar'); audioEl.currentTime = audioEl.duration * (e.offsetX / b.offsetWidth); }
+function seekAudio(e) {
+  const b = document.getElementById('progressBar');
+  const pct = e.offsetX / b.offsetWidth;
+  if (ytPlayer && musicPlaying && ytPlayer.getDuration) {
+    ytPlayer.seekTo(ytPlayer.getDuration() * pct, true);
+  } else {
+    audioEl.currentTime = audioEl.duration * pct;
+  }
+}
+
 function toggleMusicPlay() {
-  if (musicPlaying) { audioEl.pause(); musicPlaying=false; document.getElementById('playPauseBtn').textContent='▶'; document.getElementById('waveformEl').classList.add('paused'); }
-  else { audioEl.play(); musicPlaying=true; document.getElementById('playPauseBtn').textContent='⏸'; document.getElementById('waveformEl').classList.remove('paused'); }
+  if (musicPlaying) {
+    if (ytPlayer && ytPlayer.getPlayerState && ytPlayer.getPlayerState() === 1) ytPlayer.pauseVideo();
+    else { audioEl.pause(); musicPlaying=false; document.getElementById('playPauseBtn').textContent='▶'; document.getElementById('waveformEl').classList.add('paused'); }
+  } else {
+    if (ytPlayer && ytPlayer.getPlayerState && ytPlayer.getPlayerState() === 2) ytPlayer.playVideo();
+    else { audioEl.play(); musicPlaying=true; document.getElementById('playPauseBtn').textContent='⏸'; document.getElementById('waveformEl').classList.remove('paused'); }
+  }
 }
 function nextTrack() { if (musicQueue.length) playTrack((currentMusicIndex+1)%musicQueue.length); }
 function prevTrack() { if (musicQueue.length) playTrack((currentMusicIndex-1+musicQueue.length)%musicQueue.length); }
 function shuffleTrack() { if (musicQueue.length) playTrack(Math.floor(Math.random()*musicQueue.length)); }
 function toggleRepeat() { repeatMode=!repeatMode; document.getElementById('repeatBtn').style.color=repeatMode?'var(--g)':''; }
-function setMusicVol(v) { audioEl.volume=v/100; }
+function setMusicVol(v) {
+  audioEl.volume = v/100;
+  if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(v);
+}
 function fmtTime(s) { s=Math.floor(s)||0; return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
 
 // ══════════════════════════════════
