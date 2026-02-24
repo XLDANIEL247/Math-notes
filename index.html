@@ -90,11 +90,82 @@ body::before {
   content:'';
   position:fixed;
   inset:0;
-  background-image: linear-gradient(rgba(0,255,136,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.03) 1px,transparent 1px);
+  background-image: linear-gradient(rgba(0,255,136,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.02) 1px,transparent 1px);
   background-size:44px 44px;
   pointer-events:none;
   z-index:0;
 }
+
+/* ── NEON LOADING BAR ── */
+#neonLoader {
+  position:fixed;
+  top:0;left:0;
+  height:3px;
+  width:0%;
+  background:linear-gradient(90deg,var(--g),var(--b),var(--p));
+  box-shadow:0 0 12px var(--g),0 0 24px var(--b);
+  z-index:99997;
+  transition:width .3s ease,opacity .4s ease;
+  pointer-events:none;
+}
+#neonLoader.done { width:100%!important; opacity:0; }
+
+/* ── NOTIFICATION TOAST ── */
+#toastContainer {
+  position:fixed;
+  bottom:24px;right:24px;
+  display:flex;flex-direction:column;gap:10px;
+  z-index:99996;
+  pointer-events:none;
+}
+.toast {
+  background:rgba(6,9,16,.95);
+  border:1px solid var(--g);
+  border-radius:6px;
+  padding:12px 18px;
+  font-family:'Share Tech Mono',monospace;
+  font-size:.7rem;
+  color:#c0d8ff;
+  letter-spacing:1px;
+  box-shadow:0 0 20px rgba(0,255,136,.2);
+  animation:toastIn .3s ease,toastOut .3s ease 3.7s both;
+  pointer-events:auto;
+  max-width:280px;
+  line-height:1.6;
+}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}
+.toast .toast-title{color:var(--g);font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;margin-bottom:4px;}
+
+/* ── SPLASH SCREEN ── */
+#splashScreen {
+  position:fixed;inset:0;
+  background:var(--dark);
+  z-index:99995;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:24px;
+  opacity:1;
+  transition:opacity .5s ease;
+}
+.splash-logo {
+  font-family:'Orbitron',sans-serif;
+  font-weight:900;
+  font-size:clamp(2.5rem,8vw,5rem);
+  letter-spacing:12px;
+  color:var(--g);
+  text-shadow:0 0 40px var(--g),0 0 80px rgba(0,255,136,.4);
+  animation:splashPulse 1s ease-in-out infinite alternate;
+}
+@keyframes splashPulse{from{text-shadow:0 0 30px var(--g),0 0 60px rgba(0,255,136,.3)}to{text-shadow:0 0 60px var(--g),0 0 120px rgba(0,255,136,.6),0 0 200px rgba(0,255,136,.2)}}
+.splash-logo span{color:var(--b);text-shadow:0 0 40px var(--b);}
+.splash-sub{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:#446688;letter-spacing:6px;text-transform:uppercase;}
+.splash-bar-wrap{width:260px;height:3px;background:rgba(0,255,136,.1);border-radius:2px;overflow:hidden;}
+.splash-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--g),var(--b));border-radius:2px;box-shadow:0 0 10px var(--g);transition:width .05s linear;}
+.splash-ver{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:#223322;letter-spacing:3px;}
+
+/* ── MATRIX CANVAS ── */
+#matrixCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.18;}
 
 /* ── TOPBAR ── */
 #topbar {
@@ -194,12 +265,23 @@ body::before {
 .game-card {
   background:var(--card); border:1px solid rgba(0,255,136,.08); border-radius:6px;
   overflow:hidden; cursor:pointer; transition:transform .2s, border-color .2s, box-shadow .2s;
+  position:relative;
 }
-.game-card:hover { transform:translateY(-3px); border-color:var(--g); box-shadow:0 6px 24px rgba(0,255,136,.15); }
+.game-card:hover { transform:translateY(-4px) scale(1.02); border-color:var(--g); box-shadow:0 8px 30px rgba(0,255,136,.2),0 0 0 1px rgba(0,255,136,.1); }
+.game-card::before {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,255,136,.06),transparent,rgba(0,207,255,.06));
+  opacity:0;transition:opacity .3s;pointer-events:none;z-index:1;
+}
+.game-card:hover::before{opacity:1;}
 .game-thumb {
   width:100%; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center;
   font-size:2rem; position:relative; overflow:hidden; background:linear-gradient(135deg,#0a1020,#060b18);
 }
+@keyframes screenShake{0%,100%{transform:translate(0)}10%{transform:translate(-4px,-2px)}20%{transform:translate(4px,2px)}30%{transform:translate(-3px,3px)}40%{transform:translate(3px,-3px)}50%{transform:translate(-2px,2px)}60%{transform:translate(2px,-1px)}70%{transform:translate(-1px,2px)}80%{transform:translate(1px,-2px)}90%{transform:translate(-1px,1px)}}
+@keyframes flashIn{0%{opacity:0}50%{opacity:.6}100%{opacity:0}}
+.shake{animation:screenShake .4s ease both;}
+#flashOverlay{position:fixed;inset:0;background:#00ff88;pointer-events:none;z-index:9999;opacity:0;}
 .game-thumb::after {
   content:'▶ PLAY'; position:absolute; inset:0; background:rgba(0,255,136,.88);
   display:flex; align-items:center; justify-content:center; font-family:'Orbitron',sans-serif;
@@ -210,6 +292,105 @@ body::before {
 .game-name { font-family:'Orbitron',sans-serif; font-size:.6rem; font-weight:700; color:#c0d8ff; letter-spacing:1px; margin-bottom:3px; }
 .game-meta { display:flex; justify-content:space-between; font-size:.57rem; color:#446688; }
 .game-rating { color:#ffcc44; }
+
+/* ── NEON PULSE borders ── */
+@keyframes neonPulse {
+  0%,100%{box-shadow:0 0 6px var(--g),0 0 12px rgba(0,255,136,.3),inset 0 0 6px rgba(0,255,136,.05)}
+  50%{box-shadow:0 0 14px var(--g),0 0 28px rgba(0,255,136,.5),inset 0 0 14px rgba(0,255,136,.1)}
+}
+@keyframes neonPulseB {
+  0%,100%{box-shadow:0 0 6px var(--b),0 0 12px rgba(0,207,255,.3)}
+  50%{box-shadow:0 0 14px var(--b),0 0 28px rgba(0,207,255,.5)}
+}
+.game-card:hover { animation:neonPulse .9s ease-in-out infinite; }
+.app-card:hover { animation:neonPulseB .9s ease-in-out infinite; }
+
+/* ── LOADING BAR ── */
+#neonBar {
+  position:fixed; top:0; left:0; height:3px; width:0%;
+  background:linear-gradient(to right,var(--g),var(--b),var(--p));
+  box-shadow:0 0 10px var(--g),0 0 20px var(--b);
+  z-index:99998; transition:width .3s ease; pointer-events:none;
+  border-radius:0 3px 3px 0;
+}
+#neonBar::after {
+  content:''; position:absolute; right:0; top:-4px;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--b); box-shadow:0 0 14px var(--b),0 0 28px var(--b);
+  animation:neonPulseB .4s ease-in-out infinite;
+}
+
+/* ── TOAST NOTIFICATIONS ── */
+#toastContainer {
+  position:fixed; bottom:24px; right:24px; z-index:99997;
+  display:flex; flex-direction:column; gap:8px; pointer-events:none;
+}
+.toast {
+  background:rgba(6,9,16,.97); border-radius:6px; padding:12px 18px;
+  font-family:'Share Tech Mono',monospace; font-size:.68rem; letter-spacing:1px;
+  color:#c0d8ff; pointer-events:auto; cursor:pointer;
+  animation:toastIn .3s ease both;
+  display:flex; align-items:center; gap:10px; min-width:220px;
+  backdrop-filter:blur(12px);
+}
+.toast.green  { border:1px solid rgba(0,255,136,.4); box-shadow:0 0 18px rgba(0,255,136,.15); }
+.toast.blue   { border:1px solid rgba(0,207,255,.4); box-shadow:0 0 18px rgba(0,207,255,.15); }
+.toast.pink   { border:1px solid rgba(255,0,170,.4); box-shadow:0 0 18px rgba(255,0,170,.15); }
+.toast.yellow { border:1px solid rgba(255,204,0,.4); box-shadow:0 0 18px rgba(255,204,0,.15); }
+@keyframes toastIn {
+  from{opacity:0;transform:translateX(40px) scale(.9)}
+  to{opacity:1;transform:translateX(0) scale(1)}
+}
+@keyframes toastOut {
+  from{opacity:1;transform:translateX(0) scale(1)}
+  to{opacity:0;transform:translateX(40px) scale(.9)}
+}
+
+/* ── PARTICLES CANVAS ── */
+#particleCanvas {
+  position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.55;
+}
+
+/* ── CONFETTI CANVAS ── */
+#confettiCanvas {
+  position:fixed; inset:0; pointer-events:none; z-index:9990;
+}
+
+/* ── SPLASH SCREEN ── */
+#splashScreen {
+  position:fixed; inset:0; z-index:99990;
+  background:#060910;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+}
+.splash-logo {
+  font-family:'Orbitron',sans-serif; font-weight:900; font-size:3.5rem;
+  letter-spacing:12px; color:var(--g);
+  text-shadow:0 0 30px var(--g),0 0 60px rgba(0,255,136,.5),0 0 120px rgba(0,255,136,.2);
+  animation:splashPulse 1.2s ease-in-out infinite alternate;
+}
+.splash-logo span{color:var(--b);text-shadow:0 0 30px var(--b);}
+@keyframes splashPulse{from{text-shadow:0 0 20px var(--g)}to{text-shadow:0 0 50px var(--g),0 0 100px rgba(0,255,136,.4)}}
+.splash-sub {
+  font-size:.75rem; letter-spacing:6px; color:#446688;
+  animation:fadeIn 1s ease .5s both;
+}
+.splash-bar-wrap {
+  width:280px; height:3px; background:rgba(255,255,255,.06);
+  border-radius:3px; overflow:hidden; margin-top:20px;
+  animation:fadeIn .5s ease .8s both;
+}
+.splash-bar-fill {
+  height:100%; background:linear-gradient(to right,var(--g),var(--b));
+  box-shadow:0 0 10px var(--g); border-radius:3px;
+  animation:splashLoad 1.8s cubic-bezier(.4,0,.2,1) 1s both forwards;
+  width:0%;
+}
+@keyframes splashLoad{to{width:100%}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.splash-scanline {
+  position:absolute; inset:0; pointer-events:none;
+  background:repeating-linear-gradient(transparent,transparent 3px,rgba(0,255,136,.03) 3px,rgba(0,255,136,.03) 4px);
+}
 
 /* ── MUSIC ── */
 #page-music { flex-direction:row; }
@@ -359,6 +540,26 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
      MAIN APP
      ══════════════════════════════════ -->
 <div id="app">
+
+  <!-- MATRIX CANVAS -->
+  <canvas id="matrixCanvas"></canvas>
+
+  <!-- FLASH OVERLAY -->
+  <div id="flashOverlay"></div>
+
+  <!-- NEON LOADER BAR -->
+  <div id="neonLoader"></div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toastContainer"></div>
+
+  <!-- SPLASH SCREEN -->
+  <div id="splashScreen">
+    <div class="splash-logo">NEXUS<span>.</span>GG</div>
+    <div class="splash-sub">Your school arcade</div>
+    <div class="splash-bar-wrap"><div class="splash-bar" id="splashBar"></div></div>
+    <div class="splash-ver">v2.0 · LOADING SYSTEMS</div>
+  </div>
 
   <!-- PANIC OVERLAY -->
   <div id="panicOverlay" style="display:none;position:fixed;inset:0;z-index:99999;background:#fff;font-family:Arial,sans-serif;">
@@ -685,12 +886,27 @@ function unlock() {
   document.getElementById('app').style.display = 'flex';
   renderGames(games);
   addMsg('chatMessages','ai','Hey! I\'m NEXUS AI 🤖 Ask me anything — gaming tips, homework help, or just chat!');
+  setTimeout(() => {
+    spawnFireworks();
+    showToast('🔓 UNLOCKED', 'Welcome back to NEXUS.GG', 'var(--g)');
+  }, 400);
 }
 
 // ══════════════════════════════════
 // NAV
 // ══════════════════════════════════
 function switchPage(id, btn) {
+  // ⚡ Neon loader bar
+  const bar = document.getElementById('neonLoader');
+  if (bar) {
+    bar.style.cssText = 'transition:none;width:0%;opacity:1;';
+    bar.offsetHeight;
+    bar.style.cssText = 'transition:width .35s ease;width:85%;opacity:1;';
+    setTimeout(() => {
+      bar.style.cssText = 'transition:width .2s ease, opacity .4s ease .1s;width:100%;opacity:0;';
+      setTimeout(() => { bar.style.width='0%'; }, 700);
+    }, 350);
+  }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.navtab').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
@@ -702,55 +918,55 @@ function switchPage(id, btn) {
 // ══════════════════════════════════
 const games = [
   // IO GAMES
-  { name:'SLITHER.IO', emoji:'🐍', cat:'io', url:'https://slither.io', rating:'4.9', plays:'50M+' },
-  { name:'AGAR.IO', emoji:'🔵', cat:'io', url:'https://agar.io', rating:'4.8', plays:'30M+' },
-  { name:'PAPER.IO 2', emoji:'📄', cat:'io', url:'https://paper-io.com', rating:'4.7', plays:'20M+' },
-  { name:'LORDZ.IO', emoji:'👑', cat:'io', url:'https://www.lordz.io', rating:'4.5', plays:'5M+' },
-  { name:'DIEP.IO', emoji:'🔫', cat:'io', url:'https://diep.io', rating:'4.6', plays:'12M+' },
-  { name:'MOPE.IO', emoji:'🐻', cat:'io', url:'https://mope.io', rating:'4.4', plays:'8M+' },
-  { name:'ZOMBS ROYALE', emoji:'🧟', cat:'io', url:'https://zombsroyale.io', rating:'4.7', plays:'15M+' },
-  { name:'SURVIV.IO', emoji:'🪖', cat:'io', url:'https://surviv.io', rating:'4.8', plays:'20M+' },
-  { name:'WORMATE.IO', emoji:'🍭', cat:'io', url:'https://wormate.io', rating:'4.5', plays:'7M+' },
-  { name:'WINGS.IO', emoji:'✈️', cat:'io', url:'https://wings.io', rating:'4.4', plays:'5M+' },
+  { name:'SLITHER.IO', emoji:'🐍', cat:'io', url:'https://slither.io', rating:'4.9', plays:'50M+', gif:'https://media.giphy.com/media/3oEjHV0z8S7WM4MwnK/giphy.gif' },
+  { name:'AGAR.IO', emoji:'🔵', cat:'io', url:'https://agar.io', rating:'4.8', plays:'30M+', gif:'https://media.giphy.com/media/l0HlQ7LRalQqdWfao/giphy.gif' },
+  { name:'PAPER.IO 2', emoji:'📄', cat:'io', url:'https://paper-io.com', rating:'4.7', plays:'20M+', gif:'' },
+  { name:'LORDZ.IO', emoji:'👑', cat:'io', url:'https://www.lordz.io', rating:'4.5', plays:'5M+', gif:'' },
+  { name:'DIEP.IO', emoji:'🔫', cat:'io', url:'https://diep.io', rating:'4.6', plays:'12M+', gif:'' },
+  { name:'MOPE.IO', emoji:'🐻', cat:'io', url:'https://mope.io', rating:'4.4', plays:'8M+', gif:'' },
+  { name:'ZOMBS ROYALE', emoji:'🧟', cat:'io', url:'https://zombsroyale.io', rating:'4.7', plays:'15M+', gif:'https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/giphy.gif' },
+  { name:'SURVIV.IO', emoji:'🪖', cat:'io', url:'https://surviv.io', rating:'4.8', plays:'20M+', gif:'' },
+  { name:'WORMATE.IO', emoji:'🍭', cat:'io', url:'https://wormate.io', rating:'4.5', plays:'7M+', gif:'' },
+  { name:'WINGS.IO', emoji:'✈️', cat:'io', url:'https://wings.io', rating:'4.4', plays:'5M+', gif:'' },
   // SHOOTER
-  { name:'KRUNKER.IO', emoji:'🎯', cat:'shooter', url:'https://krunker.io', rating:'4.9', plays:'15M+' },
-  { name:'SHELL SHOCKERS', emoji:'🥚', cat:'shooter', url:'https://shellshock.io', rating:'4.8', plays:'10M+' },
-  { name:'BULLET FORCE', emoji:'🔫', cat:'shooter', url:'https://www.crazygames.com/game/bullet-force-multiplayer', rating:'4.7', plays:'8M+' },
-  { name:'COMBAT ONLINE', emoji:'💥', cat:'shooter', url:'https://www.crazygames.com/game/combat-online', rating:'4.5', plays:'4M+' },
+  { name:'KRUNKER.IO', emoji:'🎯', cat:'shooter', url:'https://krunker.io', rating:'4.9', plays:'15M+', gif:'https://media.giphy.com/media/3oEjHWpiMWn7jLExQI/giphy.gif' },
+  { name:'SHELL SHOCKERS', emoji:'🥚', cat:'shooter', url:'https://shellshock.io', rating:'4.8', plays:'10M+', gif:'' },
+  { name:'BULLET FORCE', emoji:'🔫', cat:'shooter', url:'https://www.crazygames.com/game/bullet-force-multiplayer', rating:'4.7', plays:'8M+', gif:'https://media.giphy.com/media/xT9IgG50Lg7russbDa/giphy.gif' },
+  { name:'COMBAT ONLINE', emoji:'💥', cat:'shooter', url:'https://www.crazygames.com/game/combat-online', rating:'4.5', plays:'4M+', gif:'' },
   // RACING
-  { name:'MOTO X3M', emoji:'🏍️', cat:'racing', url:'https://www.motox3m.com', rating:'4.8', plays:'8M+' },
-  { name:'DRIFT BOSS', emoji:'🚗', cat:'racing', url:'https://driftboss.io', rating:'4.6', plays:'5M+' },
-  { name:'ROAD FURY', emoji:'🚙', cat:'racing', url:'https://www.crazygames.com/game/road-fury', rating:'4.5', plays:'3M+' },
-  { name:'MOTO X3M WINTER', emoji:'❄️', cat:'racing', url:'https://www.crazygames.com/game/moto-x3m-winter', rating:'4.7', plays:'4M+' },
-  { name:'BURNOUT DRIFT', emoji:'💨', cat:'racing', url:'https://www.crazygames.com/game/burnout-drift', rating:'4.6', plays:'3M+' },
+  { name:'MOTO X3M', emoji:'🏍️', cat:'racing', url:'https://www.motox3m.com', rating:'4.8', plays:'8M+', gif:'https://media.giphy.com/media/26BRBKqUiq586bRVm/giphy.gif' },
+  { name:'DRIFT BOSS', emoji:'🚗', cat:'racing', url:'https://driftboss.io', rating:'4.6', plays:'5M+', gif:'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif' },
+  { name:'ROAD FURY', emoji:'🚙', cat:'racing', url:'https://www.crazygames.com/game/road-fury', rating:'4.5', plays:'3M+', gif:'' },
+  { name:'MOTO X3M WINTER', emoji:'❄️', cat:'racing', url:'https://www.crazygames.com/game/moto-x3m-winter', rating:'4.7', plays:'4M+', gif:'' },
+  { name:'BURNOUT DRIFT', emoji:'💨', cat:'racing', url:'https://www.crazygames.com/game/burnout-drift', rating:'4.6', plays:'3M+', gif:'' },
   // PUZZLE
-  { name:'2048', emoji:'🧩', cat:'puzzle', url:'https://play2048.co', rating:'4.7', plays:'100M+' },
-  { name:'UNBLOCK ME', emoji:'🟧', cat:'puzzle', url:'https://www.crazygames.com/game/unblock-it', rating:'4.5', plays:'5M+' },
-  { name:'CUT THE ROPE', emoji:'🍬', cat:'puzzle', url:'https://www.crazygames.com/game/cut-the-rope-remastered', rating:'4.8', plays:'10M+' },
-  { name:'MAHJONG', emoji:'🀄', cat:'puzzle', url:'https://www.crazygames.com/game/mahjong-classic', rating:'4.6', plays:'8M+' },
-  { name:'SUDOKU', emoji:'🔢', cat:'puzzle', url:'https://sudoku.com', rating:'4.7', plays:'20M+' },
+  { name:'2048', emoji:'🧩', cat:'puzzle', url:'https://play2048.co', rating:'4.7', plays:'100M+', gif:'https://media.giphy.com/media/3o7TKDEhaCALECx7a8/giphy.gif' },
+  { name:'UNBLOCK ME', emoji:'🟧', cat:'puzzle', url:'https://www.crazygames.com/game/unblock-it', rating:'4.5', plays:'5M+', gif:'' },
+  { name:'CUT THE ROPE', emoji:'🍬', cat:'puzzle', url:'https://www.crazygames.com/game/cut-the-rope-remastered', rating:'4.8', plays:'10M+', gif:'https://media.giphy.com/media/xT9IgE1zDPQXr9Kqms/giphy.gif' },
+  { name:'MAHJONG', emoji:'🀄', cat:'puzzle', url:'https://www.crazygames.com/game/mahjong-classic', rating:'4.6', plays:'8M+', gif:'' },
+  { name:'SUDOKU', emoji:'🔢', cat:'puzzle', url:'https://sudoku.com', rating:'4.7', plays:'20M+', gif:'' },
   // ACTION
-  { name:'MINECRAFT CLASSIC', emoji:'⛏️', cat:'action', url:'https://classic.minecraft.net', rating:'4.9', plays:'50M+' },
-  { name:'AMONG US ONLINE', emoji:'🔴', cat:'action', url:'https://www.crazygames.com/game/among-us-online-edition', rating:'4.7', plays:'20M+' },
-  { name:'STICKMAN HOOK', emoji:'🕸️', cat:'action', url:'https://www.crazygames.com/game/stickman-hook', rating:'4.8', plays:'12M+' },
-  { name:'VENGE.IO', emoji:'⚔️', cat:'action', url:'https://venge.io', rating:'4.7', plays:'6M+' },
-  { name:'TEMPLE RUN', emoji:'🏃', cat:'action', url:'https://poki.com/en/g/temple-run-2', rating:'4.8', plays:'40M+' },
-  { name:'SUBWAY SURFERS', emoji:'🛹', cat:'action', url:'https://poki.com/en/g/subway-surfers', rating:'4.9', plays:'80M+' },
-  { name:'GEOMETRY DASH LITE', emoji:'🔷', cat:'action', url:'https://www.crazygames.com/game/geometry-dash-classic', rating:'4.8', plays:'15M+' },
-  { name:'FNAF ONLINE', emoji:'🐻', cat:'action', url:'https://www.crazygames.com/game/five-nights-at-freddys', rating:'4.7', plays:'8M+' },
+  { name:'MINECRAFT CLASSIC', emoji:'⛏️', cat:'action', url:'https://classic.minecraft.net', rating:'4.9', plays:'50M+', gif:'https://media.giphy.com/media/3oEjHAUOqG3lSS0f1C/giphy.gif' },
+  { name:'AMONG US ONLINE', emoji:'🔴', cat:'action', url:'https://www.crazygames.com/game/among-us-online-edition', rating:'4.7', plays:'20M+', gif:'https://media.giphy.com/media/KzCRxnkXuaspcfFGMG/giphy.gif' },
+  { name:'STICKMAN HOOK', emoji:'🕸️', cat:'action', url:'https://www.crazygames.com/game/stickman-hook', rating:'4.8', plays:'12M+', gif:'' },
+  { name:'VENGE.IO', emoji:'⚔️', cat:'action', url:'https://venge.io', rating:'4.7', plays:'6M+', gif:'' },
+  { name:'TEMPLE RUN', emoji:'🏃', cat:'action', url:'https://poki.com/en/g/temple-run-2', rating:'4.8', plays:'40M+', gif:'https://media.giphy.com/media/3oEjI5VtIhAfERmKWk/giphy.gif' },
+  { name:'SUBWAY SURFERS', emoji:'🛹', cat:'action', url:'https://poki.com/en/g/subway-surfers', rating:'4.9', plays:'80M+', gif:'https://media.giphy.com/media/3o6Zt8UGTBCRXqrPag/giphy.gif' },
+  { name:'GEOMETRY DASH LITE', emoji:'🔷', cat:'action', url:'https://www.crazygames.com/game/geometry-dash-classic', rating:'4.8', plays:'15M+', gif:'https://media.giphy.com/media/3oEjHQKtDXpeGN9rW0/giphy.gif' },
+  { name:'FNAF ONLINE', emoji:'🐻', cat:'action', url:'https://www.crazygames.com/game/five-nights-at-freddys', rating:'4.7', plays:'8M+', gif:'https://media.giphy.com/media/l4FGni1RBAR2OWsGk/giphy.gif' },
   // CLASSIC
-  { name:'TETRIS', emoji:'🟦', cat:'classic', url:'https://tetris.com/play-tetris', rating:'4.9', plays:'1B+' },
-  { name:'PAC-MAN', emoji:'👾', cat:'classic', url:'https://www.google.com/logos/2010/pacman10-i.html', rating:'4.9', plays:'1B+' },
-  { name:'COOKIE CLICKER', emoji:'🍪', cat:'classic', url:'https://orteil.dashnet.org/cookieclicker/', rating:'4.6', plays:'10M+' },
-  { name:'SNAKE', emoji:'🐍', cat:'classic', url:'https://www.google.com/fbx?fbx=snake_arcade', rating:'4.7', plays:'500M+' },
-  { name:'DINOSAUR GAME', emoji:'🦖', cat:'classic', url:'https://chromedino.com', rating:'4.8', plays:'200M+' },
-  { name:'FLAPPY BIRD', emoji:'🐤', cat:'classic', url:'https://flappybird.io', rating:'4.5', plays:'100M+' },
+  { name:'TETRIS', emoji:'🟦', cat:'classic', url:'https://tetris.com/play-tetris', rating:'4.9', plays:'1B+', gif:'https://media.giphy.com/media/3o6ZtaO9BZHcOjmErm/giphy.gif' },
+  { name:'PAC-MAN', emoji:'👾', cat:'classic', url:'https://www.google.com/logos/2010/pacman10-i.html', rating:'4.9', plays:'1B+', gif:'https://media.giphy.com/media/3oEjHE6sp5GHuPBLAA/giphy.gif' },
+  { name:'COOKIE CLICKER', emoji:'🍪', cat:'classic', url:'https://orteil.dashnet.org/cookieclicker/', rating:'4.6', plays:'10M+', gif:'https://media.giphy.com/media/3oEdv6oTGJW6ENy6eI/giphy.gif' },
+  { name:'SNAKE', emoji:'🐍', cat:'classic', url:'https://www.google.com/fbx?fbx=snake_arcade', rating:'4.7', plays:'500M+', gif:'' },
+  { name:'DINOSAUR GAME', emoji:'🦖', cat:'classic', url:'https://chromedino.com', rating:'4.8', plays:'200M+', gif:'https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/giphy.gif' },
+  { name:'FLAPPY BIRD', emoji:'🐤', cat:'classic', url:'https://flappybird.io', rating:'4.5', plays:'100M+', gif:'https://media.giphy.com/media/tXL4FHPSnVJ0A/giphy.gif' },
   // SPORTS
-  { name:'BASKETBALL STARS', emoji:'🏀', cat:'sports', url:'https://www.miniclip.com/games/basketball-stars/en/', rating:'4.7', plays:'3M+' },
-  { name:'SOCCER SKILLS', emoji:'⚽', cat:'sports', url:'https://www.crazygames.com/game/soccer-skills-world-cup', rating:'4.5', plays:'2M+' },
-  { name:'PENALTY SHOOTERS', emoji:'🥅', cat:'sports', url:'https://www.crazygames.com/game/penalty-shooters-2', rating:'4.6', plays:'5M+' },
-  { name:'GOLF ORBIT', emoji:'⛳', cat:'sports', url:'https://www.crazygames.com/game/golf-orbit', rating:'4.4', plays:'2M+' },
-  { name:'BOXING RANDOM', emoji:'🥊', cat:'sports', url:'https://www.crazygames.com/game/boxing-random', rating:'4.7', plays:'4M+' },
+  { name:'BASKETBALL STARS', emoji:'🏀', cat:'sports', url:'https://www.miniclip.com/games/basketball-stars/en/', rating:'4.7', plays:'3M+', gif:'https://media.giphy.com/media/3oEjHGr1FfjSjS5eMQ/giphy.gif' },
+  { name:'SOCCER SKILLS', emoji:'⚽', cat:'sports', url:'https://www.crazygames.com/game/soccer-skills-world-cup', rating:'4.5', plays:'2M+', gif:'' },
+  { name:'PENALTY SHOOTERS', emoji:'🥅', cat:'sports', url:'https://www.crazygames.com/game/penalty-shooters-2', rating:'4.6', plays:'5M+', gif:'' },
+  { name:'GOLF ORBIT', emoji:'⛳', cat:'sports', url:'https://www.crazygames.com/game/golf-orbit', rating:'4.4', plays:'2M+', gif:'' },
+  { name:'BOXING RANDOM', emoji:'🥊', cat:'sports', url:'https://www.crazygames.com/game/boxing-random', rating:'4.7', plays:'4M+', gif:'' },
 ];
 
 let activeGameCat = 'all';
@@ -758,7 +974,11 @@ let activeGameCat = 'all';
 function renderGames(list) {
   document.getElementById('gamesGrid').innerHTML = list.map(g => `
     <div class="game-card" onclick="openGame('${g.name}','${g.emoji}','${g.url}')">
-      <div class="game-thumb">${g.emoji}</div>
+      <div class="game-thumb" style="position:relative;overflow:hidden;">
+        <span style="font-size:2.5rem;position:relative;z-index:2;">${g.emoji}</span>
+        ${g.gif ? `<img src="${g.gif}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s;z-index:1;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0" onerror="this.style.display='none'">` : ''}
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,rgba(0,0,0,.7));z-index:3;pointer-events:none;"></div>
+      </div>
       <div class="game-info">
         <div class="game-name">${g.name}</div>
         <div class="game-meta"><span class="game-rating">★ ${g.rating}</span><span>${g.plays}</span></div>
@@ -780,11 +1000,26 @@ function filterGames(q) {
 }
 
 function openGame(name, emoji, url) {
+  // Screen shake + flash effect
+  const flash = document.getElementById('flashOverlay');
+  flash.style.animation = 'none';
+  flash.offsetHeight; // reflow
+  flash.style.transition = 'opacity 0s';
+  flash.style.opacity = '0.5';
+  document.getElementById('main').classList.add('shake');
+  setTimeout(() => {
+    flash.style.transition = 'opacity 0.4s ease';
+    flash.style.opacity = '0';
+    document.getElementById('main').classList.remove('shake');
+  }, 80);
+
+  showLoader();
   document.getElementById('currentGameName').textContent = emoji + ' ' + name;
   document.getElementById('gamesContent').style.display = 'none';
   document.getElementById('gamesBack').style.display = 'flex';
   document.getElementById('gamesFrame').style.display = 'block';
   document.getElementById('gamesFrame').src = url;
+  showToast('🎮 LOADING', name, 'var(--g)');
 }
 
 function closeGameFrame() {
@@ -1196,7 +1431,172 @@ document.getElementById('appsGrid').innerHTML = apps.map(a=>`
 // Focus the hidden input immediately
 window.addEventListener('load', () => {
   document.getElementById('coverPass').focus();
+  initSplash();
+  initMatrix();
 });
+
+// ══════════════════════════════════
+// SPLASH SCREEN
+// ══════════════════════════════════
+function initSplash() {
+  const bar = document.getElementById('splashBar');
+  const splash = document.getElementById('splashScreen');
+  let w = 0;
+  const msgs = ['INITIALIZING...','LOADING GAMES...','STARTING MUSIC...','UNLOCKING...','READY'];
+  let mi = 0;
+  const verEl = splash.querySelector('.splash-ver');
+  const iv = setInterval(() => {
+    w += Math.random() * 18 + 6;
+    if (w >= 100) { w = 100; clearInterval(iv); }
+    bar.style.width = w + '%';
+    if (w > mi * 20 && mi < msgs.length) {
+      verEl.textContent = msgs[mi++];
+    }
+  }, 120);
+  setTimeout(() => {
+    splash.style.opacity = '0';
+    setTimeout(() => splash.style.display = 'none', 500);
+  }, 1800);
+}
+
+// ══════════════════════════════════
+// MATRIX RAIN
+// ══════════════════════════════════
+function initMatrix() {
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()ﾊﾋｼﾂｳｦﾅﾐﾏﾑﾒｵﾎﾏｱｻﾝﾊｻｮｱｽﾒｴｶｷｸｹｺ';
+  const fontSize = 13;
+  let cols = Math.floor(canvas.width / fontSize);
+  let drops = Array(cols).fill(1);
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--g').trim() || '#00ff88';
+  setInterval(() => {
+    ctx.fillStyle = 'rgba(6,9,16,0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = accent;
+    ctx.font = fontSize + 'px Share Tech Mono, monospace';
+    cols = Math.floor(canvas.width / fontSize);
+    if (drops.length !== cols) drops = Array(cols).fill(1);
+    for (let i = 0; i < drops.length; i++) {
+      const char = chars[Math.floor(Math.random() * chars.length)];
+      ctx.globalAlpha = Math.random() * 0.5 + 0.3;
+      ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+      ctx.globalAlpha = 1;
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }, 50);
+}
+
+// ══════════════════════════════════
+// NEON LOADER BAR
+// ══════════════════════════════════
+function showLoader() {
+  const bar = document.getElementById('neonLoader');
+  bar.style.transition = 'none';
+  bar.style.opacity = '1';
+  bar.style.width = '0%';
+  bar.offsetHeight;
+  bar.style.transition = 'width 0.4s ease';
+  bar.style.width = '70%';
+  setTimeout(() => {
+    bar.style.width = '100%';
+    setTimeout(() => { bar.classList.add('done'); setTimeout(() => { bar.classList.remove('done'); bar.style.width='0%'; }, 500); }, 300);
+  }, 400);
+}
+
+// Override switchPage to show loader
+const _origSwitchPage = switchPage;
+function switchPage(id, btn) {
+  showLoader();
+  setTimeout(() => _origSwitchPage(id, btn), 80);
+}
+
+// ══════════════════════════════════
+// TOAST NOTIFICATIONS
+// ══════════════════════════════════
+function showToast(title, msg, color='var(--g)') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.style.borderColor = color;
+  toast.style.boxShadow = `0 0 20px ${color}40`;
+  toast.innerHTML = `<div class="toast-title" style="color:${color}">${title}</div>${msg}`;
+  container.appendChild(toast);
+  toast.addEventListener('click', () => toast.remove());
+  setTimeout(() => { try { toast.remove(); } catch(e){} }, 4200);
+}
+
+// ══════════════════════════════════
+// FIREWORKS / CONFETTI ON UNLOCK
+// ══════════════════════════════════
+function spawnFireworks() {
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;inset:0;z-index:99994;pointer-events:none;';
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  const particles = [];
+  const colors = ['#00ff88','#00cfff','#ff00aa','#ffcc00','#ff6600','#a855f7'];
+
+  function spawnBurst(x, y) {
+    for (let i = 0; i < 60; i++) {
+      const angle = (Math.PI * 2 / 60) * i;
+      const speed = Math.random() * 6 + 2;
+      particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - Math.random() * 3,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        alpha: 1,
+        size: Math.random() * 4 + 2,
+        gravity: 0.12,
+      });
+    }
+  }
+
+  // Spawn 5 bursts
+  const bursts = [
+    [window.innerWidth*0.3, window.innerHeight*0.4],
+    [window.innerWidth*0.7, window.innerHeight*0.35],
+    [window.innerWidth*0.5, window.innerHeight*0.5],
+    [window.innerWidth*0.2, window.innerHeight*0.6],
+    [window.innerWidth*0.8, window.innerHeight*0.55],
+  ];
+  let bi = 0;
+  const burstIv = setInterval(() => {
+    if (bi < bursts.length) { spawnBurst(...bursts[bi++]); }
+    else clearInterval(burstIv);
+  }, 220);
+
+  let frame = 0;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p, i) => {
+      p.x += p.vx; p.y += p.vy; p.vy += p.gravity;
+      p.alpha -= 0.018; p.vx *= 0.99;
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.fillStyle = p.color;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+    for (let i = particles.length-1; i >= 0; i--) {
+      if (particles[i].alpha <= 0) particles.splice(i, 1);
+    }
+    frame++;
+    if (frame < 180) requestAnimationFrame(animate);
+    else canvas.remove();
+  }
+  animate();
+}
 
 // ══════════════════════════════════
 // PANIC BUTTON
@@ -1350,6 +1750,7 @@ async function joinRoom() {
   chatPollTimer = setInterval(loadMessages, 2000); // poll every 2s
 }
 
+let lastMsgCount = 0;
 async function loadMessages() {
   if (!chatRoom) return;
   try {
@@ -1357,6 +1758,14 @@ async function loadMessages() {
     const data = await r.json();
     if (!data) return;
     const msgs = Object.values(data).sort((a,b) => a.time - b.time);
+    // Notify on new messages from others
+    if (lastMsgCount > 0 && msgs.length > lastMsgCount) {
+      const newMsgs = msgs.slice(lastMsgCount);
+      newMsgs.forEach(m => {
+        if (m.name !== chatName) showToast('💬 ' + m.name, m.text.slice(0,60), 'var(--p)');
+      });
+    }
+    lastMsgCount = msgs.length;
     const log = document.getElementById('chatLog');
     const wasAtBottom = log.scrollTop + log.clientHeight >= log.scrollHeight - 20;
     log.innerHTML = msgs.map(m => `
