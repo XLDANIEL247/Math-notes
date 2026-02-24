@@ -360,6 +360,11 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
      ══════════════════════════════════ -->
 <div id="app">
 
+  <!-- PANIC OVERLAY -->
+  <div id="panicOverlay" style="display:none;position:fixed;inset:0;z-index:99999;background:#fff;font-family:Arial,sans-serif;">
+    <!-- content injected by JS -->
+  </div>
+
   <!-- TOPBAR -->
   <div id="topbar">
     <div class="logo">NEXUS<span>.</span>GG</div>
@@ -369,8 +374,13 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
       <button class="navtab" onclick="switchPage('ai',this)">🤖 AI</button>
       <button class="navtab" onclick="switchPage('apps',this)">📱 APPS</button>
       <button class="navtab" onclick="switchPage('settings',this)">⚙️ SETTINGS</button>
+      <button class="navtab" onclick="switchPage('chat',this)">💬 CHAT</button>
     </div>
-    <div class="badge-online">🟢 UNLOCKED</div>
+    <div style="display:flex;align-items:center;gap:10px;padding-right:16px;">
+      <div id="weatherBadge" style="font-size:.62rem;color:var(--b);letter-spacing:1px;display:none;background:rgba(0,207,255,.08);border:1px solid rgba(0,207,255,.2);border-radius:2px;padding:3px 10px;"></div>
+      <div id="panicHint" style="font-size:.58rem;color:#334455;letter-spacing:1px;" title="Press Escape to hide">ESC = HIDE</div>
+      <div class="badge-online">🟢 UNLOCKED</div>
+    </div>
   </div>
 
   <!-- MAIN -->
@@ -565,12 +575,82 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
           </div>
         </div>
 
+        <!-- PANIC BUTTON -->
+        <div style="background:var(--card2);border:1px solid rgba(255,0,170,.3);border-radius:8px;padding:20px;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--p);letter-spacing:3px;margin-bottom:6px;">🚨 PANIC BUTTON</div>
+          <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:14px;">Press <strong style="color:var(--p)">ESC</strong> anytime to instantly hide the site. Customize what it shows instead.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+            <button onclick="setPanic('blank')" id="panic-blank" class="panic-opt" style="background:rgba(255,0,170,.08);border:1px solid rgba(255,0,170,.3);color:var(--p);padding:7px 14px;font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:1px;border-radius:3px;cursor:pointer;">⬜ Blank White</button>
+            <button onclick="setPanic('classroom')" id="panic-classroom" class="panic-opt" style="background:none;border:1px solid rgba(255,0,170,.15);color:#556677;padding:7px 14px;font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:1px;border-radius:3px;cursor:pointer;">📚 Google Classroom</button>
+            <button onclick="setPanic('docs')" id="panic-docs" class="panic-opt" style="background:none;border:1px solid rgba(255,0,170,.15);color:#556677;padding:7px 14px;font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:1px;border-radius:3px;cursor:pointer;">📝 Google Docs</button>
+            <button onclick="setPanic('search')" id="panic-search" class="panic-opt" style="background:none;border:1px solid rgba(255,0,170,.15);color:#556677;padding:7px 14px;font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:1px;border-radius:3px;cursor:pointer;">🔍 Google Search</button>
+          </div>
+          <button onclick="triggerPanic()" style="background:var(--p);border:none;color:#fff;padding:9px 20px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;">🚨 TEST PANIC</button>
+        </div>
+
+        <!-- WALLPAPER -->
+        <div style="background:var(--card2);border:1px solid rgba(0,207,255,.2);border-radius:8px;padding:20px;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--b);letter-spacing:3px;margin-bottom:6px;">🎨 BACKGROUND / WALLPAPER</div>
+          <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:14px;">Pick a background for the site</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin-bottom:12px;">
+            <div onclick="setWallpaper('none')" style="height:56px;background:#060910;border:2px solid rgba(0,207,255,.3);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:#446688;letter-spacing:1px;transition:all .2s;" onmouseover="this.style.borderColor='var(--b)'" onmouseout="this.style.borderColor='rgba(0,207,255,.3)'">DEFAULT</div>
+            <div onclick="setWallpaper('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=1920&q=80')" style="height:56px;background:url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&q=60') center/cover;border:2px solid transparent;border-radius:6px;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--b)'" onmouseout="this.style.borderColor='transparent'"></div>
+            <div onclick="setWallpaper('https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1920&q=80')" style="height:56px;background:url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=400&q=60') center/cover;border:2px solid transparent;border-radius:6px;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--b)'" onmouseout="this.style.borderColor='transparent'"></div>
+            <div onclick="setWallpaper('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=1920&q=80')" style="height:56px;background:url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=400&q=60') center/cover;border:2px solid transparent;border-radius:6px;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--b)'" onmouseout="this.style.borderColor='transparent'"></div>
+            <div onclick="setWallpaper('https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80')" style="height:56px;background:url('https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=60') center/cover;border:2px solid transparent;border-radius:6px;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--b)'" onmouseout="this.style.borderColor='transparent'"></div>
+            <div onclick="setWallpaper('https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?w=1920&q=80')" style="height:56px;background:url('https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?w=400&q=60') center/cover;border:2px solid transparent;border-radius:6px;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--b)'" onmouseout="this.style.borderColor='transparent'"></div>
+            <div onclick="setWallpaper('https://images.unsplash.com/photo-1483489571097-0ca295ba3d08?w=1920&q=80')" style="height:56px;background:url('https://images.unsplash.com/photo-1483489571097-0ca295ba3d08?w=400&q=60') center/cover;border:2px solid transparent;border-radius:6px;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--b)'" onmouseout="this.style.borderColor='transparent'"></div>
+            <div onclick="setWallpaper('https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1920&q=80')" style="height:56px;background:url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=60') center/cover;border:2px solid transparent;border-radius:6px;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--b)'" onmouseout="this.style.borderColor='transparent'"></div>
+          </div>
+          <div style="display:flex;gap:0;">
+            <input id="wallpaperUrl" type="text" placeholder="Or paste any image URL..." style="flex:1;background:rgba(0,207,255,.04);border:1px solid rgba(0,207,255,.2);border-right:none;border-radius:3px 0 0 3px;color:var(--b);font-family:'Share Tech Mono',monospace;font-size:.68rem;padding:9px 12px;outline:none;letter-spacing:1px;">
+            <button onclick="setWallpaper(document.getElementById('wallpaperUrl').value)" style="background:var(--b);border:none;color:#050810;padding:9px 16px;font-family:'Orbitron',monospace;font-size:.6rem;font-weight:700;letter-spacing:2px;border-radius:0 3px 3px 0;cursor:pointer;">SET</button>
+          </div>
+        </div>
+
+        <!-- WEATHER -->
+        <div style="background:var(--card2);border:1px solid rgba(0,207,255,.15);border-radius:8px;padding:20px;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:var(--b);letter-spacing:3px;margin-bottom:6px;">🌤️ WEATHER WIDGET</div>
+          <div style="font-size:.65rem;color:#446688;letter-spacing:1px;margin-bottom:12px;">Shows weather in the top bar. Enter your city:</div>
+          <div style="display:flex;gap:0;margin-bottom:10px;">
+            <input id="weatherCity" type="text" placeholder="New York, London, Tokyo..." style="flex:1;background:rgba(0,207,255,.04);border:1px solid rgba(0,207,255,.2);border-right:none;border-radius:3px 0 0 3px;color:var(--b);font-family:'Share Tech Mono',monospace;font-size:.68rem;padding:9px 12px;outline:none;letter-spacing:1px;" onkeydown="if(event.key==='Enter')fetchWeather()">
+            <button onclick="fetchWeather()" style="background:var(--b);border:none;color:#050810;padding:9px 16px;font-family:'Orbitron',monospace;font-size:.6rem;font-weight:700;letter-spacing:2px;border-radius:0 3px 3px 0;cursor:pointer;">GET</button>
+          </div>
+          <div id="weatherResult" style="font-size:.68rem;color:#446688;letter-spacing:1px;"></div>
+        </div>
+
         <!-- ABOUT -->
         <div style="background:var(--card2);border:1px solid rgba(0,255,136,.08);border-radius:8px;padding:20px;">
           <div style="font-family:'Orbitron',sans-serif;font-size:.68rem;color:#446688;letter-spacing:3px;margin-bottom:10px;">ℹ️ ABOUT</div>
           <div style="font-size:.65rem;color:#334455;letter-spacing:1px;line-height:2;">NEXUS.GG — Your school arcade<br>Password protected · Offline games · AI tools · Music player</div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- CHAT PAGE -->
+    <div class="page" id="page-chat">
+      <div style="display:flex;flex-direction:column;height:100%;position:relative;">
+        <div style="padding:14px 20px;border-bottom:1px solid rgba(255,0,170,.1);display:flex;align-items:center;gap:14px;background:rgba(0,0,0,.3);flex-shrink:0;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:.7rem;color:var(--p);letter-spacing:3px;">💬 SECRET CHAT</div>
+          <div id="chatRoomName" style="font-size:.65rem;color:#446688;letter-spacing:1px;flex:1;"></div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span style="font-size:.6rem;color:#334455;letter-spacing:1px;">ROOM:</span>
+            <input id="roomCodeInput" type="text" maxlength="20" placeholder="enter room code..." style="background:rgba(255,0,170,.06);border:1px solid rgba(255,0,170,.2);border-radius:3px;color:var(--p);font-family:'Share Tech Mono',monospace;font-size:.65rem;padding:5px 10px;outline:none;width:140px;letter-spacing:1px;" onkeydown="if(event.key==='Enter')joinRoom()">
+            <button onclick="joinRoom()" style="background:var(--p);border:none;color:#fff;padding:5px 12px;font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;letter-spacing:1px;border-radius:3px;cursor:pointer;">JOIN</button>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span style="font-size:.6rem;color:#334455;letter-spacing:1px;">NAME:</span>
+            <input id="chatNameInput" type="text" maxlength="16" placeholder="your name..." style="background:rgba(255,0,170,.06);border:1px solid rgba(255,0,170,.2);border-radius:3px;color:var(--p);font-family:'Share Tech Mono',monospace;font-size:.65rem;padding:5px 10px;outline:none;width:120px;letter-spacing:1px;">
+          </div>
+        </div>
+        <div id="chatLog" style="flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px;">
+          <div style="text-align:center;font-size:.63rem;color:#334455;letter-spacing:2px;padding:20px;">Enter a room code and your name to start chatting with friends 🔒</div>
+        </div>
+        <div style="display:flex;gap:0;padding:14px 16px;border-top:1px solid rgba(255,0,170,.1);background:rgba(0,0,0,.3);">
+          <input id="chatMsgInput" type="text" placeholder="Type a message... (Enter to send)" maxlength="200" style="flex:1;background:rgba(255,0,170,.04);border:1px solid rgba(255,0,170,.18);border-right:none;border-radius:3px 0 0 3px;color:#c0d8ff;font-family:'Share Tech Mono',monospace;font-size:.73rem;padding:11px 14px;outline:none;letter-spacing:1px;" onkeydown="if(event.key==='Enter')sendChatMsg()">
+          <button onclick="sendChatMsg()" style="background:var(--p);border:none;color:#fff;padding:11px 20px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:0 3px 3px 0;cursor:pointer;">SEND</button>
+        </div>
       </div>
     </div>
 
@@ -1117,6 +1197,219 @@ document.getElementById('appsGrid').innerHTML = apps.map(a=>`
 window.addEventListener('load', () => {
   document.getElementById('coverPass').focus();
 });
+
+// ══════════════════════════════════
+// PANIC BUTTON
+// ══════════════════════════════════
+let panicMode = 'blank';
+let panicActive = false;
+
+function setPanic(mode) {
+  panicMode = mode;
+  localStorage.setItem('nx_panic', mode);
+  document.querySelectorAll('.panic-opt').forEach(b => {
+    b.style.background = 'none';
+    b.style.borderColor = 'rgba(255,0,170,.15)';
+    b.style.color = '#556677';
+  });
+  const el = document.getElementById('panic-' + mode);
+  if (el) { el.style.background = 'rgba(255,0,170,.08)'; el.style.borderColor = 'rgba(255,0,170,.3)'; el.style.color = 'var(--p)'; }
+}
+
+function triggerPanic() {
+  panicActive = true;
+  const overlay = document.getElementById('panicOverlay');
+  overlay.style.display = 'block';
+  if (panicMode === 'classroom') {
+    overlay.innerHTML = `<div style="background:#1967d2;color:#fff;padding:14px 24px;font-size:18px;font-weight:500;display:flex;align-items:center;gap:12px;"><div style="width:32px;height:32px;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#1967d2;font-weight:700;font-size:16px;">G</div>Google Classroom</div><div style="background:#f8f9fa;min-height:calc(100vh - 52px);padding:30px 40px;"><div style="max-width:800px;"><div style="color:#202124;font-size:22px;font-weight:400;margin-bottom:20px;">Welcome back</div><div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:20px;margin-bottom:14px;"><div style="color:#3c4043;font-size:14px;margin-bottom:8px;">📚 Period 3 — English Literature</div><div style="color:#80868b;font-size:12px;">Essay due tomorrow</div></div><div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:20px;"><div style="color:#3c4043;font-size:14px;margin-bottom:8px;">📐 Period 5 — Algebra II</div><div style="color:#80868b;font-size:12px;">No upcoming work</div></div></div></div>`;
+  } else if (panicMode === 'docs') {
+    overlay.innerHTML = `<div style="border-bottom:1px solid #e0e0e0;padding:8px 16px;display:flex;align-items:center;gap:12px;background:#fff;"><div style="width:30px;height:30px;background:#4285f4;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">D</div><div><div style="color:#202124;font-size:14px;">My Essay Draft</div><div style="color:#80868b;font-size:11px;">Google Docs</div></div></div><div style="background:#fff;padding:60px 200px;min-height:100vh;"><div style="color:#202124;font-size:24px;font-weight:400;margin-bottom:20px;border-bottom:1px solid #e0e0e0;padding-bottom:10px;">My Essay Draft</div><div style="color:#3c4043;font-size:14px;line-height:2;">The topic of this essay explores the fundamental aspects of human nature and how modern society shapes individual identity. Throughout history, philosophers have debated the core question of what defines a person beyond their circumstances...</div></div>`;
+  } else if (panicMode === 'search') {
+    overlay.innerHTML = `<div style="background:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-top:120px;"><img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" style="width:272px;margin-bottom:30px;"><div style="display:flex;gap:10px;"><div style="border:1px solid #dfe1e5;border-radius:24px;padding:12px 20px;width:500px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 6px rgba(32,33,36,.28);"><span style="color:#9aa0a6;">🔍</span><span style="color:#3c4043;font-size:14px;">how to write a good essay introduction</span></div></div><div style="margin-top:20px;color:#70757a;font-size:13px;">About 2,340,000,000 results</div></div>`;
+  } else {
+    overlay.innerHTML = '';
+    overlay.style.background = '#fff';
+  }
+  // Press any key or click to dismiss
+  const dismiss = (e) => {
+    if (e.key === 'Escape' || e.type === 'click') {
+      overlay.style.display = 'none';
+      panicActive = false;
+      document.removeEventListener('keydown', dismiss);
+      overlay.removeEventListener('click', dismiss);
+    }
+  };
+  setTimeout(() => {
+    document.addEventListener('keydown', dismiss);
+    overlay.addEventListener('click', dismiss);
+  }, 100);
+}
+
+// ESC key triggers panic
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !panicActive && document.getElementById('cover').style.display === 'none') {
+    triggerPanic();
+  }
+});
+
+// Load saved panic mode
+(function() {
+  const saved = localStorage.getItem('nx_panic');
+  if (saved) setPanic(saved);
+  else setPanic('blank');
+})();
+
+// ══════════════════════════════════
+// WALLPAPER
+// ══════════════════════════════════
+function setWallpaper(url) {
+  const app = document.getElementById('app');
+  if (!url || url === 'none') {
+    app.style.backgroundImage = '';
+    app.style.backgroundSize = '';
+    document.body.style.backgroundImage = '';
+    localStorage.removeItem('nx_wallpaper');
+  } else {
+    const bg = `url('${url}')`;
+    document.body.style.backgroundImage = bg;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundAttachment = 'fixed';
+    localStorage.setItem('nx_wallpaper', url);
+  }
+}
+
+// Load saved wallpaper
+(function() {
+  const saved = localStorage.getItem('nx_wallpaper');
+  if (saved) setWallpaper(saved);
+})();
+
+// ══════════════════════════════════
+// WEATHER
+// ══════════════════════════════════
+async function fetchWeather() {
+  const city = document.getElementById('weatherCity').value.trim();
+  if (!city) return;
+  const resultEl = document.getElementById('weatherResult');
+  resultEl.textContent = 'Fetching weather...';
+  try {
+    // Use open-meteo geocoding + weather (totally free, no key)
+    const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`);
+    const geoData = await geoRes.json();
+    if (!geoData.results?.length) { resultEl.textContent = 'City not found.'; return; }
+    const { latitude, longitude, name, country } = geoData.results[0];
+    const wxRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weathercode,windspeed_10m&temperature_unit=fahrenheit&windspeed_unit=mph`);
+    const wxData = await wxRes.json();
+    const temp = Math.round(wxData.current.temperature_2m);
+    const wind = Math.round(wxData.current.windspeed_10m);
+    const code = wxData.current.weathercode;
+    const icon = code <= 1 ? '☀️' : code <= 3 ? '⛅' : code <= 48 ? '🌫️' : code <= 67 ? '🌧️' : code <= 77 ? '❄️' : code <= 82 ? '🌦️' : '⛈️';
+    const desc = code === 0 ? 'Clear' : code <= 1 ? 'Mostly Clear' : code <= 3 ? 'Partly Cloudy' : code <= 48 ? 'Foggy' : code <= 55 ? 'Drizzle' : code <= 67 ? 'Rain' : code <= 77 ? 'Snow' : code <= 82 ? 'Showers' : 'Thunderstorm';
+    const display = `${icon} ${name}, ${country} · ${temp}°F · ${desc} · Wind ${wind}mph`;
+    resultEl.innerHTML = `<span style="color:var(--b)">${display}</span>`;
+    // Update topbar badge
+    const badge = document.getElementById('weatherBadge');
+    badge.style.display = 'block';
+    badge.textContent = `${icon} ${temp}°F ${name}`;
+    localStorage.setItem('nx_weather_city', city);
+  } catch(e) {
+    resultEl.textContent = 'Weather fetch failed. Try again.';
+  }
+}
+
+// Auto-load last weather city
+(function() {
+  const saved = localStorage.getItem('nx_weather_city');
+  if (saved) {
+    document.getElementById('weatherCity').value = saved;
+    fetchWeather();
+  }
+})();
+
+// ══════════════════════════════════
+// SECRET CHAT (uses public peerjs + localStorage sync trick)
+// Real-time via free Firebase Realtime DB public demo
+// ══════════════════════════════════
+let chatRoom = null;
+let chatName = 'Anonymous';
+let chatPollTimer = null;
+const CHAT_BASE = 'https://nexus-chat-default-rtdb.firebaseio.com';
+
+// Use a free public Firebase demo — messages auto-delete after 1hr
+async function joinRoom() {
+  const code = document.getElementById('roomCodeInput').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+  const name = document.getElementById('chatNameInput').value.trim() || 'Anon';
+  if (!code) return;
+  chatRoom = code;
+  chatName = name;
+  document.getElementById('chatRoomName').textContent = `Room: #${code} — logged in as ${name}`;
+  localStorage.setItem('nx_chat_name', name);
+  clearInterval(chatPollTimer);
+  loadMessages();
+  chatPollTimer = setInterval(loadMessages, 2000); // poll every 2s
+}
+
+async function loadMessages() {
+  if (!chatRoom) return;
+  try {
+    const r = await fetch(`${CHAT_BASE}/rooms/${chatRoom}/messages.json?orderBy="time"&limitToLast=50`);
+    const data = await r.json();
+    if (!data) return;
+    const msgs = Object.values(data).sort((a,b) => a.time - b.time);
+    const log = document.getElementById('chatLog');
+    const wasAtBottom = log.scrollTop + log.clientHeight >= log.scrollHeight - 20;
+    log.innerHTML = msgs.map(m => `
+      <div style="display:flex;flex-direction:${m.name===chatName?'row-reverse':'row'};gap:8px;align-items:flex-end;">
+        <div style="font-size:.6rem;color:#334455;flex-shrink:0;">${m.name}</div>
+        <div style="max-width:65%;padding:9px 13px;border-radius:6px;font-size:.72rem;line-height:1.6;letter-spacing:.4px;background:${m.name===chatName?'rgba(0,255,136,.08)':'rgba(255,0,170,.06)'};border:1px solid ${m.name===chatName?'rgba(0,255,136,.15)':'rgba(255,0,170,.12)'};color:${m.name===chatName?'#c0ddc0':'#c0c8dd'};">${escapeHtml(m.text)}</div>
+      </div>`).join('');
+    if (wasAtBottom) log.scrollTop = log.scrollHeight;
+  } catch(e) {}
+}
+
+async function sendChatMsg() {
+  if (!chatRoom) { alert('Join a room first!'); return; }
+  const input = document.getElementById('chatMsgInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  try {
+    await fetch(`${CHAT_BASE}/rooms/${chatRoom}/messages.json`, {
+      method: 'POST',
+      body: JSON.stringify({ name: chatName, text, time: Date.now() })
+    });
+    loadMessages();
+    // Auto-clean old messages after 100 in room
+    cleanOldMessages();
+  } catch(e) {}
+}
+
+async function cleanOldMessages() {
+  try {
+    const r = await fetch(`${CHAT_BASE}/rooms/${chatRoom}/messages.json?orderBy="time"&limitToLast=200`);
+    const data = await r.json();
+    if (!data) return;
+    const keys = Object.keys(data);
+    if (keys.length > 80) {
+      // Delete oldest 30
+      const toDelete = keys.slice(0, 30);
+      for (const k of toDelete) {
+        await fetch(`${CHAT_BASE}/rooms/${chatRoom}/messages/${k}.json`, { method: 'DELETE' });
+      }
+    }
+  } catch(e) {}
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Restore chat name
+(function() {
+  const saved = localStorage.getItem('nx_chat_name');
+  if (saved) document.getElementById('chatNameInput').value = saved;
+})();
 
 // ══════════════════════════════════
 // SETTINGS
