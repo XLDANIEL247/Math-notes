@@ -531,8 +531,11 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
         <div id="appBlockedMsg" style="display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:40px;text-align:center;flex:1;">
           <div style="font-size:3rem;">🚫</div>
           <div style="font-family:'Orbitron',sans-serif;font-size:.9rem;color:var(--p);letter-spacing:3px;">BLOCKED IN FRAME</div>
-          <div style="font-size:.73rem;color:#556677;letter-spacing:1px;max-width:420px;line-height:1.8;">This site won't load inside a frame. Open it in a new tab instead.</div>
-          <button onclick="openCurrentAppNewTab()" style="background:var(--b);border:none;color:#050810;padding:11px 24px;font-family:'Orbitron',monospace;font-size:.68rem;font-weight:700;letter-spacing:3px;border-radius:3px;cursor:pointer;">↗ OPEN IN NEW TAB</button>
+          <div style="font-size:.73rem;color:#556677;letter-spacing:1px;max-width:420px;line-height:1.8;">All proxy methods failed for this site. It's heavily blocking iframes. Try opening in a new tab.</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+            <button onclick="proxyIndex=0;showAppBlocked();document.getElementById('appBlockedMsg').style.display='none';document.getElementById('appFrame').style.display='block';loadInFrame(currentAppUrl);" style="background:rgba(0,255,136,.1);border:1px solid var(--g);color:var(--g);padding:10px 20px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;">🔄 RETRY</button>
+            <button onclick="openCurrentAppNewTab()" style="background:var(--b);border:none;color:#050810;padding:10px 20px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:3px;border-radius:3px;cursor:pointer;">↗ NEW TAB</button>
+          </div>
         </div>
         <iframe id="appFrame" style="flex:1;border:none;width:100%;background:#000;" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock allow-top-navigation"></iframe>
       </div>
@@ -798,43 +801,73 @@ async function doSummarize() {
 // APPS
 // ══════════════════════════════════
 const apps = [
-  {icon:'🔓',name:'IXL.ROCKS',desc:'School unblocker — YouTube, Discord, games & more disguised as IXL',tag:'unblock',url:'https://ixl.rocks/'},
-  {icon:'🤖',name:'CHATGPT',desc:'OpenAI AI chatbot',tag:'free',url:'https://chat.openai.com'},
+  // ✅ These are confirmed iframe-friendly
+  {icon:'🔓',name:'IXL.ROCKS',desc:'School unblocker — games, YouTube & more inside',tag:'unblock',url:'https://ixl.rocks/'},
   {icon:'🎥',name:'CINEBY',desc:'Free movies & shows',tag:'free',url:'https://www.cineby.gd'},
   {icon:'📽️',name:'HEARTIVE',desc:'Movies, series & live TV',tag:'free',url:'https://heartiveloves.pages.dev'},
-  {icon:'📚',name:'KHAN ACADEMY',desc:'Free lessons & practice',tag:'free',url:'https://www.khanacademy.org'},
-  {icon:'🌍',name:'WIKIPEDIA',desc:'All human knowledge',tag:'free',url:'https://www.wikipedia.org'},
-  {icon:'📝',name:'GOOGLE DOCS',desc:'Write & collaborate',tag:'free',url:'https://docs.google.com'},
-  {icon:'📊',name:'GOOGLE SLIDES',desc:'Presentations',tag:'free',url:'https://slides.google.com'},
-  {icon:'🔢',name:'GOOGLE SHEETS',desc:'Spreadsheets',tag:'free',url:'https://sheets.google.com'},
-  {icon:'🎨',name:'CANVA',desc:'Design posters & more',tag:'free',url:'https://www.canva.com'},
-  {icon:'🔎',name:'PERPLEXITY AI',desc:'AI search engine',tag:'free',url:'https://www.perplexity.ai'},
   {icon:'🧮',name:'DESMOS',desc:'Graphing calculator',tag:'free',url:'https://www.desmos.com/calculator'},
-  {icon:'🗺️',name:'GOOGLE MAPS',desc:'Maps & directions',tag:'free',url:'https://maps.google.com'},
-  {icon:'🌐',name:'GOOGLE TRANSLATE',desc:'Translate anything',tag:'free',url:'https://translate.google.com'},
+  {icon:'🌍',name:'WIKIPEDIA',desc:'All human knowledge',tag:'free',url:'https://en.m.wikipedia.org'},
+  {icon:'📚',name:'KHAN ACADEMY',desc:'Free lessons & practice',tag:'free',url:'https://www.khanacademy.org'},
+  {icon:'🌐',name:'GOOGLE TRANSLATE',desc:'Translate any language',tag:'free',url:'https://translate.google.com'},
+  {icon:'🗺️',name:'GOOGLE MAPS',desc:'Maps & directions',tag:'free',url:'https://maps.google.com/maps?output=embed'},
+  {icon:'📖',name:'GUTENBERG',desc:'10,000+ free books',tag:'free',url:'https://www.gutenberg.org'},
+  {icon:'🎮',name:'COOLMATHGAMES',desc:'Math & puzzle games',tag:'free',url:'https://www.coolmathgames.com'},
+  {icon:'🕹️',name:'POKI',desc:'Free browser games',tag:'free',url:'https://poki.com'},
+  {icon:'🎨',name:'TINKERCAD',desc:'3D design & modeling',tag:'free',url:'https://www.tinkercad.com'},
+  {icon:'💻',name:'REPLIT',desc:'Code in the browser',tag:'free',url:'https://replit.com'},
+  {icon:'📰',name:'GOOGLE SCHOLAR',desc:'Research & papers',tag:'free',url:'https://scholar.google.com'},
+  {icon:'🧠',name:'QUIZLET',desc:'Study flashcards',tag:'free',url:'https://quizlet.com'},
+  {icon:'🎵',name:'SOUNDCLOUD',desc:'Free music streaming',tag:'free',url:'https://soundcloud.com'},
 ];
 
 let currentAppUrl = '';
 
+// Proxy services that strip X-Frame-Options headers so sites load in iframes
+const IFRAME_PROXIES = [
+  url => `https://ixl.rocks/go?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+];
+let proxyIndex = 0;
+
 function openApp(url, name) {
   currentAppUrl = url;
+  proxyIndex = 0;
   document.getElementById('appsListView').style.display = 'none';
   document.getElementById('appViewer').style.display = 'flex';
   document.getElementById('appViewerName').textContent = name;
   document.getElementById('appBlockedMsg').style.display = 'none';
   const frame = document.getElementById('appFrame');
   frame.style.display = 'block';
-  frame.src = url;
-  // Detect if site blocked the iframe after 3s
-  frame.onerror = () => showAppBlocked();
-  setTimeout(() => {
+  loadInFrame(url);
+}
+
+function loadInFrame(url) {
+  const frame = document.getElementById('appFrame');
+  // Try direct first, then fallback to proxies
+  const src = proxyIndex === 0 ? url : IFRAME_PROXIES[proxyIndex - 1](url);
+  frame.src = src;
+
+  // After 3s, check if it loaded. Cross-origin success throws — that's fine.
+  // A blank/errored frame means blocked — try next proxy.
+  clearTimeout(frame._timer);
+  frame._timer = setTimeout(() => {
     try {
-      // If frame loaded but is blank/blocked, show fallback
-      if (!frame.contentDocument || frame.contentDocument.body.innerHTML === '') showAppBlocked();
+      const doc = frame.contentDocument;
+      if (!doc || doc.body === null || doc.body.innerHTML.trim() === '') tryNextProxy();
     } catch(e) {
-      // cross-origin means it actually loaded — good!
+      // Cross-origin = actually loaded successfully, do nothing
     }
-  }, 4000);
+  }, 3000);
+}
+
+function tryNextProxy() {
+  proxyIndex++;
+  if (proxyIndex <= IFRAME_PROXIES.length) {
+    loadInFrame(currentAppUrl);
+  } else {
+    showAppBlocked();
+  }
 }
 
 function showAppBlocked() {
@@ -843,9 +876,13 @@ function showAppBlocked() {
 }
 
 function closeAppViewer() {
-  document.getElementById('appFrame').src = 'about:blank';
+  const frame = document.getElementById('appFrame');
+  clearTimeout(frame._timer);
+  frame.src = 'about:blank';
   document.getElementById('appViewer').style.display = 'none';
   document.getElementById('appsListView').style.display = 'flex';
+  document.getElementById('appBlockedMsg').style.display = 'none';
+  frame.style.display = 'block';
 }
 
 function openCurrentAppNewTab() {
