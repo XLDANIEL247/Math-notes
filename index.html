@@ -112,32 +112,7 @@ body::before {
 }
 #neonLoader.done { width:100%!important; opacity:0; }
 
-/* ── NOTIFICATION TOAST ── */
-#toastContainer {
-  position:fixed;
-  bottom:24px;right:24px;
-  display:flex;flex-direction:column;gap:10px;
-  z-index:99996;
-  pointer-events:none;
-}
-.toast {
-  background:rgba(6,9,16,.95);
-  border:1px solid var(--g);
-  border-radius:6px;
-  padding:12px 18px;
-  font-family:'Share Tech Mono',monospace;
-  font-size:.7rem;
-  color:#c0d8ff;
-  letter-spacing:1px;
-  box-shadow:0 0 20px rgba(0,255,136,.2);
-  animation:toastIn .3s ease,toastOut .3s ease 3.7s both;
-  pointer-events:auto;
-  max-width:280px;
-  line-height:1.6;
-}
-@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
-@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}
-.toast .toast-title{color:var(--g);font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;margin-bottom:4px;}
+/* ── NOTIFICATION TOAST — defined further below ── */
 
 /* ── SPLASH SCREEN ── */
 #splashScreen {
@@ -307,20 +282,7 @@ body::before {
 .game-card:hover { animation:neonPulse .9s ease-in-out infinite; }
 .app-card:hover { animation:neonPulseB .9s ease-in-out infinite; }
 
-/* ── LOADING BAR ── */
-#neonBar {
-  position:fixed; top:0; left:0; height:3px; width:0%;
-  background:linear-gradient(to right,var(--g),var(--b),var(--p));
-  box-shadow:0 0 10px var(--g),0 0 20px var(--b);
-  z-index:99998; transition:width .3s ease; pointer-events:none;
-  border-radius:0 3px 3px 0;
-}
-#neonBar::after {
-  content:''; position:absolute; right:0; top:-4px;
-  width:12px; height:12px; border-radius:50%;
-  background:var(--b); box-shadow:0 0 14px var(--b),0 0 28px var(--b);
-  animation:neonPulseB .4s ease-in-out infinite;
-}
+/* ── LOADING BAR (neonLoader handles this) ── */
 
 /* ── TOAST NOTIFICATIONS ── */
 #toastContainer {
@@ -613,7 +575,50 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 
     <!-- MUSIC -->
     <div class="page" id="page-music">
-      <iframe src="https://vapor.my/page/music/index.html" style="flex:1;border:none;width:100%;height:100%;" allow="autoplay; clipboard-write; fullscreen"></iframe>
+      <div id="musicSidebar">
+        <div class="music-sidebar-header">🎵 FIND MUSIC</div>
+        <input id="musicSearch" type="text" placeholder="Search songs, artists..." onkeydown="if(event.key==='Enter')searchMusic()">
+        <div id="musicResults">
+          <div style="padding:20px 10px;font-size:.63rem;color:#334455;letter-spacing:2px;text-align:center;">Search for a song to start</div>
+        </div>
+      </div>
+      <div id="musicMain">
+        <div class="now-playing-art">
+          <span id="nowArtwork" style="position:relative;z-index:1;font-size:4rem;">🎵</span>
+        </div>
+        <div class="now-track-info">
+          <div class="now-title" id="nowTitle">NO TRACK SELECTED</div>
+          <div class="now-artist" id="nowArtist">Search and pick a song</div>
+        </div>
+        <div id="lyricsPanel">
+          <div class="lyric-placeholder">♬ Pick a track to start listening</div>
+        </div>
+        <div id="musicPlayer">
+          <div class="progress-wrap">
+            <span class="time-label" id="timeCur">0:00</span>
+            <div id="progressBar" onclick="seekAudio(event)">
+              <div id="progressFill"></div>
+            </div>
+            <span class="time-label" id="timeTot">0:00</span>
+            <div class="waveform" id="waveformEl">
+              <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+              <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+            </div>
+          </div>
+          <div class="music-controls-row">
+            <button class="mc-btn" onclick="shuffleTrack()" title="Shuffle">🔀</button>
+            <button class="mc-btn" onclick="prevTrack()">⏮</button>
+            <button class="mc-btn play" id="playPauseBtn" onclick="toggleMusicPlay()">▶</button>
+            <button class="mc-btn" onclick="nextTrack()">⏭</button>
+            <button class="mc-btn" id="repeatBtn" onclick="toggleRepeat()" title="Repeat">🔁</button>
+          </div>
+          <div class="vol-row">
+            <span>🔈</span>
+            <input type="range" class="vol" min="0" max="100" value="80" oninput="setMusicVol(this.value)">
+            <span>🔊</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- AI -->
@@ -862,9 +867,9 @@ input[type=range].vol::-webkit-slider-thumb { -webkit-appearance:none; width:10p
 let currentPassword = 'Jesus247'; // will be overridden by settings
 let typed = '';
 
-// Google login style — press Enter or click Next to submit
-document.getElementById('coverPass').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') tryGoogleLogin();
+// Google login style — press Enter or click Next to submit (use delegation since coverPass is injected later)
+document.getElementById('cover').addEventListener('keydown', function(e) {
+  if (e.target && e.target.id === 'coverPass' && e.key === 'Enter') tryGoogleLogin();
 });
 
 function tryGoogleLogin() {
@@ -1332,7 +1337,16 @@ loop();
 };
 
 const games = [
-  // glacierarcade.xyz — 200+ games, no iframe blocking ✅
+  // ── BUILT-IN GAMES (offline, no internet needed) ──
+  { name:'SNAKE', emoji:'🐍', cat:'classic', game:'snake', url:'snake', rating:'4.8', plays:'∞' },
+  { name:'2048', emoji:'🟦', cat:'classic', game:'2048', url:'2048', rating:'4.8', plays:'∞' },
+  { name:'TETRIS', emoji:'🟥', cat:'classic', game:'tetris', url:'tetris', rating:'4.9', plays:'∞' },
+  { name:'FLAPPY BIRD', emoji:'🐤', cat:'classic', game:'flappy', url:'flappy', rating:'4.7', plays:'∞' },
+  { name:'DINO RUN', emoji:'🦖', cat:'classic', game:'dino', url:'dino', rating:'4.8', plays:'∞' },
+  { name:'BREAKOUT', emoji:'🧱', cat:'classic', game:'breakout', url:'breakout', rating:'4.7', plays:'∞' },
+  { name:'PACMAN', emoji:'👾', cat:'classic', game:'pacman', url:'pacman', rating:'4.9', plays:'∞' },
+  { name:'PONG', emoji:'🏓', cat:'classic', game:'pong', url:'pong', rating:'4.6', plays:'∞' },
+  // ── ONLINE GAMES (glacierarcade.xyz) ──
   { name:'SLOPE', emoji:'🔵', cat:'action', url:'https://glacierarcade.xyz/html/slope.html', rating:'4.9', plays:'50M+', gif:'' },
   { name:'SLOPE 2', emoji:'🟣', cat:'action', url:'https://glacierarcade.xyz/html/slope2.html', rating:'4.8', plays:'20M+', gif:'' },
   { name:'SLOPE 3', emoji:'⚫', cat:'action', url:'https://glacierarcade.xyz/html/slope3.html', rating:'4.8', plays:'10M+', gif:'' },
@@ -1444,15 +1458,7 @@ function openGame(name, emoji, gameKey) {
   showToast('🎮 LOADING', name, 'var(--g)');
 }
 
-function closeGameFrame() {
-  const frame = document.getElementById('gamesFrame');
-  frame.innerHTML = '';
-  frame.style.display = 'none';
-  document.getElementById('gamesContent').style.display = 'block';
-  document.getElementById('gamesBack').style.display = 'none';
-  const helper = document.getElementById('gameBlockHelper');
-  if (helper) helper.remove();
-}
+// (duplicate closeGameFrame removed)
 
 function showGameBlockedHelper(name, url) {
   const frame = document.getElementById('gamesFrame');
@@ -1465,8 +1471,8 @@ function showGameBlockedHelper(name, url) {
     <div style="font-family:'Orbitron',sans-serif;font-size:.8rem;color:var(--p);letter-spacing:3px;">BLOCKED BY SCHOOL</div>
     <div style="font-size:.68rem;color:#446688;letter-spacing:1px;text-align:center;max-width:320px;line-height:1.8;">GoGuardian is blocking this game.<br>Open it through your unblocker instead:</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-      <button onclick="document.getElementById('gamesFrame').src='https://learn.szczech.com.ar/';document.getElementById('gameBlockHelper').remove();" style="background:rgba(255,204,0,.1);border:1px solid var(--y);color:var(--y);padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;">🔓 UNBLOCKER 1</button>
-      <button onclick="document.getElementById('gamesFrame').src='https://outerspace.is-a.software/&';document.getElementById('gameBlockHelper').remove();" style="background:rgba(255,204,0,.1);border:1px solid var(--y);color:var(--y);padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;">🚀 UNBLOCKER 2</button>
+      <button onclick="var f=document.getElementById('gamesFrame');f.innerHTML='<iframe src=&quot;https://learn.szczech.com.ar/&quot; style=&quot;width:100%;height:100%;border:none;&quot; allowfullscreen></iframe>';document.getElementById('gameBlockHelper').remove();" style="background:rgba(255,204,0,.1);border:1px solid var(--y);color:var(--y);padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;">🔓 UNBLOCKER 1</button>
+      <button onclick="var f=document.getElementById('gamesFrame');f.innerHTML='<iframe src=&quot;https://outerspace.is-a.software/&amp;&quot; style=&quot;width:100%;height:100%;border:none;&quot; allowfullscreen></iframe>';document.getElementById('gameBlockHelper').remove();" style="background:rgba(255,204,0,.1);border:1px solid var(--y);color:var(--y);padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;">🚀 UNBLOCKER 2</button>
       <button onclick="window.open('${url}','_blank');document.getElementById('gameBlockHelper').remove();" style="background:rgba(0,207,255,.1);border:1px solid var(--b);color:var(--b);padding:10px 18px;font-family:'Orbitron',monospace;font-size:.63rem;font-weight:700;letter-spacing:2px;border-radius:3px;cursor:pointer;">↗ NEW TAB</button>
     </div>
     <button onclick="document.getElementById('gameBlockHelper').remove();closeGameFrame();" style="background:none;border:none;color:#334455;font-family:'Share Tech Mono',monospace;font-size:.6rem;cursor:pointer;letter-spacing:1px;">← BACK</button>
@@ -1481,8 +1487,7 @@ function showGameBlockedHelper(name, url) {
 
 function closeGameFrame() {
   const frame = document.getElementById('gamesFrame');
-  clearTimeout(frame._gameTimer);
-  frame.src = 'about:blank';
+  frame.innerHTML = '';
   frame.style.display = 'none';
   document.getElementById('gamesContent').style.display = 'block';
   document.getElementById('gamesBack').style.display = 'none';
@@ -1725,7 +1730,12 @@ async function callClaude(prompt, system='') {
   const body = { model:'claude-sonnet-4-20250514', max_tokens:1000, messages:[{role:'user',content:prompt}] };
   if (system) body.system = system;
   const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body:JSON.stringify(body)
   });
   const data = await res.json();
   return data.content?.map(c=>c.text||'').join('')||'No response.';
@@ -1778,7 +1788,7 @@ async function doSummarize() {
 // ══════════════════════════════════
 // APPS
 // ══════════════════════════════════
-const UNBLOCKER_URL = 'https://outerspace.is-a.software/&';
+let UNBLOCKER_URL = 'https://outerspace.is-a.software/&';
 
 const apps = [
   {icon:'🔓',name:'RESOURCE HUB 1',desc:'Extended learning portal & tools',tag:'unblock',url:'https://learn.szczech.com.ar/',mode:'direct'},
@@ -1890,11 +1900,15 @@ document.getElementById('appsGrid').innerHTML = apps.map(a=>`
     }</span>
   </div>`).join('');
 
-// Focus the hidden input immediately
+// Focus the password input immediately
 window.addEventListener('load', () => {
-  document.getElementById('coverPass').focus();
   initSplash();
   initMatrix();
+  // coverPass is injected by applyCoverStyle, so focus it after a tick
+  setTimeout(() => {
+    const cp = document.getElementById('coverPass');
+    if (cp) cp.focus();
+  }, 50);
 });
 
 // ══════════════════════════════════
@@ -2299,8 +2313,10 @@ let currentCover = 'loading';
   applyCoverStyle(currentCover);
   const savedTheme = localStorage.getItem('nx_theme');
   if (savedTheme) {
-    const [g, b] = JSON.parse(savedTheme);
-    applyTheme(g, b);
+    try {
+      const [g, b] = JSON.parse(savedTheme);
+      applyTheme(g, b);
+    } catch(e) { localStorage.removeItem('nx_theme'); }
   }
 })();
 
@@ -2370,6 +2386,7 @@ function setCover(type) {
     active.style.borderColor = 'rgba(255,0,170,.3)';
     active.style.color = 'var(--p)';
   }
+  applyCoverStyle(type);
 }
 
 function applyCoverStyle(type) {
@@ -2389,7 +2406,7 @@ function applyCoverStyle(type) {
       <div style="font-size:24px;font-weight:400;color:#202124;margin-bottom:8px;font-family:'Google Sans',Arial,sans-serif;">Welcome back</div>
       <div style="display:flex;align-items:center;gap:8px;background:#f1f3f4;border-radius:20px;padding:6px 14px;margin-bottom:28px;">
         <div style="width:20px;height:20px;border-radius:50%;background:#4285f4;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-        <span style="font-size:14px;color:#202124;font-family:Arial,sans-serif;">student@gmail.com</span>
+        <span style="font-size:14px;color:#202124;font-family:Arial,sans-serif;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f98a8d8c9d9c978db99e94989095d79a9694">[email&#160;protected]</a></span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="#5f6368"><path d="M7 10l5 5 5-5z"/></svg>
       </div>
       <div style="font-size:16px;color:#202124;margin-bottom:4px;font-family:Arial,sans-serif;align-self:flex-start;">Enter your password</div>
@@ -2413,13 +2430,16 @@ function applyCoverStyle(type) {
       </div>
     </div>
     <div style="display:flex;gap:24px;font-size:12px;color:#5f6368;font-family:Arial,sans-serif;">
-      <span>English (United States)</span><span>Help</span><span>Privacy</span><span>Terms</span>
+      <span>English (United States)</span><span>Help</span><span>Privacy</span>
     </div>
-  </div>`;
-  document.getElementById('coverPass').focus();
+  </div>
+  `;
+  // After rebuilding, re-focus the input
+  setTimeout(() => {
+    const cp = document.getElementById("coverPass");
+    if (cp) cp.focus();
+  }, 50);
 }
-
-
 </script>
 </body>
 </html>
