@@ -324,14 +324,14 @@ input[type=range].vol::-webkit-slider-thumb{-webkit-appearance:none;width:10px;h
     <div class="g-field-label">Enter your password</div>
     <div class="g-field-sub">to continue to Google</div>
     <div class="g-pass-wrap">
-      <input id="coverPass" type="password" autocomplete="current-password" placeholder="Enter password">
+      <input id="coverPass" type="password" autocomplete="current-password" placeholder="Enter password" onkeydown="if(event.key==='Enter')tryLogin()">
       <button class="g-eye" id="eyeBtn" type="button">&#128065;</button>
     </div>
     <div id="coverError">Wrong password. Try again.</div>
     <div class="g-forgot">Forgot password?</div>
     <div class="g-actions">
       <button class="g-ghost" type="button">Create account</button>
-      <button id="coverNext" type="button">Next</button>
+      <button id="coverNext" type="button" onclick="tryLogin()">Next</button>
     </div>
   </div>
   <div class="g-footer"><span>English (US)</span><span>Help</span><span>Privacy</span><span>Terms</span></div>
@@ -573,15 +573,10 @@ var PW = localStorage.getItem('nx_pw') || 'Jesus247';
 
 window.addEventListener('DOMContentLoaded', function() {
   var inp = document.getElementById('coverPass');
-  var nextBtn = document.getElementById('coverNext');
   var eyeBtn = document.getElementById('eyeBtn');
-  if (inp) inp.focus();
-  if (nextBtn) nextBtn.addEventListener('click', tryLogin);
+  if (inp) setTimeout(function(){ inp.focus(); }, 100);
   if (eyeBtn) eyeBtn.addEventListener('click', function() {
-    inp.type = inp.type === 'password' ? 'text' : 'password';
-  });
-  if (inp) inp.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') tryLogin();
+    if (inp) inp.type = inp.type === 'password' ? 'text' : 'password';
   });
   var sp = localStorage.getItem('nx_panic');
   if (sp) panicMode = sp;
@@ -872,6 +867,64 @@ var GAMES = [
   {n:'CHROME DINO',e:'&#129429;',cat:'classic',u:'https://glacierarcade.xyz/html/chrome-dino.html',r:'4.8',p:'200M+'},
   {n:'TETRIS CLASSIC',e:'&#128994;',cat:'classic',u:'https://glacierarcade.xyz/html/tetris.html',r:'4.9',p:'1B+'},
   {n:'FRIDAY NIGHT FUNKIN',e:'&#127908;',cat:'classic',u:'https://glacierarcade.xyz/html/fnf.html',r:'4.8',p:'20M+'},
+  // ── MORE ACTION ──
+  {n:'MINECRAFT CLASSIC',e:'&#9935;',cat:'action',u:'https://glacierarcade.xyz/html/minecraft-classic.html',r:'4.9',p:'50M+'},
+  {n:'BASKETBALL STARS',e:'&#127936;',cat:'sports',u:'https://glacierarcade.xyz/html/basketball-stars.html',r:'4.8',p:'10M+'},
+  {n:'HELIX JUMP',e:'&#129395;',cat:'action',u:'https://glacierarcade.xyz/html/helix-jump.html',r:'4.7',p:'8M+'},
+  {n:'SNOW RIDER 3D',e:'&#127943;',cat:'racing',u:'https://glacierarcade.xyz/html/snow-rider-3d.html',r:'4.8',p:'6M+'},
+  {n:'CAR RUSH',e:'&#128664;',cat:'racing',u:'https://glacierarcade.xyz/html/car-rush.html',r:'4.6',p:'5M+'},
+  {n:'BULLET FORCE',e:'&#128165;',cat:'shooter',u:'https://glacierarcade.xyz/html/bullet-force.html',r:'4.8',p:'15M+'},
+  {n:'COMBAT ONLINE',e:'&#128296;',cat:'shooter',u:'https://glacierarcade.xyz/html/combat-online.html',r:'4.6',p:'5M+'},
+  {n:'STICKMAN RAGDOLL',e:'&#129399;',cat:'action',u:'https://glacierarcade.xyz/html/stickman-ragdoll.html',r:'4.6',p:'4M+'},
+  {n:'IDLE BREAKOUT',e:'&#128312;',cat:'puzzle',u:'https://glacierarcade.xyz/html/idle-breakout.html',r:'4.7',p:'6M+'},
+  {n:'MONKEY MART',e:'&#129412;',cat:'puzzle',u:'https://glacierarcade.xyz/html/monkey-mart.html',r:'4.8',p:'8M+'},
+  {n:'EGGY CAR',e:'&#129362;',cat:'racing',u:'https://glacierarcade.xyz/html/eggy-car.html',r:'4.7',p:'7M+'},
+  {n:'RAMP BIKE JUMPING',e:'&#128692;',cat:'racing',u:'https://glacierarcade.xyz/html/ramp-bike-jumping.html',r:'4.6',p:'3M+'},
+  {n:'MOTO X3M POOL PARTY',e:'&#127946;',cat:'racing',u:'https://glacierarcade.xyz/html/moto-x3m-pool-party.html',r:'4.7',p:'5M+'},
+  {n:'MOTO X3M WINTER',e:'&#127967;',cat:'racing',u:'https://glacierarcade.xyz/html/moto-x3m-winter.html',r:'4.7',p:'4M+'},
+  {n:'MOTO X3M SPOOKY LAND',e:'&#127875;',cat:'racing',u:'https://glacierarcade.xyz/html/moto-x3m-spooky-land.html',r:'4.7',p:'4M+'},
+  {n:'ELASTICMAN',e:'&#129299;',cat:'action',u:'https://glacierarcade.xyz/html/elasticman.html',r:'4.6',p:'6M+'},
+  {n:'NARROW ONE',e:'&#127993;',cat:'shooter',u:'https://glacierarcade.xyz/html/narrow-one.html',r:'4.8',p:'8M+'},
+  {n:'VOXIOM.IO',e:'&#127974;',cat:'shooter',u:'https://glacierarcade.xyz/html/voxiomio.html',r:'4.7',p:'5M+'},
+  {n:'BETRAYAL.IO',e:'&#128123;',cat:'io',u:'https://glacierarcade.xyz/html/betrayalio.html',r:'4.6',p:'4M+'},
+  {n:'SURVIV.IO',e:'&#127978;',cat:'io',u:'https://glacierarcade.xyz/html/survivio.html',r:'4.8',p:'12M+'},
+  {n:'SKRIBBL.IO',e:'&#127912;',cat:'io',u:'https://glacierarcade.xyz/html/skribblio.html',r:'4.7',p:'10M+'},
+  {n:'AGARIO',e:'&#128308;',cat:'io',u:'https://glacierarcade.xyz/html/agario.html',r:'4.8',p:'20M+'},
+  {n:'DIEP.IO',e:'&#128316;',cat:'io',u:'https://glacierarcade.xyz/html/diepio.html',r:'4.7',p:'8M+'},
+  {n:'ZOMBS ROYALE',e:'&#129503;',cat:'io',u:'https://glacierarcade.xyz/html/zombs-royale.html',r:'4.7',p:'6M+'},
+  {n:'NINJA IO',e:'&#129399;',cat:'io',u:'https://glacierarcade.xyz/html/ninjaio.html',r:'4.6',p:'4M+'},
+  {n:'LORDZ.IO',e:'&#128081;',cat:'io',u:'https://glacierarcade.xyz/html/lordzio.html',r:'4.6',p:'3M+'},
+  {n:'SUPER SMASH FLASH 2',e:'&#128165;',cat:'classic',u:'https://glacierarcade.xyz/html/ssf2.html',r:'4.8',p:'20M+'},
+  {n:'SONIC EXE',e:'&#128304;',cat:'classic',u:'https://glacierarcade.xyz/html/sonic-exe.html',r:'4.6',p:'5M+'},
+  {n:'MARIO KART',e:'&#128670;',cat:'classic',u:'https://glacierarcade.xyz/html/mario-kart.html',r:'4.8',p:'30M+'},
+  {n:'SUPER MARIO 64',e:'&#127794;',cat:'classic',u:'https://glacierarcade.xyz/html/super-mario-64.html',r:'4.9',p:'20M+'},
+  {n:'POKEMON SHOWDOWN',e:'&#129425;',cat:'classic',u:'https://glacierarcade.xyz/html/pokemon-showdown.html',r:'4.8',p:'15M+'},
+  {n:'FIREBOY & WATERGIRL',e:'&#128293;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl.html',r:'4.8',p:'10M+'},
+  {n:'FIREBOY & WATERGIRL 2',e:'&#128147;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl-2.html',r:'4.7',p:'8M+'},
+  {n:'FIREBOY & WATERGIRL 3',e:'&#127963;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl-3.html',r:'4.7',p:'6M+'},
+  {n:'FIREBOY & WATERGIRL 4',e:'&#9889;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl-4.html',r:'4.7',p:'5M+'},
+  {n:'FIREBOY & WATERGIRL 5',e:'&#127752;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl-5.html',r:'4.6',p:'4M+'},
+  {n:'ADAM AND EVE',e:'&#128112;',cat:'puzzle',u:'https://glacierarcade.xyz/html/adam-and-eve.html',r:'4.6',p:'3M+'},
+  {n:'BOB THE ROBBER',e:'&#129399;',cat:'puzzle',u:'https://glacierarcade.xyz/html/bob-the-robber.html',r:'4.7',p:'4M+'},
+  {n:'PAPA LOUIE 2',e:'&#127829;',cat:'action',u:'https://glacierarcade.xyz/html/papa-louie-2.html',r:'4.7',p:'5M+'},
+  {n:'EARN TO DIE',e:'&#128664;',cat:'action',u:'https://glacierarcade.xyz/html/earn-to-die.html',r:'4.7',p:'6M+'},
+  {n:'MUTILATE A DOLL 2',e:'&#129399;',cat:'action',u:'https://glacierarcade.xyz/html/mutilate-a-doll-2.html',r:'4.6',p:'4M+'},
+  {n:'AGE OF WAR',e:'&#9876;',cat:'action',u:'https://glacierarcade.xyz/html/age-of-war.html',r:'4.7',p:'6M+'},
+  {n:'AGE OF WAR 2',e:'&#128481;',cat:'action',u:'https://glacierarcade.xyz/html/age-of-war-2.html',r:'4.7',p:'4M+'},
+  {n:'TERRITORY WAR',e:'&#128296;',cat:'action',u:'https://glacierarcade.xyz/html/territory-war.html',r:'4.6',p:'3M+'},
+  {n:'GUN MAYHEM 2',e:'&#128299;',cat:'shooter',u:'https://glacierarcade.xyz/html/gun-mayhem-2.html',r:'4.6',p:'4M+'},
+  {n:'RAZE 3',e:'&#128165;',cat:'shooter',u:'https://glacierarcade.xyz/html/raze-3.html',r:'4.6',p:'3M+'},
+  {n:'STRIKE FORCE HEROES',e:'&#128110;',cat:'shooter',u:'https://glacierarcade.xyz/html/strike-force-heroes.html',r:'4.7',p:'5M+'},
+  {n:'STRIKE FORCE HEROES 2',e:'&#127968;',cat:'shooter',u:'https://glacierarcade.xyz/html/strike-force-heroes-2.html',r:'4.7',p:'4M+'},
+  {n:'BATTLE WHEELS',e:'&#128662;',cat:'racing',u:'https://glacierarcade.xyz/html/battle-wheels.html',r:'4.6',p:'3M+'},
+  {n:'STUNT SIMULATOR',e:'&#128664;',cat:'racing',u:'https://glacierarcade.xyz/html/stunt-simulator.html',r:'4.6',p:'3M+'},
+  {n:'PARKING FURY 3D',e:'&#128664;',cat:'racing',u:'https://glacierarcade.xyz/html/parking-fury-3d.html',r:'4.5',p:'3M+'},
+  {n:'TABLE TENNIS WORLD TOUR',e:'&#127955;',cat:'sports',u:'https://glacierarcade.xyz/html/table-tennis-world-tour.html',r:'4.6',p:'3M+'},
+  {n:'PENALTY SHOOTOUT',e:'&#9917;',cat:'sports',u:'https://glacierarcade.xyz/html/penalty-shootout.html',r:'4.6',p:'4M+'},
+  {n:'BASEBALL FURY',e:'&#9918;',cat:'sports',u:'https://glacierarcade.xyz/html/baseball-fury.html',r:'4.5',p:'2M+'},
+  {n:'WRESTLING RANDOM',e:'&#129354;',cat:'sports',u:'https://glacierarcade.xyz/html/wrestling-random.html',r:'4.6',p:'3M+'},
+  {n:'HEAD SOCCER',e:'&#9917;',cat:'sports',u:'https://glacierarcade.xyz/html/head-soccer.html',r:'4.7',p:'5M+'},
+  {n:'PING PONG CHAOS',e:'&#127955;',cat:'sports',u:'https://glacierarcade.xyz/html/ping-pong-chaos.html',r:'4.5',p:'2M+'},
 ];
 
 var curCat = 'all';
