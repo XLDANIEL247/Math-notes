@@ -320,7 +320,7 @@ input[type=range].vol::-webkit-slider-thumb{-webkit-appearance:none;width:10px;h
   <div id="cover-mid">
     <div class="g-avatar"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
     <div class="g-welcome">Welcome back</div>
-    <div class="g-email-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="#4285f4"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span style="font-family:Arial;font-size:14px;color:#202124">student@school.edu</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368"><path d="M7 10l5 5 5-5z"/></svg></div>
+    <div class="g-email-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="#4285f4"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span style="font-family:Arial;font-size:14px;color:#202124"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95e6e1e0f1f0fbe1d5e6f6fdfafaf9bbf0f1e0">[email&#160;protected]</a></span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368"><path d="M7 10l5 5 5-5z"/></svg></div>
     <div class="g-field-label">Enter your password</div>
     <div class="g-field-sub">to continue to Google</div>
     <div class="g-pass-wrap">
@@ -418,39 +418,18 @@ input[type=range].vol::-webkit-slider-thumb{-webkit-appearance:none;width:10px;h
     </div>
 
     <!-- MUSIC PAGE -->
-    <div class="page" id="mPage">
-      <div id="mSide">
-        <div class="m-hdr">&#127925; FIND MUSIC</div>
-        <input id="mSearch" type="text" placeholder="Search songs, artists..." onkeydown="if(event.key==='Enter')searchMusic()">
-        <div id="mResults"><div style="padding:18px 10px;font-size:.6rem;color:#1a2a3a;letter-spacing:1.5px;text-align:center;">Search a song to begin</div></div>
-      </div>
-      <div id="mMain">
-        <div class="now-art"><span id="nowArtwork">&#127925;</span></div>
-        <div class="now-info">
-          <div id="nowTitle">NO TRACK SELECTED</div>
-          <div id="nowArtist">Search above and pick a song</div>
-        </div>
-        <div id="lyricsPanel"><div class="lyric-line">&#9836; Pick a track to start</div></div>
-        <div id="mPlayer">
-          <div class="prog-row">
-            <span class="t-lbl" id="timeCur">0:00</span>
-            <div id="progBar" onclick="seekAudio(event)"><div id="progFill"></div></div>
-            <span class="t-lbl" id="timeTot">0:00</span>
-            <div class="wf" id="waveEl"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
-          </div>
-          <div class="m-ctrls">
-            <button class="mc" onclick="shuffleTrack()" title="Shuffle">&#128256;</button>
-            <button class="mc" onclick="prevTrack()">&#9198;</button>
-            <button class="mc play" id="playBtn" onclick="togglePlay()">&#9654;</button>
-            <button class="mc" onclick="nextTrack()">&#9197;</button>
-            <button class="mc" id="repeatBtn" onclick="toggleRepeat()">&#128257;</button>
-          </div>
-          <div class="vol-row"><span>&#128264;</span><input type="range" class="vol" min="0" max="100" value="80" oninput="setVol(this.value)"><span>&#128266;</span></div>
-        </div>
+    <div class="page" id="mPage" style="flex-direction:column;overflow:hidden;">
+      <div style="flex:1;position:relative;overflow:hidden;">
+        <iframe 
+          src="https://vapor.my/page/music/index.html" 
+          style="width:100%;height:100%;border:none;display:block;background:#000;"
+          allow="autoplay; fullscreen"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation">
+        </iframe>
       </div>
     </div>
 
-    <!-- AI PAGE -->
+        <!-- AI PAGE -->
     <div class="page" id="aiPage">
       <div class="ai-side">
         <button class="aitool on" onclick="setAI(this,'chat')">&#128172; AI CHAT</button>
@@ -586,7 +565,7 @@ input[type=range].vol::-webkit-slider-thumb{-webkit-appearance:none;width:10px;h
   </div><!-- /main -->
 </div><!-- /app -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ══════════════════════════════════════════════════
 // PASSWORD & LOGIN
 // ══════════════════════════════════════════════════
@@ -1150,7 +1129,7 @@ function sendChat() {
   fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
-    body: JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1024,system:'You are StudyBot, a helpful AI tutor for students. Be concise, friendly, and educational.',messages:[{role:'user',content:text}]})
+    body: JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1024,system:'You are StudyBot, a helpful AI tutor for students. Be concise, friendly, and educational.',messages:[{role:'user',content:text}]})
   }).then(function(r) { return r.json(); }).then(function(data) {
     wait.querySelector('.mbub').textContent = (data.content && data.content[0] && data.content[0].text) || 'Sorry, something went wrong.';
   }).catch(function() { wait.querySelector('.mbub').textContent = '\u26A0\uFE0F Could not connect to AI.'; });
@@ -1163,7 +1142,7 @@ function doTranslate() {
   document.getElementById('transOut').value = '\u23F3 Translating...';
   fetch('https://api.anthropic.com/v1/messages', {
     method:'POST', headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1024,messages:[{role:'user',content:'Translate to '+to+'. Return ONLY the translation:\n\n'+inp}]})
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1024,messages:[{role:'user',content:'Translate to '+to+'. Return ONLY the translation:\n\n'+inp}]})
   }).then(function(r){return r.json();}).then(function(d){
     document.getElementById('transOut').value = (d.content&&d.content[0]&&d.content[0].text)||'Translation failed.';
   }).catch(function(){ document.getElementById('transOut').value = 'Error.'; });
@@ -1175,7 +1154,7 @@ function doSummarize() {
   document.getElementById('sumOut').textContent = '\u23F3 Summarizing...';
   fetch('https://api.anthropic.com/v1/messages', {
     method:'POST', headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:512,messages:[{role:'user',content:'Summarize in 3-5 bullet points:\n\n'+inp}]})
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:512,messages:[{role:'user',content:'Summarize in 3-5 bullet points:\n\n'+inp}]})
   }).then(function(r){return r.json();}).then(function(d){
     document.getElementById('sumOut').textContent = (d.content&&d.content[0]&&d.content[0].text)||'Failed.';
   }).catch(function(){ document.getElementById('sumOut').textContent = 'Error.'; });
@@ -1373,13 +1352,4 @@ function escHtml(s) {
 // ══════════════════════════════════════════════════
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
-    var app = document.getElementById('app');
-    var panic = document.getElementById('panic');
-    if (app && app.style.display !== 'none' && panic && panic.style.display === 'none') {
-      triggerPanic();
-    }
-  }
-});
-</script>
-</body>
-</html>
+    var app = docum
