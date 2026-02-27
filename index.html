@@ -1790,9 +1790,14 @@ function brRenderRecent() {
   if (!el) return;
   if (!brRecentList.length) { if(sec) sec.style.display='none'; return; }
   if(sec) sec.style.display='block';
-  el.innerHTML = brRecentList.map(function(r) {
-    return '<div class="brl-rec-item" onclick="brOpen(''+r.url+'')">&#128640; '+escHtml(r.label)+'</div>';
-  }).join('');
+  el.innerHTML = '';
+  brRecentList.forEach(function(r) {
+    var d = document.createElement('div');
+    d.className = 'brl-rec-item';
+    d.textContent = r.label;
+    d.onclick = function(){ brOpen(r.url); };
+    el.appendChild(d);
+  });
 }
 
 // Keep for compatibility
