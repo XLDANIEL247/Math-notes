@@ -524,6 +524,7 @@ input:focus,textarea:focus{
       <button class="g-eye" id="eyeBtn" type="button" onclick="toggleEye()">&#128065;</button>
     </div>
     <div id="coverError">Wrong password. Try again.</div>
+      <div id="coverHint" style="display:none;color:#5f6368;font-size:12px;align-self:flex-start;margin-top:4px;">Hint: check your settings for the current password</div>
       <div id="coverReset" style="margin-top:8px;font-size:11px;color:#aaa;text-align:center;display:none;"><span style="cursor:pointer;text-decoration:underline;color:#4285f4;" onclick="hardResetPw()">Forgot password? Reset to default</span></div>
     <div class="g-forgot" onclick="showHint()">Forgot password?</div>
     <div class="g-actions">
@@ -877,7 +878,11 @@ function toggleEye() {
 }
 
 function showHint() {
-  toast('\uD83D\uDD11 HINT', 'Check settings to reset password', 'var(--y)');
+  var h = document.getElementById('coverHint');
+  if (h) { h.style.display = h.style.display === 'none' ? 'block' : 'none'; }
+  // Also show reset link
+  var r = document.getElementById('coverReset');
+  if (r) r.style.display = 'block';
 }
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -890,22 +895,28 @@ function tryLogin() {
   var inp = document.getElementById('coverPass');
   var err = document.getElementById('coverError');
   if (!inp) return;
-  var val = inp.value || '';
+  var val = (inp.value || '').trim();
   if (!val) return;
-  val = val.trim();
-  if (val === PW || val === DEFAULT_PW) {
+
+  // Read the correct password fresh — never trust the cached PW variable
+  var correctPw = DEFAULT_PW;
+  try {
+    var saved = localStorage.getItem('nx_pw');
+    if (saved && saved.length > 0) correctPw = saved;
+  } catch(e) {}
+
+  if (val === correctPw || val === DEFAULT_PW) {
     err.style.display = 'none';
     inp.style.borderColor = '#34a853';
     inp.style.boxShadow = '0 0 0 2px rgba(52,168,83,.2)';
     var btn = document.getElementById('coverNext');
-    if (btn) { btn.textContent = '\u2713'; btn.style.background = '#34a853'; }
+    if (btn) { btn.textContent = '✓'; btn.style.background = '#34a853'; }
     setTimeout(showCinematic, 350);
   } else {
     err.style.display = 'block';
     inp.style.borderColor = '#d93025';
     inp.style.boxShadow = '0 0 0 2px rgba(217,48,37,.2)';
     inp.value = '';
-    // Show reset hint after wrong attempt
     var resetHint = document.getElementById('coverReset');
     if (resetHint) resetHint.style.display = 'block';
     setTimeout(function() { inp.style.borderColor = '#dadce0'; inp.style.boxShadow = 'none'; }, 2200);
