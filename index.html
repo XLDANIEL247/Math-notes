@@ -393,6 +393,65 @@ input:focus,textarea:focus{
 .popt:hover{background:rgba(255,0,170,.08);border-color:rgba(255,0,170,.3);color:var(--p);}
 .popt.on{background:rgba(255,0,170,.1);border-color:rgba(255,0,170,.35);color:var(--p);}
 #chatPage{flex-direction:column;}
+
+/* ══ HOMEWORK PAGE ══ */
+#hwPage{flex-direction:column;overflow:hidden;}
+.hw-wrap{display:flex;flex:1;overflow:hidden;gap:0;}
+.hw-left{width:340px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid rgba(255,0,170,.12);background:rgba(6,9,16,.6);}
+.hw-right{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.hw-hdr{padding:12px 16px;border-bottom:1px solid rgba(255,0,170,.12);font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:3px;color:var(--p);display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.hw-sub{font-size:.55rem;color:#334455;letter-spacing:1px;padding:0 16px 8px;flex-shrink:0;}
+#hwInput{flex:1;background:rgba(255,0,170,.03);border:none;border-top:1px solid rgba(255,0,170,.1);color:#c0d8ff;font-family:'Share Tech Mono',monospace;font-size:.68rem;padding:13px 16px;outline:none;resize:none;line-height:1.75;min-height:0;}
+#hwInput::placeholder{color:#222;}
+.hw-actions{display:flex;gap:6px;padding:10px 13px;border-top:1px solid rgba(255,0,170,.1);flex-wrap:wrap;flex-shrink:0;}
+.hw-btn{border:none;padding:7px 14px;font-family:'Orbitron',sans-serif;font-size:.53rem;font-weight:700;letter-spacing:1.5px;border-radius:3px;cursor:pointer;transition:all .2s;flex:1;min-width:80px;}
+.hw-btn.solve{background:var(--p);color:#fff;}
+.hw-btn.solve:hover{box-shadow:0 0 20px rgba(255,0,170,.5);}
+.hw-btn.explain{background:rgba(0,207,255,.15);border:1px solid rgba(0,207,255,.3);color:var(--b);}
+.hw-btn.explain:hover{background:rgba(0,207,255,.25);}
+.hw-btn.outline{background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.25);color:var(--g);}
+.hw-btn.outline:hover{background:rgba(0,255,136,.22);}
+.hw-btn.clear{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#445566;}
+#hwOutput{flex:1;overflow-y:auto;padding:16px;}
+.hw-answer{background:rgba(255,0,170,.04);border:1px solid rgba(255,0,170,.15);border-radius:6px;padding:14px 16px;font-size:.69rem;line-height:1.85;color:#d0e0ff;letter-spacing:.3px;white-space:pre-wrap;animation:paneIn .3s ease;}
+.hw-answer strong,.hw-answer b{color:var(--g);}
+.hw-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;opacity:.4;}
+.hw-empty-icon{font-size:3rem;}
+.hw-empty-txt{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:3px;color:#334455;}
+.hw-subject-pills{display:flex;flex-wrap:wrap;gap:5px;padding:8px 13px;border-bottom:1px solid rgba(255,0,170,.08);}
+.hw-pill{background:none;border:1px solid rgba(255,0,170,.15);color:#445566;font-family:'Share Tech Mono',monospace;font-size:.53rem;padding:4px 10px;border-radius:12px;cursor:pointer;transition:all .18s;letter-spacing:.8px;}
+.hw-pill:hover,.hw-pill.on{background:rgba(255,0,170,.12);border-color:rgba(255,0,170,.4);color:var(--p);}
+.hw-hist{overflow-y:auto;flex:1;padding:8px 0;}
+.hw-hist-item{padding:9px 16px;font-size:.58rem;color:#445566;cursor:pointer;border-left:2px solid transparent;transition:all .15s;line-height:1.5;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hw-hist-item:hover{background:rgba(255,0,170,.06);border-left-color:var(--p);color:#c0d0ff;}
+
+/* ══ BROWSER PAGE ══ */
+#browserPage{flex-direction:column;overflow:hidden;}
+.br-bar{display:flex;align-items:center;gap:8px;padding:9px 14px;background:rgba(6,9,16,.97);border-bottom:1px solid rgba(0,207,255,.1);flex-shrink:0;}
+.br-nav{background:none;border:1px solid rgba(0,207,255,.2);color:var(--b);width:30px;height:30px;border-radius:4px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.br-nav:hover{background:rgba(0,207,255,.12);}
+#brUrl{flex:1;background:rgba(0,207,255,.04);border:1px solid rgba(0,207,255,.18);border-radius:4px;color:#c0d8ff;font-family:'Share Tech Mono',monospace;font-size:.68rem;padding:7px 12px;outline:none;letter-spacing:.8px;}
+#brUrl:focus{border-color:rgba(0,207,255,.5);box-shadow:0 0 15px rgba(0,207,255,.15);}
+.br-go{background:var(--b);border:none;color:#050810;padding:7px 16px;font-family:'Orbitron',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:1.5px;border-radius:4px;cursor:pointer;flex-shrink:0;}
+.br-go:hover{box-shadow:0 0 18px rgba(0,207,255,.5);}
+.br-bookmarks{display:flex;gap:5px;padding:6px 14px;border-bottom:1px solid rgba(0,207,255,.07);background:rgba(0,0,0,.2);flex-shrink:0;overflow-x:auto;}
+.br-bookmarks::-webkit-scrollbar{height:0;}
+.br-bm{background:none;border:1px solid rgba(0,207,255,.12);color:#445566;font-family:'Share Tech Mono',monospace;font-size:.54rem;padding:3px 10px;border-radius:3px;cursor:pointer;white-space:nowrap;transition:all .18s;letter-spacing:.8px;}
+.br-bm:hover{background:rgba(0,207,255,.1);border-color:rgba(0,207,255,.3);color:var(--b);}
+#brFrame{flex:1;border:none;width:100%;background:#000;}
+.br-status{font-size:.52rem;color:#334455;letter-spacing:.8px;flex-shrink:0;white-space:nowrap;}
+
+/* ══ SETTINGS: bg uploader ══ */
+.bg-grid{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.bg-opt{width:52px;height:40px;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:all .2s;position:relative;overflow:hidden;}
+.bg-opt:hover,.bg-opt.sel{border-color:#fff;box-shadow:0 0 10px rgba(255,255,255,.3);}
+.bg-opt img{width:100%;height:100%;object-fit:cover;}
+#bgUploadBtn{background:rgba(0,207,255,.08);border:1px dashed rgba(0,207,255,.3);color:var(--b);font-family:'Share Tech Mono',monospace;font-size:.58rem;padding:8px 14px;border-radius:4px;cursor:pointer;letter-spacing:.8px;transition:all .2s;}
+#bgUploadBtn:hover{background:rgba(0,207,255,.15);}
+
+/* ══ AI NAME BANNER ══ */
+#aiNameBanner{display:none;padding:7px 14px;background:rgba(0,255,136,.06);border-bottom:1px solid rgba(0,255,136,.12);font-size:.6rem;color:var(--g);letter-spacing:1.5px;flex-shrink:0;}
+
 .ch-hdr{padding:11px 16px;border-bottom:1px solid rgba(255,0,170,.1);background:rgba(0,0,0,.3);display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0;}
 .ch-title{font-family:'Orbitron',sans-serif;font-size:.65rem;color:var(--p);letter-spacing:2.5px;}
 #chatRoomName{font-size:.6rem;color:#334455;flex:1;}
@@ -489,6 +548,8 @@ input:focus,textarea:focus{
       <button class="tab" onclick="switchPage('apps',this)">&#128218; RESOURCES</button>
       <button class="tab" onclick="switchPage('settings',this)">&#9881; SETTINGS</button>
       <button class="tab" onclick="switchPage('chat',this)">&#128172; CHAT</button>
+      <button class="tab" onclick="switchPage('hw',this)">&#128221; HOMEWORK</button>
+      <button class="tab" onclick="switchPage('browser',this)">&#127760; BROWSER</button>
     </div>
     <div id="tb-right">
       <div id="soundBars"><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div></div>
@@ -540,6 +601,7 @@ input:focus,textarea:focus{
       </div>
       <div id="aiMain">
         <div class="aipane on" id="aipane-chat">
+          <div id="aiNameBanner"></div>
           <div id="chatMsgs"></div>
           <div class="chat-in">
             <input id="chatInput" type="text" placeholder="Ask anything — homework, math, essays..." onkeydown="if(event.key==='Enter')sendChat()">
@@ -685,6 +747,65 @@ input:focus,textarea:focus{
       </div>
     </div>
 
+    <!-- HOMEWORK PAGE -->
+    <div class="page" id="hwPage">
+      <div class="hw-wrap">
+        <div class="hw-left">
+          <div class="hw-hdr">&#128221; HOMEWORK AI</div>
+          <div class="hw-sub">Paste your question — get instant answers</div>
+          <div class="hw-subject-pills">
+            <button class="hw-pill on" onclick="setHwSubject(this,'')">ALL</button>
+            <button class="hw-pill" onclick="setHwSubject(this,'math')">MATH</button>
+            <button class="hw-pill" onclick="setHwSubject(this,'science')">SCIENCE</button>
+            <button class="hw-pill" onclick="setHwSubject(this,'english')">ENGLISH</button>
+            <button class="hw-pill" onclick="setHwSubject(this,'history')">HISTORY</button>
+            <button class="hw-pill" onclick="setHwSubject(this,'code')">CODE</button>
+          </div>
+          <div class="hw-hist" id="hwHist"></div>
+          <textarea id="hwInput" placeholder="Paste your question or assignment here...&#10;&#10;e.g. Solve for x: 3x + 5 = 20&#10;     Write a thesis about climate change&#10;     Explain photosynthesis"></textarea>
+          <div class="hw-actions">
+            <button class="hw-btn solve" onclick="hwAsk('solve')">&#9889; SOLVE</button>
+            <button class="hw-btn explain" onclick="hwAsk('explain')">&#128161; EXPLAIN</button>
+            <button class="hw-btn outline" onclick="hwAsk('outline')">&#128196; OUTLINE</button>
+            <button class="hw-btn clear" onclick="hwClear()">&#10005; CLEAR</button>
+          </div>
+        </div>
+        <div class="hw-right">
+          <div class="hw-hdr" style="color:var(--g);border-bottom-color:rgba(0,255,136,.12);">&#128200; ANSWER</div>
+          <div id="hwOutput">
+            <div class="hw-empty">
+              <div class="hw-empty-icon">&#129302;</div>
+              <div class="hw-empty-txt">READY TO HELP</div>
+              <div style="font-size:.55rem;color:#1a2a1a;letter-spacing:1px;text-align:center;margin-top:6px;">Type your question and hit SOLVE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BROWSER PAGE -->
+    <div class="page" id="browserPage">
+      <div class="br-bar">
+        <button class="br-nav" onclick="brBack()">&#8592;</button>
+        <button class="br-nav" onclick="brForward()">&#8594;</button>
+        <button class="br-nav" onclick="brRefresh()">&#8635;</button>
+        <input id="brUrl" type="text" placeholder="Enter URL or search..." onkeydown="if(event.key==='Enter')brGo()">
+        <button class="br-go" onclick="brGo()">GO</button>
+        <span class="br-status" id="brStatus">READY</span>
+      </div>
+      <div class="br-bookmarks">
+        <button class="br-bm" onclick="brLoad('https://www.google.com')">&#128269; Google</button>
+        <button class="br-bm" onclick="brLoad('https://www.youtube.com')">&#128250; YouTube</button>
+        <button class="br-bm" onclick="brLoad('https://en.wikipedia.org')">&#128214; Wikipedia</button>
+        <button class="br-bm" onclick="brLoad('https://www.khanacademy.org')">&#128336; Khan</button>
+        <button class="br-bm" onclick="brLoad('https://docs.google.com')">&#128221; Docs</button>
+        <button class="br-bm" onclick="brLoad('https://www.desmos.com/calculator')">&#128202; Desmos</button>
+        <button class="br-bm" onclick="brLoad('https://quizlet.com')">&#127183; Quizlet</button>
+        <button class="br-bm" onclick="brLoad(UB2)">&#128640; Unblocker</button>
+      </div>
+      <iframe id="brFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" allow="fullscreen *; autoplay *"></iframe>
+    </div>
+
   </div>
 </div>
 
@@ -756,6 +877,7 @@ function unlock() {
   setTimeout(function() { fireworks(); toast('\uD83D\uDD13 UNLOCKED', 'Welcome to StudyHub Pro!'); }, 600);
   loadSettings();
   setTimeout(initTabLine, 100);
+  setTimeout(function() { updateAIBanner(); buildBgPicker(); renderHwHist(); }, 400);
 }
 
 // ══════ NAVIGATION ══════
@@ -1185,13 +1307,52 @@ function sendChat() {
   inp.value = '';
   aiMsg('user', text);
   var wait = aiMsg('ai', '<div class="spinner"></div>');
-  callFreeAI(text, 'You are StudyBot, a helpful AI tutor for students. Be concise, friendly, and educational. Keep responses under 200 words.')
+  var sysPrompt = 'You are StudyBot, a helpful AI tutor. Be concise, friendly, educational. Under 220 words.';
+  if (aiUserName) sysPrompt += ' The student is named ' + aiUserName + '. Use their name occasionally.';
+  var histParts = [];
+  for (var i = Math.max(0, aiConvHistory.length - AI_MAX_HISTORY); i < aiConvHistory.length; i++) {
+    var m = aiConvHistory[i];
+    histParts.push((m.role === 'user' ? 'User' : 'StudyBot') + ': ' + m.content);
+  }
+  histParts.push('User: ' + text);
+  var fullPrompt = sysPrompt + '\n\n' + histParts.join('\n') + '\n\nStudyBot:';
+  fetch('https://text.pollinations.ai/' + encodeURIComponent(fullPrompt) + '?model=openai&seed=' + Math.floor(Math.random()*99999))
+    .then(function(r){ return r.text(); })
     .then(function(reply) {
+      reply = reply.trim();
       if (wait) { var bub = wait.querySelector('.mbub'); if (bub) bub.textContent = reply; }
+      aiConvHistory.push({role:'user', content: text});
+      aiConvHistory.push({role:'assistant', content: reply});
+      if (aiConvHistory.length > AI_MAX_HISTORY * 2) aiConvHistory = aiConvHistory.slice(-AI_MAX_HISTORY * 2);
     })
     .catch(function() {
-      if (wait) { var bub = wait.querySelector('.mbub'); if (bub) bub.textContent = '\u26A0\uFE0F Could not connect to AI. Try again!'; }
+      if (wait) { var bub = wait.querySelector('.mbub'); if (bub) bub.textContent = '\u26A0\uFE0F Could not connect. Try again!'; }
     });
+}
+
+async function callFreeAIWithHistory(messages, systemPrompt) {
+  // Build full prompt with history for GET endpoint
+  var histStr = messages.map(function(m) {
+    return (m.role === 'user' ? 'User' : 'Assistant') + ': ' + m.content;
+  }).join('\n');
+  var fullPrompt = (systemPrompt || '') + '\n\nConversation:\n' + histStr + '\n\nAssistant:';
+
+  try {
+    var url = 'https://text.pollinations.ai/' + encodeURIComponent(fullPrompt) + '?model=openai&seed=' + Math.floor(Math.random()*99999);
+    var r = await fetch(url);
+    if (r.ok) { var t = await r.text(); if (t && t.trim().length > 2) return t.trim(); }
+  } catch(e) {}
+
+  // Fallback POST with full messages array
+  try {
+    var msgs = [{role:'system', content: systemPrompt}].concat(messages);
+    var r2 = await fetch('https://text.pollinations.ai/openai', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({model:'openai-large', messages: msgs})
+    });
+    if (r2.ok) { var d = await r2.json(); var tx = d && d.choices && d.choices[0] && d.choices[0].message && d.choices[0].message.content; if (tx) return tx.trim(); }
+  } catch(e) {}
+  throw new Error('AI unavailable');
 }
 
 function doTranslate() {
@@ -1416,6 +1577,222 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+
+// ══════ HOMEWORK AI ══════
+var hwSubject = '';
+var hwHistory = [];
+
+function setHwSubject(btn, subj) {
+  hwSubject = subj;
+  document.querySelectorAll('.hw-pill').forEach(function(b){ b.classList.remove('on'); });
+  if (btn) btn.classList.add('on');
+}
+
+function hwAsk(mode) {
+  var inp = document.getElementById('hwInput');
+  var out = document.getElementById('hwOutput');
+  if (!inp || !out) return;
+  var q = inp.value.trim();
+  if (!q) { toast('\u26a0\ufe0f', 'Paste your question first!', 'var(--p)'); return; }
+  var subjectCtx = hwSubject ? ' This is a ' + hwSubject + ' question.' : '';
+  var prompts = {
+    solve: 'You are an expert tutor. Solve this step by step, showing all work clearly. Use numbered steps.' + subjectCtx + '\n\nQuestion: ' + q,
+    explain: 'You are an expert teacher. Explain this concept clearly with examples a student can understand.' + subjectCtx + '\n\nTopic: ' + q,
+    outline: 'Create a detailed essay outline with introduction, main points with sub-points, and conclusion.' + subjectCtx + '\n\nTopic: ' + q
+  };
+  var modeLabels = {solve:'SOLVING...', explain:'EXPLAINING...', outline:'OUTLINING...'};
+  out.innerHTML = '<div style="display:flex;align-items:center;gap:10px;padding:20px;color:var(--p);font-size:.68rem;letter-spacing:1.5px;">' + (modeLabels[mode]||'THINKING...') + ' <div class="spinner"></div></div>';
+  var preview = q.substring(0, 45) + (q.length > 45 ? '...' : '');
+  hwHistory.unshift({q: q, mode: mode, preview: preview});
+  if (hwHistory.length > 12) hwHistory.pop();
+  renderHwHist();
+  callFreeAI(prompts[mode])
+    .then(function(ans) {
+      var formatted = ans
+        .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--g)">$1</strong>')
+        .replace(/^(\d+)\. /gm, '<span style="color:var(--b)">$1.</span> ')
+        .replace(/^- /gm, '<span style="color:var(--p)">&#9656; </span>');
+      out.innerHTML = '<div class="hw-answer">' + formatted + '</div>';
+      if (hwHistory[0]) hwHistory[0].ans = ans;
+      renderHwHist();
+      toast('\u2713 DONE', 'Answer ready!', 'var(--g)');
+    })
+    .catch(function() {
+      out.innerHTML = '<div class="hw-answer" style="color:var(--p)">\u26a0\ufe0f Could not connect. Try again!</div>';
+    });
+}
+
+function renderHwHist() {
+  var hist = document.getElementById('hwHist');
+  if (!hist) return;
+  if (!hwHistory.length) { hist.innerHTML = '<div style="padding:14px 16px;font-size:.55rem;color:#1a2a1a;letter-spacing:1px;">No history yet</div>'; return; }
+  hist.innerHTML = hwHistory.map(function(h, i) {
+    var icon = {solve:'\u26a1',explain:'\ud83d\udca1',outline:'\ud83d\udcc4'}[h.mode] || '\ud83d\udcdd';
+    return '<div class="hw-hist-item" onclick="hwLoadHistory('+i+')">' + icon + ' ' + escHtml(h.preview) + '</div>';
+  }).join('');
+}
+
+function hwLoadHistory(i) {
+  var h = hwHistory[i]; if (!h) return;
+  var inp = document.getElementById('hwInput'), out = document.getElementById('hwOutput');
+  if (inp) inp.value = h.q;
+  if (out && h.ans) {
+    var f = h.ans.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--g)">$1</strong>');
+    out.innerHTML = '<div class="hw-answer">' + f + '</div>';
+  }
+}
+
+function hwClear() {
+  var inp = document.getElementById('hwInput'), out = document.getElementById('hwOutput');
+  if (inp) inp.value = '';
+  if (out) out.innerHTML = '<div class="hw-empty"><div class="hw-empty-icon">&#129302;</div><div class="hw-empty-txt">READY TO HELP</div></div>';
+}
+
+// ══════ BROWSER ══════
+var brHistArr = [], brHistIdx = -1;
+
+function brGo() {
+  var inp = document.getElementById('brUrl'); if (!inp) return;
+  var raw = inp.value.trim(); if (!raw) return;
+  var url;
+  if (raw.startsWith('http://') || raw.startsWith('https://')) { url = raw; }
+  else if (raw.includes('.') && !raw.includes(' ') && raw.length > 4) { url = 'https://' + raw; }
+  else { url = 'https://www.google.com/search?q=' + encodeURIComponent(raw); }
+  brLoad(url);
+}
+
+function brLoad(url) {
+  var frame = document.getElementById('brFrame'), inp = document.getElementById('brUrl'), status = document.getElementById('brStatus');
+  if (!frame) return;
+  if (brHistIdx < brHistArr.length - 1) brHistArr = brHistArr.slice(0, brHistIdx + 1);
+  brHistArr.push(url); brHistIdx = brHistArr.length - 1;
+  if (inp) inp.value = url;
+  if (status) status.textContent = 'LOADING...';
+  frame.src = url;
+  frame.onload = function() { if (status) status.textContent = 'LOADED'; };
+}
+
+function brBack() {
+  if (brHistIdx > 0) { brHistIdx--; var f=document.getElementById('brFrame'); if(f) f.src=brHistArr[brHistIdx]; var i=document.getElementById('brUrl'); if(i) i.value=brHistArr[brHistIdx]; }
+}
+function brForward() {
+  if (brHistIdx < brHistArr.length-1) { brHistIdx++; var f=document.getElementById('brFrame'); if(f) f.src=brHistArr[brHistIdx]; var i=document.getElementById('brUrl'); if(i) i.value=brHistArr[brHistIdx]; }
+}
+function brRefresh() { var f=document.getElementById('brFrame'); if(f&&f.src) f.src=f.src; }
+
+// ══════ AI MEMORY ══════
+var aiUserName = '';
+var aiConvHistory = [];
+var AI_MAX_HISTORY = 10;
+try { aiUserName = localStorage.getItem('nx_ai_name') || ''; } catch(e) {}
+
+function updateAIBanner() {
+  var banner = document.getElementById('aiNameBanner'); if (!banner) return;
+  banner.style.display = 'block';
+  if (aiUserName) {
+    banner.innerHTML = '&#128100; Chatting as <span style="color:var(--g);font-weight:bold;">' + escHtml(aiUserName) + '</span> &nbsp;&mdash;&nbsp; <span style="color:#445566;cursor:pointer;font-size:.55rem;text-decoration:underline;" onclick="aiChangeName()">change</span> &nbsp;|&nbsp; <span style="color:#445566;cursor:pointer;font-size:.55rem;text-decoration:underline;" onclick="aiClearHistory()">clear history</span>';
+  } else {
+    banner.innerHTML = '&#129302; Set your name: <input id="aiNameInp" type="text" placeholder="Your name..." style="background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.2);border-radius:3px;color:var(--g);font-family:Share Tech Mono,monospace;font-size:.62rem;padding:3px 8px;outline:none;width:110px;margin:0 6px;" onkeydown="if(event.key===\'Enter\')saveAIName()"><button onclick="saveAIName()" style="background:var(--g);border:none;color:#050810;font-family:Orbitron,monospace;font-size:.52rem;font-weight:700;padding:3px 10px;border-radius:3px;cursor:pointer;letter-spacing:1px;">SAVE</button>';
+  }
+}
+
+function saveAIName() {
+  var inp = document.getElementById('aiNameInp');
+  var name = inp ? inp.value.trim() : '';
+  if (!name) return;
+  aiUserName = name;
+  try { localStorage.setItem('nx_ai_name', name); } catch(e) {}
+  updateAIBanner();
+  toast('&#128100; HEY ' + name.toUpperCase() + '!', 'AI will remember you!', 'var(--g)');
+  aiMsg('ai', 'Nice to meet you, ' + name + '! \ud83d\udc4b I\'ll remember your name from now on. What can I help you with?');
+}
+
+function aiChangeName() {
+  aiUserName = '';
+  try { localStorage.removeItem('nx_ai_name'); } catch(e) {}
+  updateAIBanner();
+}
+
+function aiClearHistory() {
+  aiConvHistory = [];
+  var c = document.getElementById('chatMsgs'); if (c) c.innerHTML = '';
+  aiMsg('ai', 'Chat cleared! ' + (aiUserName ? 'Still remember you, ' + aiUserName + ' \ud83d\ude09' : 'Fresh start!'));
+  toast('\ud83d\uddd1\ufe0f', 'Conversation cleared', 'var(--b)');
+}
+
+// ══════ CUSTOM BACKGROUND ══════
+var bgPresets = [
+  {label:'Default', bg:'#060910'},
+  {label:'Deep Space', bg:'radial-gradient(ellipse at center,#0a0520 0%,#060910 70%)'},
+  {label:'Ocean Abyss', bg:'radial-gradient(ellipse at bottom,#001530 0%,#060910 70%)'},
+  {label:'Toxic Swamp', bg:'radial-gradient(ellipse at top,#001a0a 0%,#060910 70%)'},
+  {label:'Magma Core', bg:'radial-gradient(ellipse at center,#1a0500 0%,#060910 70%)'},
+  {label:'Void Purple', bg:'radial-gradient(ellipse at center,#0d0020 0%,#060910 70%)'},
+];
+
+function buildBgPicker() {
+  if (document.getElementById('bgPickerCard')) return;
+  var settingsInner = document.querySelector('.s-inner'); if (!settingsInner) return;
+  var card = document.createElement('div');
+  card.id = 'bgPickerCard'; card.className = 'scard'; card.style.border = '1px solid rgba(0,207,255,.15)';
+  card.innerHTML = '<div class="scard-title" style="color:var(--b);">\u1f3a8 CUSTOM BACKGROUND</div>'
+    + '<div class="scard-sub">Choose a preset or upload your own wallpaper</div>'
+    + '<div class="bg-grid" id="bgPresetGrid"></div>'
+    + '<div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
+    + '<label id="bgUploadBtn" for="bgFileIn">\ud83d\udcf7 UPLOAD IMAGE</label>'
+    + '<input type="file" id="bgFileIn" accept="image/*" style="display:none;" onchange="bgUpload(this)">'
+    + '<button class="sbtn b" style="border-radius:3px;border:none;padding:8px 14px;" onclick="bgReset()">RESET</button>'
+    + '</div><div id="bgOk" class="sok">\u2713 Background applied!</div>';
+  settingsInner.insertBefore(card, settingsInner.children[2]);
+  var grid = card.querySelector('#bgPresetGrid');
+  bgPresets.forEach(function(p, i) {
+    var d = document.createElement('div'); d.className = 'bg-opt' + (i===0?' sel':'');
+    d.style.cssText = 'background:' + p.bg + ';' + (i===0?'border-color:#fff;':'');
+    d.title = p.label;
+    d.onclick = (function(pp){ return function() {
+      document.querySelectorAll('.bg-opt').forEach(function(x){ x.classList.remove('sel'); x.style.borderColor='transparent'; });
+      d.classList.add('sel'); d.style.borderColor='#fff';
+      applyBg(pp.bg);
+    }; })(p);
+    grid.appendChild(d);
+  });
+  try { var sb = localStorage.getItem('nx_bg'); if(sb) { var app=document.getElementById('app'); if(app) app.style.background=sb; } } catch(e) {}
+}
+
+function applyBg(bg) {
+  var app = document.getElementById('app'); if (!app) return;
+  app.style.background = bg;
+  try { localStorage.setItem('nx_bg', bg); } catch(e) {}
+  var ok = document.getElementById('bgOk');
+  if (ok) { ok.style.display='block'; setTimeout(function(){ ok.style.display='none'; },2000); }
+}
+
+function bgReset() {
+  try { localStorage.removeItem('nx_bg'); } catch(e) {}
+  var app = document.getElementById('app'); if (app) app.style.background = '';
+  document.querySelectorAll('.bg-opt').forEach(function(x,i){ x.classList.toggle('sel',i===0); x.style.borderColor=i===0?'#fff':'transparent'; });
+}
+
+function bgUpload(inp) {
+  if (!inp.files || !inp.files[0]) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var dataUrl = e.target.result;
+    var bg = 'url(' + dataUrl + ') center/cover no-repeat fixed';
+    applyBg(bg);
+    var grid = document.getElementById('bgPresetGrid');
+    if (grid) {
+      var ex = grid.querySelector('.bg-custom'); if(ex) grid.removeChild(ex);
+      var d = document.createElement('div'); d.className = 'bg-opt bg-custom sel';
+      d.innerHTML = '<img src="'+dataUrl+'" alt="custom" style="width:100%;height:100%;object-fit:cover;">';
+      d.onclick = function(){ document.querySelectorAll('.bg-opt').forEach(function(x){ x.classList.remove('sel'); x.style.borderColor='transparent'; }); d.classList.add('sel'); d.style.borderColor='#fff'; applyBg(bg); };
+      document.querySelectorAll('.bg-opt').forEach(function(x){ x.classList.remove('sel'); x.style.borderColor='transparent'; });
+      grid.appendChild(d);
+    }
+    toast('\ud83c\udfa8', 'Custom background applied!', 'var(--b)');
+  };
+  reader.readAsDataURL(inp.files[0]);
+}
 
 // ══════════════════════════════════════════
 // 🔥 INSANE EFFECTS ENGINE 🔥
