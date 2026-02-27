@@ -659,7 +659,8 @@ input:focus,textarea:focus{
         <div class="avBar">
           <button class="avBtn pink" onclick="closeApp()">&#8592; BACK</button>
           <span id="avName"></span>
-          <button class="avBtn" id="avNewTab" onclick="if(curAppUrl)window.open(curAppUrl,'_blank')">&#8599; NEW TAB</button>
+          <button class="avBtn" id="avProxyToggle" onclick="toggleProxy()" style="display:none;">&#127760; DIRECT MODE</button>
+          <button class="avBtn" id="avNewTab">&#8599; NEW TAB</button>
         </div>
         <iframe id="appFrame" allow="fullscreen *; autoplay *" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"></iframe>
       </div>
@@ -786,24 +787,26 @@ input:focus,textarea:focus{
     <!-- BROWSER PAGE -->
     <div class="page" id="browserPage">
       <div class="br-bar">
-        <button class="br-nav" onclick="brBack()">&#8592;</button>
-        <button class="br-nav" onclick="brForward()">&#8594;</button>
-        <button class="br-nav" onclick="brRefresh()">&#8635;</button>
-        <input id="brUrl" type="text" placeholder="Enter URL or search..." onkeydown="if(event.key==='Enter')brGo()">
+        <button class="br-nav" onclick="brRefresh()" title="Refresh">&#8635;</button>
+        <button class="br-nav" onclick="brHome()" title="Home" style="font-size:.65rem;font-family:Orbitron,sans-serif;">HOME</button>
+        <input id="brUrl" type="text" placeholder="Type URL or search — press Enter to go..." onkeydown="if(event.key==='Enter')brGo()">
         <button class="br-go" onclick="brGo()">GO</button>
-        <span class="br-status" id="brStatus">READY</span>
+        <button class="br-nav" onclick="brNewTab()" title="Open in new tab" style="font-size:.7rem;">&#8599;</button>
+        <span class="br-status" id="brStatus">&#128640; PROXY READY</span>
       </div>
       <div class="br-bookmarks">
-        <button class="br-bm" onclick="brLoad('https://www.google.com')">&#128269; Google</button>
-        <button class="br-bm" onclick="brLoad('https://www.youtube.com')">&#128250; YouTube</button>
-        <button class="br-bm" onclick="brLoad('https://en.wikipedia.org')">&#128214; Wikipedia</button>
-        <button class="br-bm" onclick="brLoad('https://www.khanacademy.org')">&#128336; Khan</button>
-        <button class="br-bm" onclick="brLoad('https://docs.google.com')">&#128221; Docs</button>
-        <button class="br-bm" onclick="brLoad('https://www.desmos.com/calculator')">&#128202; Desmos</button>
-        <button class="br-bm" onclick="brLoad('https://quizlet.com')">&#127183; Quizlet</button>
-        <button class="br-bm" onclick="brLoad(UB2)">&#128640; Unblocker</button>
+        <button class="br-bm" onclick="brSearch('youtube.com')">&#128250; YouTube</button>
+        <button class="br-bm" onclick="brSearch('discord.com/app')">&#128172; Discord</button>
+        <button class="br-bm" onclick="brSearch('roblox.com')">&#127918; Roblox</button>
+        <button class="br-bm" onclick="brSearch('spotify.com')">&#127925; Spotify</button>
+        <button class="br-bm" onclick="brSearch('instagram.com')">&#128247; Instagram</button>
+        <button class="br-bm" onclick="brSearch('twitter.com')">&#128038; Twitter</button>
+        <button class="br-bm" onclick="brSearch('reddit.com')">&#128483; Reddit</button>
+        <button class="br-bm" onclick="brSearch('google.com')">&#128269; Google</button>
+        <button class="br-bm" onclick="brSearch('docs.google.com')">&#128221; Docs</button>
+        <button class="br-bm" onclick="brSearch('desmos.com/calculator')">&#128202; Desmos</button>
       </div>
-      <iframe id="brFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" allow="fullscreen *; autoplay *"></iframe>
+      <iframe id="brFrame" allow="fullscreen *; autoplay *; camera *; microphone *"></iframe>
     </div>
 
   </div>
@@ -1225,33 +1228,66 @@ function buildApps() {
   var grid = document.getElementById('appsGrid'); if (!grid) return;
   var html = '';
   APPS.forEach(function(a, i) {
-    var url = a.getUrl ? a.getUrl() : (a.url || '');
-    var isBlocked = a.tag === 'blocked';
-    // FIX: Use UB2 (main unblocker) for blocked apps
-    var openUrl = isBlocked ? (UB2 + encodeURIComponent(url)) : url;
-    var tagLabel = a.tag === 'unblock' ? '&#128279; PORTAL' : isBlocked ? '&#128275; VIA UNBLOCKER' : '&#10003; FREE';
-    var tagCls = a.tag === 'unblock' ? 'unblock' : isBlocked ? 'blocked' : 'free';
-    var featCls = a.tag === 'unblock' ? ' feat' : '';
-    html += '<div class="acard'+featCls+'" data-appidx="'+i+'" data-url="'+openUrl.replace(/"/g,'&quot;')+'"><div class="aico">'+a.ico+'</div><div class="aname">'+a.name+'</div><div class="adesc">'+a.desc+'</div><span class="atag '+tagCls+'">'+tagLabel+'</span></div>';
+    var rawUrl = a.getUrl ? a.getUrl() : (a.url || '');
+    var isPortal = a.tag === 'unblock';
+    // Route ALL non-portal apps through unblocker to avoid iframe blocks
+    var openUrl = isPortal ? rawUrl : (UB2 + encodeURIComponent(rawUrl));
+    var tagLabel = isPortal ? '&#128279; PORTAL' : a.tag === 'blocked' ? '&#128275; PROXIED' : '&#128640; PROXIED';
+    var tagCls = isPortal ? 'unblock' : 'blocked';
+    var featCls = isPortal ? ' feat' : '';
+    html += '<div class="acard'+featCls+'" data-appidx="'+i+'" data-rawurl="'+rawUrl.replace(/"/g,'&quot;')+'" data-url="'+openUrl.replace(/"/g,'&quot;')+'"><div class="aico">'+a.ico+'</div><div class="aname">'+a.name+'</div><div class="adesc">'+a.desc+'</div><span class="atag '+tagCls+'">'+tagLabel+'</span></div>';
   });
   grid.innerHTML = html;
   grid.querySelectorAll('.acard').forEach(function(card) {
     card.addEventListener('click', function() {
-      var url = card.getAttribute('data-url'), idx = parseInt(card.getAttribute('data-appidx')), a = APPS[idx];
-      openApp(url, a ? a.name : '', a && a.tag === 'blocked');
+      var url = card.getAttribute('data-url');
+      var rawUrl = card.getAttribute('data-rawurl');
+      var idx = parseInt(card.getAttribute('data-appidx'));
+      var a = APPS[idx];
+      openApp(url, rawUrl, a ? a.name : '', a ? a.tag : '');
     });
   });
 }
 
-function openApp(url, name, isBlocked) {
+var curAppRawUrl = '';
+
+function openApp(url, rawUrl, name, tag) {
   curAppUrl = url;
+  curAppRawUrl = rawUrl || url;
   var appsView = document.getElementById('appsView'), viewer = document.getElementById('appViewer');
   var avName = document.getElementById('avName'), frame = document.getElementById('appFrame');
   if (appsView) appsView.style.display = 'none';
   if (viewer) viewer.style.display = 'flex';
-  if (avName) avName.innerHTML = name + (isBlocked ? ' &#128275;' : '');
-  if (frame) frame.src = url;
-  if (isBlocked) toast('&#128275; UNBLOCKER', 'Loading via proxy...', 'var(--y)');
+  if (avName) avName.innerHTML = name + ' <span style="font-size:.5rem;color:#334455;letter-spacing:1px;">&#128640; VIA PROXY</span>';
+  if (frame) {
+    frame.src = 'about:blank';
+    setTimeout(function(){ frame.src = url; }, 80);
+  }
+  toast('&#128640; LOADING', name + ' via proxy...', 'var(--y)');
+  // Update new-tab button to open raw URL
+  var ntBtn = document.getElementById('avNewTab');
+  if (ntBtn) ntBtn.onclick = function(){ window.open(curAppRawUrl, '_blank'); };
+  // Show/hide proxy toggle
+  var togBtn = document.getElementById('avProxyToggle');
+  if (togBtn) togBtn.style.display = tag === 'unblock' ? 'none' : 'inline-block';
+}
+
+function toggleProxy() {
+  var frame = document.getElementById('appFrame');
+  var togBtn = document.getElementById('avProxyToggle');
+  if (!frame) return;
+  var isProxied = frame.src.indexOf(UB2.replace('https://','').replace('http://','')) !== -1 || frame.src.startsWith(UB2);
+  if (isProxied) {
+    // Try direct
+    frame.src = curAppRawUrl;
+    if (togBtn) togBtn.textContent = '&#128640; USE PROXY';
+    toast('&#9888; DIRECT', 'May be blocked by site', 'var(--b)');
+  } else {
+    // Go proxy
+    frame.src = UB2 + encodeURIComponent(curAppRawUrl);
+    if (togBtn) togBtn.textContent = '&#127760; DIRECT MODE';
+    toast('&#128640; PROXY', 'Loading via unblocker', 'var(--y)');
+  }
 }
 
 function closeApp() {
@@ -1649,36 +1685,74 @@ function hwClear() {
 }
 
 // ══════ BROWSER ══════
-var brHistArr = [], brHistIdx = -1;
+var brCurrentUrl = '';
+
+function brSearch(site) {
+  // Load site directly in the proxy iframe
+  var url = site.startsWith('http') ? site : 'https://' + site;
+  brCurrentUrl = url;
+  var inp = document.getElementById('brUrl');
+  if (inp) inp.value = url;
+  brLoadProxy(url);
+}
 
 function brGo() {
   var inp = document.getElementById('brUrl'); if (!inp) return;
   var raw = inp.value.trim(); if (!raw) return;
   var url;
   if (raw.startsWith('http://') || raw.startsWith('https://')) { url = raw; }
-  else if (raw.includes('.') && !raw.includes(' ') && raw.length > 4) { url = 'https://' + raw; }
+  else if (raw.includes('.') && !raw.includes(' ') && raw.length > 3) { url = 'https://' + raw; }
   else { url = 'https://www.google.com/search?q=' + encodeURIComponent(raw); }
-  brLoad(url);
+  brCurrentUrl = url;
+  brLoadProxy(url);
 }
 
-function brLoad(url) {
-  var frame = document.getElementById('brFrame'), inp = document.getElementById('brUrl'), status = document.getElementById('brStatus');
+function brLoadProxy(url) {
+  var frame = document.getElementById('brFrame');
+  var status = document.getElementById('brStatus');
   if (!frame) return;
-  if (brHistIdx < brHistArr.length - 1) brHistArr = brHistArr.slice(0, brHistIdx + 1);
-  brHistArr.push(url); brHistIdx = brHistArr.length - 1;
-  if (inp) inp.value = url;
-  if (status) status.textContent = 'LOADING...';
-  frame.src = url;
-  frame.onload = function() { if (status) status.textContent = 'LOADED'; };
+  // Load the proxy with the target URL appended
+  var proxyUrl = UB2 + encodeURIComponent(url);
+  if (status) { status.textContent = '⏳ LOADING...'; status.style.color = 'var(--y)'; }
+  frame.src = proxyUrl;
+  frame.onload = function() {
+    if (status) { status.textContent = '✓ LOADED'; status.style.color = 'var(--g)'; }
+  };
 }
 
-function brBack() {
-  if (brHistIdx > 0) { brHistIdx--; var f=document.getElementById('brFrame'); if(f) f.src=brHistArr[brHistIdx]; var i=document.getElementById('brUrl'); if(i) i.value=brHistArr[brHistIdx]; }
+function brHome() {
+  var frame = document.getElementById('brFrame');
+  var inp = document.getElementById('brUrl');
+  var status = document.getElementById('brStatus');
+  if (!frame) return;
+  // Load the proxy homepage directly so user can navigate from there
+  frame.src = UB2;
+  if (inp) inp.value = '';
+  if (status) { status.textContent = '⏳ LOADING...'; status.style.color = 'var(--y)'; }
+  frame.onload = function() {
+    if (status) { status.textContent = '✓ PROXY HOME'; status.style.color = 'var(--g)'; }
+  };
 }
-function brForward() {
-  if (brHistIdx < brHistArr.length-1) { brHistIdx++; var f=document.getElementById('brFrame'); if(f) f.src=brHistArr[brHistIdx]; var i=document.getElementById('brUrl'); if(i) i.value=brHistArr[brHistIdx]; }
+
+function brRefresh() {
+  var f = document.getElementById('brFrame');
+  if (f && f.src) { var s = f.src; f.src = 'about:blank'; setTimeout(function(){ f.src = s; }, 80); }
 }
-function brRefresh() { var f=document.getElementById('brFrame'); if(f&&f.src) f.src=f.src; }
+
+function brNewTab() {
+  var inp = document.getElementById('brUrl');
+  var url = (inp && inp.value.trim()) ? inp.value.trim() : UB2;
+  if (!url.startsWith('http')) url = 'https://' + url;
+  window.open(url, '_blank');
+}
+
+// Keep brLoad for compatibility (used by bookmarks in resources page)
+function brLoad(url, displayUrl) {
+  brCurrentUrl = url;
+  var inp = document.getElementById('brUrl');
+  if (inp) inp.value = displayUrl || url;
+  brLoadProxy(url);
+}
 
 // ══════ AI MEMORY ══════
 var aiUserName = '';
