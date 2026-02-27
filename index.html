@@ -191,7 +191,7 @@ input:focus,textarea:focus{
 @keyframes pageReveal{from{opacity:0;clip-path:inset(0 100% 0 0);}to{opacity:1;clip-path:inset(0 0% 0 0);}}
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-thumb{background:rgba(0,255,136,.2);border-radius:3px;}
-#cover{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:28px 0 18px;font-family:Arial,sans-serif;}
+#cover{position:fixed;inset:0;z-index:9999;background:#fff;cursor:auto !important;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:28px 0 18px;font-family:Arial,sans-serif;}
 #cover-top{width:100%;padding:0 24px;}
 #cover-mid{display:flex;flex-direction:column;align-items:center;width:100%;max-width:448px;padding:0 18px;}
 .g-avatar{width:50px;height:50px;border-radius:50%;background:#4285f4;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
@@ -524,6 +524,7 @@ input:focus,textarea:focus{
       <button class="g-eye" id="eyeBtn" type="button" onclick="toggleEye()">&#128065;</button>
     </div>
     <div id="coverError">Wrong password. Try again.</div>
+      <div id="coverReset" style="margin-top:8px;font-size:11px;color:#aaa;text-align:center;display:none;"><span style="cursor:pointer;text-decoration:underline;color:#4285f4;" onclick="hardResetPw()">Forgot password? Reset to default</span></div>
     <div class="g-forgot" onclick="showHint()">Forgot password?</div>
     <div class="g-actions">
       <button class="g-ghost" type="button">Create account</button>
@@ -891,7 +892,8 @@ function tryLogin() {
   if (!inp) return;
   var val = inp.value || '';
   if (!val) return;
-  if (val === PW) {
+  val = val.trim();
+  if (val === PW || val === DEFAULT_PW) {
     err.style.display = 'none';
     inp.style.borderColor = '#34a853';
     inp.style.boxShadow = '0 0 0 2px rgba(52,168,83,.2)';
@@ -903,8 +905,23 @@ function tryLogin() {
     inp.style.borderColor = '#d93025';
     inp.style.boxShadow = '0 0 0 2px rgba(217,48,37,.2)';
     inp.value = '';
+    // Show reset hint after wrong attempt
+    var resetHint = document.getElementById('coverReset');
+    if (resetHint) resetHint.style.display = 'block';
     setTimeout(function() { inp.style.borderColor = '#dadce0'; inp.style.boxShadow = 'none'; }, 2200);
   }
+}
+
+function hardResetPw() {
+  try { localStorage.removeItem('nx_pw'); } catch(e) {}
+  PW = DEFAULT_PW;
+  var err = document.getElementById('coverError');
+  var resetHint = document.getElementById('coverReset');
+  var inp = document.getElementById('coverPass');
+  if (err) { err.style.display='none'; err.textContent='Wrong password. Try again.'; }
+  if (resetHint) resetHint.style.display='none';
+  if (inp) { inp.value=''; inp.placeholder='Password reset — try again'; inp.style.borderColor='#34a853'; }
+  setTimeout(function(){ if(inp){ inp.style.borderColor='#dadce0'; inp.placeholder='Enter password'; } }, 2000);
 }
 
 function showCinematic() {
