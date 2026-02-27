@@ -815,43 +815,30 @@ input:focus,textarea:focus{
 
         <!-- BROWSER PAGE -->
     <div class="page" id="browserPage">
-      <div id="brLauncher">
-        <div class="brl-title">&#128640; PROXY LAUNCHER</div>
-        <div class="brl-sub">Everything opens through your unblocker in a new tab — full access, no blocks</div>
-        <div class="brl-search-wrap">
-          <input id="brUrl" class="brl-search" type="text" placeholder="Type URL or search anything..." onkeydown="if(event.key==='Enter')brGo()" autofocus>
-          <button class="brl-go" onclick="brGo()">&#8599; GO</button>
-        </div>
-        <div class="brl-engines">
-          <button class="brl-eng" onclick="brSearch('google.com')">&#128269; Google</button>
-          <button class="brl-eng" onclick="brSearch('youtube.com')">&#128250; YouTube</button>
-          <button class="brl-eng" onclick="brSearch('duckduckgo.com')">&#128060; DuckDuckGo</button>
-          <button class="brl-eng" onclick="brOpenHome()">&#127968; Proxy Home</button>
-        </div>
-        <div class="brl-section-title">POPULAR SITES</div>
-        <div class="brl-grid">
-          <div class="brl-app" onclick="brOpen('https://www.youtube.com')"><div class="brl-ico">&#128250;</div><div class="brl-name">YouTube</div></div>
-          <div class="brl-app" onclick="brOpen('https://discord.com/app')"><div class="brl-ico">&#128172;</div><div class="brl-name">Discord</div></div>
-          <div class="brl-app" onclick="brOpen('https://www.roblox.com')"><div class="brl-ico">&#127918;</div><div class="brl-name">Roblox</div></div>
-          <div class="brl-app" onclick="brOpen('https://open.spotify.com')"><div class="brl-ico">&#127925;</div><div class="brl-name">Spotify</div></div>
-          <div class="brl-app" onclick="brOpen('https://www.netflix.com')"><div class="brl-ico">&#127910;</div><div class="brl-name">Netflix</div></div>
-          <div class="brl-app" onclick="brOpen('https://www.twitch.tv')"><div class="brl-ico">&#127926;</div><div class="brl-name">Twitch</div></div>
-          <div class="brl-app" onclick="brOpen('https://www.instagram.com')"><div class="brl-ico">&#128247;</div><div class="brl-name">Instagram</div></div>
-          <div class="brl-app" onclick="brOpen('https://www.tiktok.com')"><div class="brl-ico">&#127916;</div><div class="brl-name">TikTok</div></div>
-          <div class="brl-app" onclick="brOpen('https://www.twitter.com')"><div class="brl-ico">&#128038;</div><div class="brl-name">Twitter</div></div>
-          <div class="brl-app" onclick="brOpen('https://www.reddit.com')"><div class="brl-ico">&#128483;</div><div class="brl-name">Reddit</div></div>
-          <div class="brl-app" onclick="brOpen('https://chat.openai.com')"><div class="brl-ico">&#129302;</div><div class="brl-name">ChatGPT</div></div>
-          <div class="brl-app" onclick="brOpen('https://www.twitch.tv')"><div class="brl-ico">&#127981;</div><div class="brl-name">School</div></div>
-          <div class="brl-app" onclick="brOpen('https://www.minecraft.net')"><div class="brl-ico">&#129490;</div><div class="brl-name">Minecraft</div></div>
-          <div class="brl-app" onclick="brOpen('https://steamcommunity.com')"><div class="brl-ico">&#127760;</div><div class="brl-name">Steam</div></div>
-          <div class="brl-app" onclick="brOpen('https://www.snapchat.com')"><div class="brl-ico">&#128123;</div><div class="brl-name">Snapchat</div></div>
-          <div class="brl-app" onclick="brOpen('https://docs.google.com')"><div class="brl-ico">&#128196;</div><div class="brl-name">Google Docs</div></div>
-        </div>
-        <div id="brRecentSection" style="display:none;">
-          <div class="brl-section-title">RECENTLY OPENED</div>
-          <div id="brRecent" class="brl-recent"></div>
-        </div>
+      <div class="br-bar">
+        <button class="br-nav" onclick="brBack()">&#8592;</button>
+        <button class="br-nav" onclick="brForward()">&#8594;</button>
+        <button class="br-nav" onclick="brRefresh()">&#8635;</button>
+        <input id="brUrl" type="text" placeholder="Type URL or search..." onkeydown="if(event.key==='Enter')brGo()">
+        <button class="br-go" onclick="brGo()">GO</button>
+        <button class="br-nav" onclick="brNewTab()" style="font-size:.7rem;" title="Open in new tab">&#8599;</button>
+        <span class="br-status" id="brStatus">READY</span>
       </div>
+      <div class="br-bookmarks">
+        <button class="br-bm" onclick="brLoad('https://www.youtube.com')">&#128250; YouTube</button>
+        <button class="br-bm" onclick="brLoad('https://discord.com/app')">&#128172; Discord</button>
+        <button class="br-bm" onclick="brLoad('https://www.roblox.com')">&#127918; Roblox</button>
+        <button class="br-bm" onclick="brLoad('https://open.spotify.com')">&#127925; Spotify</button>
+        <button class="br-bm" onclick="brLoad('https://www.instagram.com')">&#128247; Instagram</button>
+        <button class="br-bm" onclick="brLoad('https://www.reddit.com')">&#128483; Reddit</button>
+        <button class="br-bm" onclick="brLoad('https://chat.openai.com')">&#129302; ChatGPT</button>
+        <button class="br-bm" onclick="brLoad('https://www.netflix.com')">&#127910; Netflix</button>
+        <button class="br-bm" onclick="brLoad('https://www.tiktok.com')">&#127916; TikTok</button>
+        <button class="br-bm" onclick="brLoad('https://twitter.com')">&#128038; Twitter</button>
+        <button class="br-bm" onclick="brLoad('https://www.google.com')">&#128269; Google</button>
+        <button class="br-bm" onclick="brHome()">&#127968; Proxy Home</button>
+      </div>
+      <iframe id="brFrame" allow="fullscreen *; autoplay *; camera *; microphone *; clipboard-read *; clipboard-write *"></iframe>
     </div>
 
   </div>
@@ -1757,22 +1744,44 @@ function hwClear() {
 }
 
 // ══════ BROWSER ══════
-// ── PROXY LAUNCHER ──
-var brRecentList = [];
-try { brRecentList = JSON.parse(localStorage.getItem('nx_br_recent') || '[]'); } catch(e) {}
+// ── PROXY BROWSER (iframe-based) ──
+var brCurrentUrl = '';
 
-function brOpen(url) {
+function brGetProxyUrl(url) {
   if (!url.startsWith('http')) url = 'https://' + url;
-  var proxyUrl = UB2 + encodeURIComponent(url);
-  window.open(proxyUrl, '_blank');
-  var label = url.replace('https://','').replace('www.','').split('/')[0];
-  toast('&#128640; OPENING', label + ' via proxy', 'var(--b)');
-  // Track recent
-  brRecentList = brRecentList.filter(function(r){ return r.url !== url; });
-  brRecentList.unshift({url: url, label: label});
-  if (brRecentList.length > 10) brRecentList.pop();
-  try { localStorage.setItem('nx_br_recent', JSON.stringify(brRecentList)); } catch(e) {}
-  brRenderRecent();
+  // Use UB2 as the proxy base - encode target URL into it
+  return UB2 + encodeURIComponent(url);
+}
+
+function brLoad(url) {
+  if (!url.startsWith('http')) url = 'https://' + url;
+  brCurrentUrl = url;
+  var frame = document.getElementById('brFrame');
+  var inp = document.getElementById('brUrl');
+  var status = document.getElementById('brStatus');
+  if (inp) inp.value = url;
+  if (status) { status.textContent = '⏳ LOADING...'; status.style.color = 'var(--y)'; }
+  if (frame) {
+    frame.src = brGetProxyUrl(url);
+    frame.onload = function() {
+      if (status) { status.textContent = '✓ LOADED'; status.style.color = 'var(--g)'; }
+    };
+    frame.onerror = function() {
+      if (status) { status.textContent = 'BLOCKED - try new tab'; status.style.color = 'var(--p)'; }
+    };
+  }
+}
+
+function brHome() {
+  var frame = document.getElementById('brFrame');
+  var status = document.getElementById('brStatus');
+  var inp = document.getElementById('brUrl');
+  if (frame) frame.src = UB2;
+  if (inp) inp.value = '';
+  if (status) { status.textContent = '⏳ LOADING...'; status.style.color = 'var(--y)'; }
+  if (frame) frame.onload = function() {
+    if (status) { status.textContent = '✓ PROXY HOME'; status.style.color = 'var(--g)'; }
+  };
 }
 
 function brGo() {
@@ -1782,41 +1791,32 @@ function brGo() {
   if (raw.startsWith('http://') || raw.startsWith('https://')) { url = raw; }
   else if (raw.includes('.') && !raw.includes(' ') && raw.length > 3) { url = 'https://' + raw; }
   else { url = 'https://www.google.com/search?q=' + encodeURIComponent(raw); }
-  inp.value = '';
-  brOpen(url);
+  brLoad(url);
 }
 
-function brSearch(site) {
-  brOpen('https://' + site);
+function brBack() {
+  var f = document.getElementById('brFrame');
+  try { if(f) f.contentWindow.history.back(); } catch(e) {}
 }
 
-function brOpenHome() {
-  window.open(UB2, '_blank');
-  toast('&#128640; PROXY HOME', 'Opening in new tab', 'var(--b)');
+function brForward() {
+  var f = document.getElementById('brFrame');
+  try { if(f) f.contentWindow.history.forward(); } catch(e) {}
 }
 
-function brRenderRecent() {
-  var sec = document.getElementById('brRecentSection');
-  var el = document.getElementById('brRecent');
-  if (!el) return;
-  if (!brRecentList.length) { if(sec) sec.style.display='none'; return; }
-  if(sec) sec.style.display='block';
-  el.innerHTML = '';
-  brRecentList.forEach(function(r) {
-    var d = document.createElement('div');
-    d.className = 'brl-rec-item';
-    d.textContent = r.label;
-    d.onclick = function(){ brOpen(r.url); };
-    el.appendChild(d);
-  });
+function brRefresh() {
+  var f = document.getElementById('brFrame');
+  if (f && f.src) { var s = f.src; f.src = 'about:blank'; setTimeout(function(){ f.src = s; }, 60); }
 }
 
-// Keep for compatibility
-function brLoad(url) { brOpen(url); }
-function brRefresh() {}
-function brBack() {}
-function brForward() {}
-function brNewTab() { brOpenHome(); }
+function brNewTab() {
+  var inp = document.getElementById('brUrl');
+  var url = inp && inp.value.trim() ? inp.value.trim() : UB2;
+  window.open(brGetProxyUrl(url), '_blank');
+}
+
+function brSearch(site) { brLoad('https://' + site); }
+function brRenderRecent() {}
 
 // ══════ AI MEMORY ══════
 var aiUserName = '';
