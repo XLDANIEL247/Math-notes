@@ -8,7 +8,187 @@
 <style>
 :root{--g:#00ff88;--b:#00cfff;--p:#ff00aa;--y:#ffcc00;--dk:#060910;--card:#0c1220;--border:rgba(0,255,136,.13);}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--dk);font-family:'Share Tech Mono',monospace;color:#a0b8cc;overflow:hidden;}
+body{background:var(--dk);font-family:'Share Tech Mono',monospace;color:#a0b8cc;overflow:hidden;cursor:none;}
+
+/* ══ CUSTOM CURSOR ══ */
+#cursor{position:fixed;width:12px;height:12px;border-radius:50%;background:var(--g);pointer-events:none;z-index:999999;transform:translate(-50%,-50%);box-shadow:0 0 15px var(--g),0 0 35px var(--g);transition:width .12s,height .12s,background .12s;mix-blend-mode:screen;}
+#cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--g);pointer-events:none;z-index:999998;transform:translate(-50%,-50%);opacity:.6;transition:all .09s ease;mix-blend-mode:screen;}
+#cursor.clicking{width:6px;height:6px;box-shadow:0 0 30px var(--g),0 0 60px var(--g);}
+#cursor-ring.clicking{width:55px;height:55px;opacity:.15;border-color:var(--p);}
+body:has(button:hover) #cursor,body:has(a:hover) #cursor,body:has(.tab:hover) #cursor,body:has(.gcard:hover) #cursor{width:20px;height:20px;background:var(--p);box-shadow:0 0 20px var(--p),0 0 50px var(--p);}
+
+/* ══ CURSOR TRAIL ══ */
+.trail-dot{position:fixed;border-radius:50%;pointer-events:none;z-index:999990;mix-blend-mode:screen;transform:translate(-50%,-50%);}
+
+/* ══ SCREEN BORDER GLOW ══ */
+#screenBorder{position:fixed;inset:0;z-index:9989;pointer-events:none;border:2px solid transparent;animation:borderPulse 3s ease-in-out infinite;}
+@keyframes borderPulse{
+  0%,100%{box-shadow:inset 0 0 40px rgba(0,255,136,.08),0 0 40px rgba(0,255,136,.05);}
+  33%{box-shadow:inset 0 0 60px rgba(0,207,255,.12),0 0 60px rgba(0,207,255,.06);}
+  66%{box-shadow:inset 0 0 50px rgba(255,0,170,.1),0 0 50px rgba(255,0,170,.05);}
+}
+
+/* ══ CORNER DECORATIONS ══ */
+.corner{position:fixed;width:60px;height:60px;pointer-events:none;z-index:9988;}
+.corner::before,.corner::after{content:'';position:absolute;background:var(--g);animation:cornerPulse 2.5s ease-in-out infinite alternate;}
+@keyframes cornerPulse{from{opacity:.3;box-shadow:none;}to{opacity:.9;box-shadow:0 0 12px var(--g);}}
+.corner-tl{top:6px;left:6px;}
+.corner-tr{top:6px;right:6px;}
+.corner-bl{bottom:6px;left:6px;}
+.corner-br{bottom:6px;right:6px;}
+.corner-tl::before{top:0;left:0;width:22px;height:2px;}
+.corner-tl::after{top:0;left:0;width:2px;height:22px;}
+.corner-tr::before{top:0;right:0;width:22px;height:2px;}
+.corner-tr::after{top:0;right:0;width:2px;height:22px;}
+.corner-bl::before{bottom:0;left:0;width:22px;height:2px;}
+.corner-bl::after{bottom:0;left:0;width:2px;height:22px;}
+.corner-br::before{bottom:0;right:0;width:22px;height:2px;}
+.corner-br::after{bottom:0;right:0;width:2px;height:22px;}
+
+/* ══ CLICK RIPPLE ══ */
+.ripple{position:fixed;border-radius:50%;pointer-events:none;z-index:999985;transform:translate(-50%,-50%) scale(0);animation:rippleOut .6s ease-out forwards;}
+@keyframes rippleOut{0%{transform:translate(-50%,-50%) scale(0);opacity:.9;}100%{transform:translate(-50%,-50%) scale(1);opacity:0;}}
+
+/* ══ COVER CYBER RAIN ══ */
+#coverRain{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:.07;}
+
+/* ══ HUD SCAN LINE ══ */
+#scanline{position:fixed;top:-10%;left:0;width:100%;height:8px;background:linear-gradient(transparent,rgba(0,255,136,.06) 50%,transparent);pointer-events:none;z-index:9985;animation:scanDown 5s linear infinite;}
+@keyframes scanDown{from{top:-2%;}to{top:102%;}}
+
+/* ══ NEON TEXT FLICKER on active tab ══ */
+.tab.on{animation:tabFlicker 4s ease-in-out infinite;}
+@keyframes tabFlicker{
+  0%,89%,91%,93%,95%,100%{text-shadow:0 0 10px var(--g),0 0 22px rgba(0,255,136,.35);}
+  90%{text-shadow:none;opacity:.4;}
+  92%{text-shadow:0 0 25px var(--g),0 0 50px var(--g);}
+  94%{text-shadow:none;opacity:.3;}
+}
+
+/* ══ LOGO SUPER GLITCH ══ */
+.logo{animation:logoShake 8s ease-in-out infinite;}
+@keyframes logoShake{
+  0%,94%,100%{transform:none;}
+  95%{transform:translate(3px,0) skewX(5deg);}
+  96%{transform:translate(-3px,0) skewX(-5deg);}
+  97%{transform:translate(2px,1px);}
+  98%{transform:none;}
+  99%{transform:translate(-2px,-1px) skewX(2deg);}
+}
+
+/* ══ RGB SPLIT OVERLAY (chromatic aberration) ══ */
+#rgbOverlay{position:fixed;inset:0;z-index:9984;pointer-events:none;mix-blend-mode:screen;animation:rgbFlash 7s ease-in-out infinite;}
+@keyframes rgbFlash{
+  0%,87%,100%{opacity:0;}
+  88%{opacity:1;background:repeating-linear-gradient(90deg,rgba(255,0,0,.03) 0px,rgba(255,0,0,.03) 1px,transparent 1px,transparent 3px);}
+  89%{opacity:0;}
+  90%{opacity:1;background:repeating-linear-gradient(90deg,rgba(0,0,255,.03) 0px,rgba(0,0,255,.03) 1px,transparent 1px,transparent 3px);}
+  91%{opacity:0;}
+}
+
+/* ══ GAME CARD glow on hover ENHANCED ══ */
+.gcard:hover{
+  border-color:var(--g);
+  box-shadow:0 0 0 1px var(--g),0 22px 60px rgba(0,255,136,.25),0 0 80px rgba(0,255,136,.15),-8px 0 30px rgba(255,0,170,.15),8px 0 30px rgba(0,207,255,.15);
+  animation:cardHoloPulse .8s ease-in-out infinite alternate;
+}
+@keyframes cardHoloPulse{
+  from{box-shadow:0 0 0 1px var(--g),0 22px 60px rgba(0,255,136,.25),0 0 80px rgba(0,255,136,.15),-8px 0 30px rgba(255,0,170,.15),8px 0 30px rgba(0,207,255,.15);}
+  to{box-shadow:0 0 0 1px var(--b),0 30px 70px rgba(0,207,255,.3),0 0 100px rgba(0,207,255,.2),-12px 0 40px rgba(255,0,170,.2),12px 0 40px rgba(0,255,136,.2);}
+}
+
+/* ══ SOUND BARS in topbar ══ */
+#soundBars{display:flex;align-items:center;gap:2px;height:20px;padding:0 10px;}
+.sbar{width:3px;border-radius:2px;background:var(--g);box-shadow:0 0 5px var(--g);}
+.sbar:nth-child(1){animation:sbp .4s .00s ease-in-out infinite alternate;}
+.sbar:nth-child(2){animation:sbp .4s .05s ease-in-out infinite alternate;}
+.sbar:nth-child(3){animation:sbp .4s .10s ease-in-out infinite alternate;}
+.sbar:nth-child(4){animation:sbp .4s .15s ease-in-out infinite alternate;}
+.sbar:nth-child(5){animation:sbp .4s .20s ease-in-out infinite alternate;}
+.sbar:nth-child(6){animation:sbp .4s .25s ease-in-out infinite alternate;}
+.sbar:nth-child(7){animation:sbp .4s .30s ease-in-out infinite alternate;}
+.sbar:nth-child(8){animation:sbp .4s .35s ease-in-out infinite alternate;}
+.sbar:nth-child(9){animation:sbp .4s .40s ease-in-out infinite alternate;}
+@keyframes sbp{from{height:3px;opacity:.3;}to{height:18px;opacity:1;}}
+
+/* ══ HOLOGRAPHIC shimmer on AI bubbles ══ */
+.msg.ai .mbub{
+  background:linear-gradient(135deg,rgba(255,0,170,.07),rgba(0,207,255,.05));
+  border:1px solid rgba(255,0,170,.2);
+  position:relative;overflow:hidden;
+}
+.msg.ai .mbub::after{
+  content:'';position:absolute;inset:-100%;
+  background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);
+  animation:bubbleSheen 3s ease-in-out infinite;
+}
+@keyframes bubbleSheen{from{transform:translateX(-100%) translateY(-100%) rotate(25deg);}to{transform:translateX(100%) translateY(100%) rotate(25deg);}}
+
+/* ══ SETTINGS card hover — neon underline slide ══ */
+.scard{position:relative;overflow:hidden;}
+.scard::after{content:'';position:absolute;bottom:0;left:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);transition:left .4s ease;}
+.scard:hover::after{left:100%;}
+
+/* ══ TOAST — upgraded ══ */
+.toast{
+  background:rgba(6,9,16,.97);
+  border:1px solid rgba(0,255,136,.25);
+  border-left:3px solid var(--g);
+  border-radius:5px;padding:10px 15px;
+  font-size:.66rem;color:#c0d8ff;letter-spacing:.8px;
+  animation:tSlide .35s cubic-bezier(.34,1.56,.64,1);
+  backdrop-filter:blur(12px);
+  box-shadow:0 4px 30px rgba(0,255,136,.15),inset 0 1px 0 rgba(255,255,255,.05);
+}
+@keyframes tSlide{from{opacity:0;transform:translateX(40px) scale(.9);}to{opacity:1;transform:none;}}
+
+/* ══ TOPBAR glow pulse ══ */
+#topbar{box-shadow:0 1px 0 rgba(0,255,136,.08),0 2px 20px rgba(0,0,0,.5);}
+
+/* ══ Chat bubble pop ══ */
+.msg{animation:msgPop .4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes msgPop{from{opacity:0;transform:translateY(10px) scale(.95);}to{opacity:1;transform:none;}}
+
+/* ══ NEON SCROLLBAR ══ */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:rgba(0,0,0,.2);}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--g),var(--b));border-radius:3px;box-shadow:0 0 6px var(--g);}
+
+/* ══ INPUT focus neon glow ══ */
+input:focus,textarea:focus{
+  box-shadow:0 0 0 1px var(--g),0 0 20px rgba(0,255,136,.2)!important;
+  border-color:var(--g)!important;
+}
+
+/* ══ Button hover burst ══ */
+.sbtn,.tool-btn,.ch-ctrl button,.chat-in button,.ch-in button{
+  position:relative;overflow:hidden;transition:all .2s;
+}
+.sbtn::before,.tool-btn::before,.chat-in button::before,.ch-in button::before{
+  content:'';position:absolute;inset:0;background:rgba(255,255,255,.15);
+  transform:scaleX(0);transform-origin:left;transition:transform .2s ease;
+}
+.sbtn:hover::before,.tool-btn:hover::before,.chat-in button:hover::before,.ch-in button:hover::before{transform:scaleX(1);}
+
+/* ══ CYBER GRID scanline on main pages ══ */
+.page.on::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(0,255,136,.012) 28px,rgba(0,255,136,.012) 29px);
+}
+
+/* ══ APPS grid card — holographic foil ══ */
+.acard{position:relative;overflow:hidden;}
+.acard::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.04) 40%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.04) 60%,transparent 80%);
+  transform:translateX(-100%);transition:transform .5s ease;z-index:1;
+}
+.acard:hover::before{transform:translateX(100%);}
+
+/* ══ Page transition wipe ══ */
+.page{position:relative;}
+.page.on{animation:pageReveal .3s ease;}
+@keyframes pageReveal{from{opacity:0;clip-path:inset(0 100% 0 0);}to{opacity:1;clip-path:inset(0 0% 0 0);}}
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-thumb{background:rgba(0,255,136,.2);border-radius:3px;}
 #cover{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:28px 0 18px;font-family:Arial,sans-serif;}
@@ -228,6 +408,17 @@ body{background:var(--dk);font-family:'Share Tech Mono',monospace;color:#a0b8cc;
 </head>
 <body>
 
+<!-- INSANE EFFECTS -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="screenBorder"></div>
+<div id="scanline"></div>
+<div id="rgbOverlay"></div>
+<div class="corner corner-tl"></div>
+<div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div>
+<div class="corner corner-br"></div>
+
 <div id="cover">
   <div id="cover-top">
     <svg width="74" height="24" viewBox="0 0 74 24"><path d="M9.24 8.19v2.46h5.88c-.18 1.38-.64 2.39-1.34 3.1-.86.86-2.2 1.8-4.54 1.8-3.62 0-6.45-2.92-6.45-6.54s2.83-6.54 6.45-6.54c1.95 0 3.38.77 4.43 1.76L15.4 2.5C13.86 1.05 11.8 0 9.24 0 4.28 0 .11 4.04.11 9s4.17 9 9.13 9c2.68 0 4.7-.88 6.28-2.52 1.62-1.62 2.13-3.91 2.13-5.75 0-.57-.04-1.1-.13-1.54H9.24z" fill="#4285F4"/><path d="M25 6.19c-3.21 0-5.83 2.44-5.83 5.81 0 3.34 2.62 5.81 5.83 5.81s5.83-2.46 5.83-5.81c0-3.37-2.62-5.81-5.83-5.81zm0 9.33c-1.76 0-3.28-1.45-3.28-3.52 0-2.09 1.52-3.52 3.28-3.52s3.28 1.43 3.28 3.52c0 2.07-1.52 3.52-3.28 3.52z" fill="#EA4335"/><path d="M53.58 7.49h-.09c-.57-.68-1.67-1.3-3.06-1.3C47.53 6.19 45 8.72 45 12c0 3.26 2.53 5.81 5.43 5.81 1.39 0 2.49-.62 3.06-1.32h.09v.81c0 2.22-1.19 3.41-3.1 3.41-1.56 0-2.53-1.12-2.93-2.07l-2.22.92c.64 1.54 2.33 3.43 5.15 3.43 2.99 0 5.52-1.76 5.52-6.05V6.49h-2.42v1zm-2.93 8.03c-1.76 0-3.1-1.5-3.1-3.52 0-2.05 1.34-3.52 3.1-3.52 1.74 0 3.1 1.5 3.1 3.54.01 2.03-1.36 3.5-3.1 3.5z" fill="#4285F4"/><path d="M38 6.19c-3.21 0-5.83 2.44-5.83 5.81 0 3.34 2.62 5.81 5.83 5.81s5.83-2.46 5.83-5.81c0-3.37-2.62-5.81-5.83-5.81zm0 9.33c-1.76 0-3.28-1.45-3.28-3.52 0-2.09 1.52-3.52 3.28-3.52s3.28 1.43 3.28 3.52c0 2.07-1.52 3.52-3.28 3.52z" fill="#FBBC05"/><path d="M58.77 1h2.55v16.8h-2.55z" fill="#34A853"/><path d="M63.81 12.18c-.06-3.77 2.93-5.99 5.09-5.99 1.7 0 3.14.85 3.62 2.07l-8.71 3.92zm8.86 2.67c-.53 1.41-1.91 2.22-3.6 2.22-2.14 0-3.99-1.58-4.06-3.96l10.95-4.52-.37-.93c-.68-1.84-2.76-5.23-7.02-5.23-4.23 0-7.75 3.33-7.75 7.69 0 4.31 3.48 7.69 8.15 7.69 3.77 0 5.95-2.3 6.86-3.64l-2.16-1.32z" fill="#EA4335"/></svg>
@@ -300,6 +491,7 @@ body{background:var(--dk);font-family:'Share Tech Mono',monospace;color:#a0b8cc;
       <button class="tab" onclick="switchPage('chat',this)">&#128172; CHAT</button>
     </div>
     <div id="tb-right">
+      <div id="soundBars"><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div></div>
       <div id="wxBadge"></div>
       <div class="esc-hint">ESC=HIDE</div>
     </div>
@@ -963,22 +1155,28 @@ function aiMsg(role, text) {
   c.appendChild(d); c.scrollTop = c.scrollHeight; return d;
 }
 
-// Use pollinations.ai — completely free, no API key needed
+// pollinations.ai GET — free, no API key, no CORS issues
 async function callFreeAI(prompt, systemPrompt) {
-  var messages = [];
-  if (systemPrompt) messages.push({role:'system', content: systemPrompt});
-  messages.push({role:'user', content: prompt});
-  var res = await fetch('https://text.pollinations.ai/openai', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      model: 'openai',
-      messages: messages,
-      max_tokens: 800
-    })
-  });
-  var data = await res.json();
-  return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || 'Sorry, no response.';
+  // Method 1: simple GET (most reliable)
+  try {
+    var fullPrompt = systemPrompt ? systemPrompt + '\n\nUser: ' + prompt + '\n\nAssistant:' : prompt;
+    var url = 'https://text.pollinations.ai/' + encodeURIComponent(fullPrompt) + '?model=openai&seed=' + Math.floor(Math.random()*99999);
+    var r = await fetch(url);
+    if (r.ok) { var t = await r.text(); if (t && t.trim().length > 2) return t.trim(); }
+  } catch(e) {}
+  // Method 2: POST fallback
+  try {
+    var msgs = [];
+    if (systemPrompt) msgs.push({role:'system', content: systemPrompt});
+    msgs.push({role:'user', content: prompt});
+    var r2 = await fetch('https://text.pollinations.ai/openai', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({model:'openai-large', messages: msgs, seed: Math.floor(Math.random()*99999)})
+    });
+    if (r2.ok) { var d = await r2.json(); var tx = d && d.choices && d.choices[0] && d.choices[0].message && d.choices[0].message.content; if (tx) return tx.trim(); }
+  } catch(e) {}
+  throw new Error('AI unavailable');
 }
 
 function sendChat() {
@@ -1218,7 +1416,259 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ══════ ESC = PANIC ══════
+
+// ══════════════════════════════════════════
+// 🔥 INSANE EFFECTS ENGINE 🔥
+// ══════════════════════════════════════════
+
+// ── Custom Cursor + Trail ──
+(function() {
+  var cursor = document.getElementById('cursor');
+  var ring = document.getElementById('cursor-ring');
+  var mx = 0, my = 0, rx = 0, ry = 0;
+  var trail = [];
+  var trailColors = ['var(--g)','var(--b)','var(--p)','var(--y)'];
+
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX; my = e.clientY;
+    if (cursor) { cursor.style.left = mx+'px'; cursor.style.top = my+'px'; }
+    spawnTrail(mx, my);
+  });
+
+  // Smooth ring follow
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    if (ring) { ring.style.left = rx+'px'; ring.style.top = ry+'px'; }
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  document.addEventListener('mousedown', function() {
+    if (cursor) cursor.classList.add('clicking');
+    if (ring) ring.classList.add('clicking');
+  });
+  document.addEventListener('mouseup', function() {
+    if (cursor) cursor.classList.remove('clicking');
+    if (ring) ring.classList.remove('clicking');
+  });
+
+  // Trail dots
+  var lastTrail = 0;
+  function spawnTrail(x, y) {
+    var now = Date.now();
+    if (now - lastTrail < 28) return;
+    lastTrail = now;
+    var dot = document.createElement('div');
+    dot.className = 'trail-dot';
+    var size = Math.random() * 6 + 3;
+    var col = trailColors[Math.floor(Math.random() * trailColors.length)];
+    dot.style.cssText = 'left:'+x+'px;top:'+y+'px;width:'+size+'px;height:'+size+'px;background:'+col+';box-shadow:0 0 '+(size*2)+'px '+col+';opacity:.8;';
+    document.body.appendChild(dot);
+    var opacity = 0.8;
+    var shrink = setInterval(function() {
+      opacity -= 0.08;
+      size -= 0.3;
+      if (opacity <= 0 || size <= 0) {
+        clearInterval(shrink);
+        if (dot.parentNode) dot.parentNode.removeChild(dot);
+      } else {
+        dot.style.opacity = opacity;
+        dot.style.width = size+'px';
+        dot.style.height = size+'px';
+      }
+    }, 20);
+  }
+})();
+
+// ── Click Ripple Shockwave ──
+document.addEventListener('click', function(e) {
+  // Don't ripple on panic overlay
+  if (document.getElementById('panic') && document.getElementById('panic').style.display === 'block') return;
+  var colors = ['rgba(0,255,136,.6)','rgba(0,207,255,.6)','rgba(255,0,170,.6)','rgba(255,204,0,.5)'];
+  for (var i = 0; i < 2; i++) {
+    (function(i) {
+      var r = document.createElement('div');
+      r.className = 'ripple';
+      var size = 60 + i * 80;
+      var col = colors[Math.floor(Math.random() * colors.length)];
+      r.style.cssText = 'left:'+e.clientX+'px;top:'+e.clientY+'px;width:'+size+'px;height:'+size+'px;border:2px solid '+col+';animation-duration:'+(0.5+i*0.15)+'s;animation-delay:'+(i*0.06)+'s;';
+      document.body.appendChild(r);
+      setTimeout(function() { if(r.parentNode) r.parentNode.removeChild(r); }, 800 + i * 200);
+    })(i);
+  }
+  // Mini particle burst on click
+  var burst = 12;
+  for (var j = 0; j < burst; j++) {
+    (function(j) {
+      var p = document.createElement('div');
+      p.className = 'trail-dot';
+      var angle = (Math.PI * 2 / burst) * j;
+      var speed = Math.random() * 60 + 20;
+      var col = colors[j % colors.length];
+      var size = Math.random() * 5 + 2;
+      p.style.cssText = 'left:'+e.clientX+'px;top:'+e.clientY+'px;width:'+size+'px;height:'+size+'px;background:'+col+';box-shadow:0 0 8px '+col+';transition:none;';
+      document.body.appendChild(p);
+      var tx = e.clientX + Math.cos(angle) * speed;
+      var ty = e.clientY + Math.sin(angle) * speed;
+      var startTime = Date.now();
+      var dur = 400 + Math.random() * 200;
+      function animP() {
+        var t = (Date.now() - startTime) / dur;
+        if (t >= 1) { if(p.parentNode) p.parentNode.removeChild(p); return; }
+        var cx = e.clientX + (tx - e.clientX) * t;
+        var cy = e.clientY + (ty - e.clientY) * t + t * t * 30; // gravity
+        p.style.left = cx+'px'; p.style.top = cy+'px'; p.style.opacity = 1-t;
+        requestAnimationFrame(animP);
+      }
+      requestAnimationFrame(animP);
+    })(j);
+  }
+});
+
+// ── Sound bars randomize ──
+(function() {
+  var bars = document.querySelectorAll('.sbar');
+  function randomizeBars() {
+    bars.forEach(function(b) {
+      var h = Math.random() * 16 + 3;
+      b.style.height = h+'px';
+      var hue = Math.random();
+      b.style.background = hue < 0.4 ? 'var(--g)' : hue < 0.7 ? 'var(--b)' : 'var(--p)';
+      b.style.boxShadow = '0 0 5px ' + (hue < 0.4 ? 'var(--g)' : hue < 0.7 ? 'var(--b)' : 'var(--p)');
+    });
+  }
+  setInterval(randomizeBars, 120);
+})();
+
+// ── Tab Scramble Effect on hover ──
+(function() {
+  var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+  document.querySelectorAll('.tab').forEach(function(tab) {
+    var orig = tab.textContent;
+    var scrambling = false;
+    tab.addEventListener('mouseenter', function() {
+      if (scrambling) return;
+      scrambling = true;
+      var i = 0;
+      var iv = setInterval(function() {
+        var scrambled = orig.split('').map(function(c, idx) {
+          if (c === ' ' || idx < i) return c;
+          return CHARS[Math.floor(Math.random() * CHARS.length)];
+        }).join('');
+        tab.textContent = scrambled;
+        i += 1.5;
+        if (i >= orig.length + 3) {
+          clearInterval(iv);
+          tab.textContent = orig;
+          scrambling = false;
+        }
+      }, 35);
+    });
+  });
+})();
+
+// ── Cover page cyber rain canvas ──
+(function() {
+  var cover = document.getElementById('cover');
+  if (!cover) return;
+  var c = document.createElement('canvas');
+  c.id = 'coverRain';
+  c.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.06;z-index:0;';
+  cover.insertBefore(c, cover.firstChild);
+  c.width = 448; c.height = 700;
+  var ctx = c.getContext('2d');
+  var drops = []; var fs = 11;
+  for (var i = 0; i < Math.floor(c.width/fs); i++) drops.push(Math.random()*50|0);
+  var chars = '01アイウエオカキクケコ';
+  setInterval(function() {
+    ctx.fillStyle = 'rgba(255,255,255,.05)';
+    ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle = '#0066ff';
+    ctx.font = fs+'px monospace';
+    drops.forEach(function(y,i) {
+      ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*fs, y*fs);
+      if (y*fs > c.height && Math.random()>.97) drops[i]=0;
+      else drops[i]++;
+    });
+  }, 55);
+})();
+
+// ── Konami code Easter egg ──
+(function() {
+  var seq = [38,38,40,40,37,39,37,39,66,65];
+  var pos = 0;
+  document.addEventListener('keydown', function(e) {
+    if (e.keyCode === seq[pos]) {
+      pos++;
+      if (pos === seq.length) {
+        pos = 0;
+        // ACTIVATE RAINBOW MODE
+        var root = document.documentElement;
+        var hue = 0;
+        toast('\uD83C\uDF08 CHEAT CODE!', 'RAINBOW MODE ACTIVATED!!!', 'var(--p)');
+        var iv = setInterval(function() {
+          hue = (hue + 2) % 360;
+          var g = 'hsl('+hue+',100%,55%)';
+          var b = 'hsl('+(hue+120)+',100%,55%)';
+          var p = 'hsl('+(hue+240)+',100%,55%)';
+          root.style.setProperty('--g', g);
+          root.style.setProperty('--b', b);
+          root.style.setProperty('--p', p);
+        }, 40);
+        setTimeout(function() {
+          clearInterval(iv);
+          root.style.setProperty('--g','#00ff88');
+          root.style.setProperty('--b','#00cfff');
+          root.style.setProperty('--p','#ff00aa');
+          toast('\uD83D\uDC4B', 'Rainbow mode ended', 'var(--g)');
+        }, 8000);
+      }
+    } else { pos = 0; }
+  });
+})();
+
+// ── Neon border color cycle ──
+(function() {
+  var sb = document.getElementById('screenBorder');
+  if (!sb) return;
+  var hue = 0;
+  setInterval(function() {
+    hue = (hue + 0.5) % 360;
+    sb.style.boxShadow = 'inset 0 0 50px hsla('+hue+',100%,50%,.06), 0 0 50px hsla('+hue+',100%,50%,.03)';
+  }, 30);
+})();
+
+// ── Topbar glow pulse matches color ──
+(function() {
+  var topbar = document.getElementById('topbar');
+  if (!topbar) return;
+  var hue = 0;
+  setInterval(function() {
+    hue = (hue + 0.3) % 360;
+    topbar.style.borderBottomColor = 'hsla('+hue+',100%,60%,.15)';
+  }, 40);
+})();
+
+// ── Glitch distort full screen randomly ──
+(function() {
+  var app = document.getElementById('app');
+  if (!app) return;
+  function doGlitch() {
+    var duration = Math.random() * 120 + 40;
+    var orig = app.style.filter || '';
+    app.style.filter = 'hue-rotate('+(Math.random()*30-15)+'deg) brightness(1.1)';
+    app.style.transform = 'skewX('+(Math.random()*.5-.25)+'deg)';
+    setTimeout(function() {
+      app.style.filter = orig;
+      app.style.transform = '';
+      setTimeout(doGlitch, Math.random()*8000 + 4000);
+    }, duration);
+  }
+  setTimeout(doGlitch, 5000);
+})();
+
+
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     if (panicActive) { dismissPanic(); return; }
