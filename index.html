@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -308,193 +307,191 @@ body{background:var(--dk);font-family:'Share Tech Mono',monospace;color:#a0b8cc;
 
   <div id="main">
 
-```
-<!-- GAMES PAGE -->
-<div class="page on" id="gPage">
-  <div id="gMain">
-    <div id="gBackBar">
-      <button class="gbk" onclick="closeGame()">&#8592; BACK</button>
-      <span id="gCurName"></span>
-      <button class="gfull" onclick="goFull()">&#9974; FULLSCREEN</button>
-    </div>
-    <div id="gSearch"><input id="gsInp" type="text" placeholder="&#128269; Search games..." oninput="filterGames(this.value)"></div>
-    <div id="gGridWrap"><div id="gGrid"></div></div>
-    <div id="gFrame"></div>
-  </div>
-  <div id="gSide">
-    <button class="catbtn on" onclick="setCat(this,'all')">&#11088; ALL</button>
-    <button class="catbtn" onclick="setCat(this,'offline')">&#128244; OFFLINE</button>
-    <button class="catbtn" onclick="setCat(this,'action')">&#128204; ACTION</button>
-    <button class="catbtn" onclick="setCat(this,'puzzle')">&#129513; PUZZLE</button>
-    <button class="catbtn" onclick="setCat(this,'racing')">&#127950; RACING</button>
-    <button class="catbtn" onclick="setCat(this,'shooter')">&#127919; SHOOTER</button>
-    <button class="catbtn" onclick="setCat(this,'sports')">&#9917; SPORTS</button>
-    <button class="catbtn" onclick="setCat(this,'io')">&#127760; .IO</button>
-    <button class="catbtn" onclick="setCat(this,'classic')">&#128377; CLASSIC</button>
-  </div>
-</div>
-
-<!-- MUSIC PAGE -->
-<div class="page" id="mPage" style="flex-direction:column;overflow:hidden;">
-  <div style="flex:1;position:relative;overflow:hidden;">
-    <iframe src="https://vapor.my/page/music/index.html" style="width:100%;height:100%;border:none;display:block;background:#000;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"></iframe>
-  </div>
-</div>
-
-<!-- AI PAGE -->
-<div class="page" id="aiPage">
-  <div class="ai-side">
-    <button class="aitool on" onclick="setAI(this,'chat')">&#128172; AI CHAT</button>
-    <button class="aitool" onclick="setAI(this,'translate')">&#127760; TRANSLATE</button>
-    <button class="aitool" onclick="setAI(this,'summarize')">&#128221; SUMMARIZE</button>
-  </div>
-  <div id="aiMain">
-    <div class="aipane on" id="aipane-chat">
-      <div id="chatMsgs"></div>
-      <div class="chat-in">
-        <input id="chatInput" type="text" placeholder="Ask anything — homework, math, essays..." onkeydown="if(event.key==='Enter')sendChat()">
-        <button onclick="sendChat()">SEND</button>
+    <!-- GAMES PAGE -->
+    <div class="page on" id="gPage">
+      <div id="gMain">
+        <div id="gBackBar">
+          <button class="gbk" onclick="closeGame()">&#8592; BACK</button>
+          <span id="gCurName"></span>
+          <button class="gfull" onclick="goFull()">&#9974; FULLSCREEN</button>
+        </div>
+        <div id="gSearch"><input id="gsInp" type="text" placeholder="&#128269; Search games..." oninput="filterGames(this.value)"></div>
+        <div id="gGridWrap"><div id="gGrid"></div></div>
+        <div id="gFrame"></div>
+      </div>
+      <div id="gSide">
+        <button class="catbtn on" onclick="setCat(this,'all')">&#11088; ALL</button>
+        <button class="catbtn" onclick="setCat(this,'offline')">&#128244; OFFLINE</button>
+        <button class="catbtn" onclick="setCat(this,'action')">&#128204; ACTION</button>
+        <button class="catbtn" onclick="setCat(this,'puzzle')">&#129513; PUZZLE</button>
+        <button class="catbtn" onclick="setCat(this,'racing')">&#127950; RACING</button>
+        <button class="catbtn" onclick="setCat(this,'shooter')">&#127919; SHOOTER</button>
+        <button class="catbtn" onclick="setCat(this,'sports')">&#9917; SPORTS</button>
+        <button class="catbtn" onclick="setCat(this,'io')">&#127760; .IO</button>
+        <button class="catbtn" onclick="setCat(this,'classic')">&#128377; CLASSIC</button>
       </div>
     </div>
-    <div class="aipane" id="aipane-translate">
-      <div class="tool-wrap">
-        <h2>&#127760; TRANSLATOR</h2>
-        <div class="tool-row">
-          <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
-            <select id="fromLang" class="tool-sel">
-              <option value="auto">Auto Detect</option><option value="en">English</option>
-              <option value="es">Spanish</option><option value="fr">French</option>
-              <option value="de">German</option><option value="ja">Japanese</option>
-              <option value="zh">Chinese</option><option value="ar">Arabic</option>
-              <option value="pt">Portuguese</option><option value="ru">Russian</option>
-            </select>
-            <textarea id="transIn" class="tool-ta" rows="9" placeholder="Enter text..."></textarea>
+
+    <!-- MUSIC PAGE -->
+    <div class="page" id="mPage" style="flex-direction:column;overflow:hidden;">
+      <div style="flex:1;position:relative;overflow:hidden;">
+        <iframe src="https://vapor.my/page/music/index.html" style="width:100%;height:100%;border:none;display:block;background:#000;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"></iframe>
+      </div>
+    </div>
+
+    <!-- AI PAGE -->
+    <div class="page" id="aiPage">
+      <div class="ai-side">
+        <button class="aitool on" onclick="setAI(this,'chat')">&#128172; AI CHAT</button>
+        <button class="aitool" onclick="setAI(this,'translate')">&#127760; TRANSLATE</button>
+        <button class="aitool" onclick="setAI(this,'summarize')">&#128221; SUMMARIZE</button>
+      </div>
+      <div id="aiMain">
+        <div class="aipane on" id="aipane-chat">
+          <div id="chatMsgs"></div>
+          <div class="chat-in">
+            <input id="chatInput" type="text" placeholder="Ask anything — homework, math, essays..." onkeydown="if(event.key==='Enter')sendChat()">
+            <button onclick="sendChat()">SEND</button>
           </div>
-          <div style="padding:0 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-            <button class="tool-btn" onclick="doTranslate()">&#8594; GO</button>
+        </div>
+        <div class="aipane" id="aipane-translate">
+          <div class="tool-wrap">
+            <h2>&#127760; TRANSLATOR</h2>
+            <div class="tool-row">
+              <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
+                <select id="fromLang" class="tool-sel">
+                  <option value="auto">Auto Detect</option><option value="en">English</option>
+                  <option value="es">Spanish</option><option value="fr">French</option>
+                  <option value="de">German</option><option value="ja">Japanese</option>
+                  <option value="zh">Chinese</option><option value="ar">Arabic</option>
+                  <option value="pt">Portuguese</option><option value="ru">Russian</option>
+                </select>
+                <textarea id="transIn" class="tool-ta" rows="9" placeholder="Enter text..."></textarea>
+              </div>
+              <div style="padding:0 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                <button class="tool-btn" onclick="doTranslate()">&#8594; GO</button>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
+                <select id="toLang" class="tool-sel">
+                  <option value="es">Spanish</option><option value="en">English</option>
+                  <option value="fr">French</option><option value="de">German</option>
+                  <option value="ja">Japanese</option><option value="zh">Chinese</option>
+                  <option value="ar">Arabic</option><option value="pt">Portuguese</option>
+                  <option value="ru">Russian</option>
+                </select>
+                <textarea id="transOut" class="tool-ta" rows="9" readonly placeholder="Translation..."></textarea>
+              </div>
+            </div>
           </div>
-          <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
-            <select id="toLang" class="tool-sel">
-              <option value="es">Spanish</option><option value="en">English</option>
-              <option value="fr">French</option><option value="de">German</option>
-              <option value="ja">Japanese</option><option value="zh">Chinese</option>
-              <option value="ar">Arabic</option><option value="pt">Portuguese</option>
-              <option value="ru">Russian</option>
-            </select>
-            <textarea id="transOut" class="tool-ta" rows="9" readonly placeholder="Translation..."></textarea>
+        </div>
+        <div class="aipane" id="aipane-summarize">
+          <div class="tool-wrap">
+            <h2>&#128221; SUMMARIZER</h2>
+            <textarea id="sumIn" class="tool-ta" rows="7" style="width:100%;max-width:620px;" placeholder="Paste long text here..."></textarea>
+            <button class="tool-btn" onclick="doSummarize()">SUMMARIZE</button>
+            <div id="sumOut" class="tool-out" style="width:100%;max-width:620px;"></div>
           </div>
         </div>
       </div>
     </div>
-    <div class="aipane" id="aipane-summarize">
-      <div class="tool-wrap">
-        <h2>&#128221; SUMMARIZER</h2>
-        <textarea id="sumIn" class="tool-ta" rows="7" style="width:100%;max-width:620px;" placeholder="Paste long text here..."></textarea>
-        <button class="tool-btn" onclick="doSummarize()">SUMMARIZE</button>
-        <div id="sumOut" class="tool-out" style="width:100%;max-width:620px;"></div>
+
+    <!-- APPS PAGE -->
+    <div class="page" id="appsPage">
+      <div id="appsView">
+        <div class="apps-hdr">&#128218; STUDY RESOURCES &amp; TOOLS</div>
+        <div class="apps-grid" id="appsGrid"></div>
+      </div>
+      <div id="appViewer">
+        <div class="avBar">
+          <button class="avBtn pink" onclick="closeApp()">&#8592; BACK</button>
+          <span id="avName"></span>
+          <button class="avBtn" id="avNewTab" onclick="if(curAppUrl)window.open(curAppUrl,'_blank')">&#8599; NEW TAB</button>
+        </div>
+        <iframe id="appFrame" allow="fullscreen *; autoplay *" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"></iframe>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- APPS PAGE -->
-<div class="page" id="appsPage">
-  <div id="appsView">
-    <div class="apps-hdr">&#128218; STUDY RESOURCES &amp; TOOLS</div>
-    <div class="apps-grid" id="appsGrid"></div>
-  </div>
-  <div id="appViewer">
-    <div class="avBar">
-      <button class="avBtn pink" onclick="closeApp()">&#8592; BACK</button>
-      <span id="avName"></span>
-      <button class="avBtn" id="avNewTab" onclick="if(curAppUrl)window.open(curAppUrl,'_blank')">&#8599; NEW TAB</button>
-    </div>
-    <iframe id="appFrame" allow="fullscreen *; autoplay *" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"></iframe>
-  </div>
-</div>
-
-<!-- SETTINGS PAGE -->
-<div class="page" id="settingsPage">
-  <div class="s-inner">
-    <div class="s-title">&#9881; SETTINGS</div>
-    <div class="scard" style="border:1px solid rgba(255,204,0,.2);">
-      <div class="scard-title" style="color:var(--y);">&#128279; UNBLOCKER 1 — PRIMARY</div>
-      <div class="scard-sub">Change primary unblocker URL (password required)</div>
-      <input id="ub1Url" class="sfinp" type="text" placeholder="Unblocker URL...">
-      <div class="srow"><input id="ub1Pass" class="sinp" type="password" placeholder="Password..." onkeydown="if(event.key==='Enter')saveUB(1)"><button class="sbtn y" onclick="saveUB(1)">SAVE</button></div>
-      <div id="ub1ok" class="sok">&#10003; Saved!</div><div id="ub1err" class="serr">&#10007; Wrong password</div>
-    </div>
-    <div class="scard" style="border:1px solid rgba(255,204,0,.15);">
-      <div class="scard-title" style="color:var(--y);">&#128640; UNBLOCKER 2 — SECONDARY</div>
-      <div class="scard-sub">Change secondary unblocker URL (password required)</div>
-      <input id="ub2Url" class="sfinp" type="text" placeholder="Unblocker 2 URL...">
-      <div class="srow"><input id="ub2Pass" class="sinp" type="password" placeholder="Password..." onkeydown="if(event.key==='Enter')saveUB(2)"><button class="sbtn y" onclick="saveUB(2)">SAVE</button></div>
-      <div id="ub2ok" class="sok">&#10003; Saved!</div><div id="ub2err" class="serr">&#10007; Wrong password</div>
-    </div>
-    <div class="scard" style="border:1px solid rgba(0,255,136,.15);">
-      <div class="scard-title" style="color:var(--g);">&#128274; CHANGE PASSWORD</div>
-      <div class="scard-sub">Change the lock screen password</div>
-      <input id="passOld" class="sfinp" type="password" placeholder="Current password">
-      <input id="passNew" class="sfinp" type="password" placeholder="New password">
-      <button class="sbtn g" onclick="savePass()">SAVE PASSWORD</button>
-      <div id="passOk" class="sok">&#10003; Password changed!</div><div id="passErr" class="serr">&#10007; Wrong current password</div>
-    </div>
-    <div class="scard" style="border:1px solid rgba(0,207,255,.15);">
-      <div class="scard-title" style="color:var(--b);">&#127912; THEME</div>
-      <div class="scard-sub">Pick your accent colors</div>
-      <div class="themes">
-        <div class="tdot sel" style="background:linear-gradient(135deg,#00ff88,#00cfff)" onclick="setTheme('#00ff88','#00cfff',this)"></div>
-        <div class="tdot" style="background:linear-gradient(135deg,#ff00aa,#ff6600)" onclick="setTheme('#ff00aa','#ff6600',this)"></div>
-        <div class="tdot" style="background:linear-gradient(135deg,#a855f7,#ec4899)" onclick="setTheme('#a855f7','#ec4899',this)"></div>
-        <div class="tdot" style="background:linear-gradient(135deg,#f59e0b,#ef4444)" onclick="setTheme('#f59e0b','#ef4444',this)"></div>
-        <div class="tdot" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)" onclick="setTheme('#06b6d4','#3b82f6',this)"></div>
+    <!-- SETTINGS PAGE -->
+    <div class="page" id="settingsPage">
+      <div class="s-inner">
+        <div class="s-title">&#9881; SETTINGS</div>
+        <div class="scard" style="border:1px solid rgba(255,204,0,.2);">
+          <div class="scard-title" style="color:var(--y);">&#128279; UNBLOCKER 1 — PRIMARY</div>
+          <div class="scard-sub">Change primary unblocker URL (password required)</div>
+          <input id="ub1Url" class="sfinp" type="text" placeholder="Unblocker URL...">
+          <div class="srow"><input id="ub1Pass" class="sinp" type="password" placeholder="Password..." onkeydown="if(event.key==='Enter')saveUB(1)"><button class="sbtn y" onclick="saveUB(1)">SAVE</button></div>
+          <div id="ub1ok" class="sok">&#10003; Saved!</div><div id="ub1err" class="serr">&#10007; Wrong password</div>
+        </div>
+        <div class="scard" style="border:1px solid rgba(255,204,0,.15);">
+          <div class="scard-title" style="color:var(--y);">&#128640; UNBLOCKER 2 — SECONDARY</div>
+          <div class="scard-sub">Change secondary unblocker URL (password required)</div>
+          <input id="ub2Url" class="sfinp" type="text" placeholder="Unblocker 2 URL...">
+          <div class="srow"><input id="ub2Pass" class="sinp" type="password" placeholder="Password..." onkeydown="if(event.key==='Enter')saveUB(2)"><button class="sbtn y" onclick="saveUB(2)">SAVE</button></div>
+          <div id="ub2ok" class="sok">&#10003; Saved!</div><div id="ub2err" class="serr">&#10007; Wrong password</div>
+        </div>
+        <div class="scard" style="border:1px solid rgba(0,255,136,.15);">
+          <div class="scard-title" style="color:var(--g);">&#128274; CHANGE PASSWORD</div>
+          <div class="scard-sub">Change the lock screen password</div>
+          <input id="passOld" class="sfinp" type="password" placeholder="Current password">
+          <input id="passNew" class="sfinp" type="password" placeholder="New password">
+          <button class="sbtn g" onclick="savePass()">SAVE PASSWORD</button>
+          <div id="passOk" class="sok">&#10003; Password changed!</div><div id="passErr" class="serr">&#10007; Wrong current password</div>
+        </div>
+        <div class="scard" style="border:1px solid rgba(0,207,255,.15);">
+          <div class="scard-title" style="color:var(--b);">&#127912; THEME</div>
+          <div class="scard-sub">Pick your accent colors</div>
+          <div class="themes">
+            <div class="tdot sel" style="background:linear-gradient(135deg,#00ff88,#00cfff)" onclick="setTheme('#00ff88','#00cfff',this)"></div>
+            <div class="tdot" style="background:linear-gradient(135deg,#ff00aa,#ff6600)" onclick="setTheme('#ff00aa','#ff6600',this)"></div>
+            <div class="tdot" style="background:linear-gradient(135deg,#a855f7,#ec4899)" onclick="setTheme('#a855f7','#ec4899',this)"></div>
+            <div class="tdot" style="background:linear-gradient(135deg,#f59e0b,#ef4444)" onclick="setTheme('#f59e0b','#ef4444',this)"></div>
+            <div class="tdot" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)" onclick="setTheme('#06b6d4','#3b82f6',this)"></div>
+          </div>
+          <div id="themeOk" class="sok" style="margin-top:9px;">&#10003; Theme applied!</div>
+        </div>
+        <div class="scard" style="border:1px solid rgba(255,0,170,.25);">
+          <div class="scard-title" style="color:var(--p);">&#128680; PANIC / ESC KEY</div>
+          <div class="scard-sub">Press ESC to instantly hide. Choose overlay:</div>
+          <div class="panic-opts" style="margin-bottom:11px;" id="panicOpts">
+            <button class="popt on" id="popt-blank" onclick="setPanic('blank')">Blank</button>
+            <button class="popt" id="popt-classroom" onclick="setPanic('classroom')">Classroom</button>
+            <button class="popt" id="popt-docs" onclick="setPanic('docs')">Docs</button>
+            <button class="popt" id="popt-search" onclick="setPanic('search')">Google</button>
+          </div>
+          <button class="sbtn p" onclick="triggerPanic()">TEST PANIC</button>
+        </div>
+        <div class="scard" style="border:1px solid rgba(0,207,255,.15);">
+          <div class="scard-title" style="color:var(--b);">&#127780; WEATHER</div>
+          <div class="scard-sub">Live weather in the top bar</div>
+          <div class="srow"><input id="wxCity" class="sinp" type="text" placeholder="City name..." onkeydown="if(event.key==='Enter')fetchWeather()"><button class="sbtn b" onclick="fetchWeather()">GET</button></div>
+          <div id="wxResult" style="font-size:.62rem;color:#334455;margin-top:8px;letter-spacing:.8px;"></div>
+        </div>
+        <div class="scard" style="border:1px solid rgba(255,0,170,.15);">
+          <div class="scard-title" style="color:var(--p);">&#128260; RESET PASSWORD</div>
+          <div class="scard-sub">If locked out, reset to default</div>
+          <button class="sbtn p" onclick="resetPassword()" style="border-radius:3px;padding:8px 18px;">RESET TO DEFAULT</button>
+          <div id="resetOk" class="sok">&#10003; Reset! Default password: Jesus247</div>
+        </div>
       </div>
-      <div id="themeOk" class="sok" style="margin-top:9px;">&#10003; Theme applied!</div>
     </div>
-    <div class="scard" style="border:1px solid rgba(255,0,170,.25);">
-      <div class="scard-title" style="color:var(--p);">&#128680; PANIC / ESC KEY</div>
-      <div class="scard-sub">Press ESC to instantly hide. Choose overlay:</div>
-      <div class="panic-opts" style="margin-bottom:11px;" id="panicOpts">
-        <button class="popt on" id="popt-blank" onclick="setPanic('blank')">Blank</button>
-        <button class="popt" id="popt-classroom" onclick="setPanic('classroom')">Classroom</button>
-        <button class="popt" id="popt-docs" onclick="setPanic('docs')">Docs</button>
-        <button class="popt" id="popt-search" onclick="setPanic('search')">Google</button>
-      </div>
-      <button class="sbtn p" onclick="triggerPanic()">TEST PANIC</button>
-    </div>
-    <div class="scard" style="border:1px solid rgba(0,207,255,.15);">
-      <div class="scard-title" style="color:var(--b);">&#127780; WEATHER</div>
-      <div class="scard-sub">Live weather in the top bar</div>
-      <div class="srow"><input id="wxCity" class="sinp" type="text" placeholder="City name..." onkeydown="if(event.key==='Enter')fetchWeather()"><button class="sbtn b" onclick="fetchWeather()">GET</button></div>
-      <div id="wxResult" style="font-size:.62rem;color:#334455;margin-top:8px;letter-spacing:.8px;"></div>
-    </div>
-    <div class="scard" style="border:1px solid rgba(255,0,170,.15);">
-      <div class="scard-title" style="color:var(--p);">&#128260; RESET PASSWORD</div>
-      <div class="scard-sub">If locked out, reset to default</div>
-      <button class="sbtn p" onclick="resetPassword()" style="border-radius:3px;padding:8px 18px;">RESET TO DEFAULT</button>
-      <div id="resetOk" class="sok">&#10003; Reset! Default password: Jesus247</div>
-    </div>
-  </div>
-</div>
 
-<!-- CHAT PAGE -->
-<div class="page" id="chatPage">
-  <div class="ch-hdr">
-    <div class="ch-title">&#128172; SECRET CHAT</div>
-    <div id="chatRoomName">Enter room code to connect</div>
-    <div class="ch-ctrl">
-      <span>ROOM:</span><input id="roomIn" type="text" maxlength="20" placeholder="code..." style="width:120px;" onkeydown="if(event.key==='Enter')joinRoom()">
-      <button onclick="joinRoom()">JOIN</button>
+    <!-- CHAT PAGE -->
+    <div class="page" id="chatPage">
+      <div class="ch-hdr">
+        <div class="ch-title">&#128172; SECRET CHAT</div>
+        <div id="chatRoomName">Enter room code to connect</div>
+        <div class="ch-ctrl">
+          <span>ROOM:</span><input id="roomIn" type="text" maxlength="20" placeholder="code..." style="width:120px;" onkeydown="if(event.key==='Enter')joinRoom()">
+          <button onclick="joinRoom()">JOIN</button>
+        </div>
+        <div class="ch-ctrl"><span>NAME:</span><input id="nameIn" type="text" maxlength="16" placeholder="nickname..." style="width:100px;"></div>
+      </div>
+      <div id="chatLog"><div style="text-align:center;font-size:.59rem;color:#1a2a1a;letter-spacing:1.5px;padding:22px;">Enter a room code and name to connect &#128274;</div></div>
+      <div class="ch-in">
+        <input id="chatMsgIn" type="text" placeholder="Type a message... (Enter to send)" maxlength="200" onkeydown="if(event.key==='Enter')sendMsg()">
+        <button onclick="sendMsg()">SEND</button>
+      </div>
     </div>
-    <div class="ch-ctrl"><span>NAME:</span><input id="nameIn" type="text" maxlength="16" placeholder="nickname..." style="width:100px;"></div>
-  </div>
-  <div id="chatLog"><div style="text-align:center;font-size:.59rem;color:#1a2a1a;letter-spacing:1.5px;padding:22px;">Enter a room code and name to connect &#128274;</div></div>
-  <div class="ch-in">
-    <input id="chatMsgIn" type="text" placeholder="Type a message... (Enter to send)" maxlength="200" onkeydown="if(event.key==='Enter')sendMsg()">
-    <button onclick="sendMsg()">SEND</button>
-  </div>
-</div>
-```
 
   </div>
 </div>
@@ -722,520 +719,518 @@ function makeBlob(html) {
 }
 
 var SNAKE_HTML = ['<!DOCTYPE html><html><head><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#060910;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:monospace;color:#00ff88}#info{margin-bottom:12px;font-size:14px;letter-spacing:3px;display:flex;gap:28px}canvas{border:2px solid #00ff88;box-shadow:0 0 30px #00ff8840}#hint{margin-top:12px;font-size:12px;color:#446688;letter-spacing:2px}</style></head><body><div id="info"><span>SCORE <b id="sc">0</b></span><span>BEST <b id="bs">0</b></span></div><canvas id="c" width="400" height="400"></canvas><div id="hint">ARROW KEYS / WASD</div><','script>const c=document.getElementById("c"),ctx=c.getContext("2d"),S=20,W=20,H=20;let sn=[{x:10,y:10}],d={x:1,y:0},food={x:5,y:5},sc=0,best=0,alive=true,spd=150,last=0;function rf(){food={x:Math.floor(Math.random()*W),y:Math.floor(Math.random()*H)};}function draw(ts){if(!alive)return;if(ts-last<spd){requestAnimationFrame(draw);return;}last=ts;let h={x:sn[0].x+d.x,y:sn[0].y+d.y};if(h.x<0||h.x>=W||h.y<0||h.y>=H||sn.some(s=>s.x===h.x&&s.y===h.y)){alive=false;ctx.fillStyle="rgba(0,0,0,.75)";ctx.fillRect(0,0,400,400);ctx.fillStyle="#ff00aa";ctx.font="bold 28px monospace";ctx.textAlign="center";ctx.fillText("GAME OVER",200,185);ctx.fillStyle="#00ff88";ctx.font="14px monospace";ctx.fillText("SCORE: "+sc,200,215);ctx.fillText("SPACE TO RESTART",200,242);return;}sn.unshift(h);if(h.x===food.x&&h.y===food.y){sc++;spd=Math.max(60,spd-2);document.getElementById("sc").textContent=sc;if(sc>best){best=sc;document.getElementById("bs").textContent=best;}rf();}else sn.pop();ctx.fillStyle="#060910";ctx.fillRect(0,0,400,400);sn.forEach((s,i)=>{ctx.fillStyle=i===0?"#00ff88":"#00aa55";ctx.shadowColor="#00ff88";ctx.shadowBlur=i===0?12:0;ctx.fillRect(s.x*S+1,s.y*S+1,S-2,S-2);});ctx.fillStyle="#ff3366";ctx.shadowColor="#ff3366";ctx.shadowBlur=10;ctx.fillRect(food.x*S+2,food.y*S+2,S-4,S-4);ctx.shadowBlur=0;requestAnimationFrame(draw);}function reset(){sn=[{x:10,y:10}];d={x:1,y:0};sc=0;spd=150;alive=true;document.getElementById("sc").textContent=0;rf();requestAnimationFrame(draw);}document.addEventListener("keydown",e=>{if(!alive&&e.code==="Space"){reset();return;}const m={ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0},KeyW:{x:0,y:-1},KeyS:{x:0,y:1},KeyA:{x:-1,y:0},KeyD:{x:1,y:0}};const nd=m[e.code];if(nd&&!(nd.x===-d.x&&nd.y===-d.y)){d=nd;e.preventDefault();}});reset();</',
-
-‘script></body></html>’];
-var TETRIS_HTML = [’<!DOCTYPE html><html><head><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#060910;display:flex;align-items:center;justify-content:center;height:100vh;font-family:monospace;gap:18px}canvas{border:2px solid #00cfff;box-shadow:0 0 30px #00cfff30}#side{color:#fff;display:flex;flex-direction:column;gap:12px;min-width:105px}.panel{background:#0a1525;border:1px solid #00cfff18;padding:9px;border-radius:5px}.panel label{display:block;font-size:10px;color:#446688;letter-spacing:2px;margin-bottom:4px}.panel span{font-size:1.3rem;color:#00cfff;font-weight:bold}#next{display:grid;grid-template-columns:repeat(4,17px);gap:2px;margin-top:5px}.nc{width:17px;height:17px;border-radius:2px}p{font-size:10px;color:#334455;letter-spacing:1px;line-height:1.9}</style></head><body><canvas id="c" width="200" height="400"></canvas><div id="side"><div class="panel"><label>SCORE</label><span id="sc">0</span></div><div class="panel"><label>LINES</label><span id="ln">0</span></div><div class="panel"><label>LEVEL</label><span id="lv">1</span></div><div class="panel"><label>NEXT</label><div id="next"></div></div><div class="panel"><p>←→ MOVE<br>↑ ROTATE<br>↓ SOFT<br>SPACE HARD</p></div></div><’,’script>const C=document.getElementById(“c”),ctx=C.getContext(“2d”),B=20,W=10,H=20;const PS=[[[1,1,1,1]],[[1,1],[1,1]],[[0,1,0],[1,1,1]],[[1,0,0],[1,1,1]],[[0,0,1],[1,1,1]],[[1,1,0],[0,1,1]],[[0,1,1],[1,1,0]]];const CL=[”#00cfff”,”#ffcc00”,”#ff00aa”,”#ff6600”,”#00ff88”,”#ff3366”,”#a855f7”];let board,piece,px,py,nxt,score,lines,level,alive,timer;function nb(){return Array(H).fill(0).map(()=>Array(W).fill(0));}function rn(){return Math.floor(Math.random()*PS.length);}function spawn(){let t=nxt??rn();nxt=rn();piece=PS[t].map(r=>[…r]);px=Math.floor(W/2)-Math.floor(piece[0].length/2);py=0;if(col(piece,px,py)){alive=false;clearInterval(timer);}rNext();}function rNext(){let d=document.getElementById(“next”);d.innerHTML=””;let p=PS[nxt];for(let r=0;r<4;r++)for(let c=0;c<4;c++){let el=document.createElement(“div”);el.className=“nc”;el.style.background=(p[r]&&p[r][c])?CL[nxt]:”#0d1b2a”;d.appendChild(el);}}function col(p,ox,oy){for(let r=0;r<p.length;r++)for(let c=0;c<p[r].length;c++)if(p[r][c]&&(oy+r>=H||ox+c<0||ox+c>=W||board[oy+r][ox+c]))return true;return false;}function place(){piece.forEach((r,ri)=>r.forEach((v,ci)=>{if(v)board[py+ri][px+ci]=PS.indexOf(piece)+1;}));let cl=0;for(let r=H-1;r>=0;r–)if(board[r].every(c=>c)){board.splice(r,1);board.unshift(Array(W).fill(0));cl++;r++;}if(cl){lines+=cl;score+=[0,100,300,500,800][cl]*level;level=Math.floor(lines/10)+1;clearInterval(timer);timer=setInterval(drop,Math.max(50,500-level*38));document.getElementById(“sc”).textContent=score;document.getElementById(“ln”).textContent=lines;document.getElementById(“lv”).textContent=level;}spawn();}function drop(){if(col(piece,px,py+1))place();else py++;render();}function render(){ctx.fillStyle=”#060910”;ctx.fillRect(0,0,200,400);board.forEach((row,r)=>row.forEach((v,c)=>{if(v){ctx.fillStyle=CL[v-1];ctx.fillRect(c*B+1,r*B+1,B-2,B-2);}}));let ci=PS.indexOf(piece);piece.forEach((row,r)=>row.forEach((v,c)=>{if(v){ctx.fillStyle=CL[ci];ctx.fillRect((px+c)*B+1,(py+r)*B+1,B-2,B-2);}}));}function rot(p){return p[0].map((_,i)=>p.map(r=>r[i]).reverse());}document.addEventListener(“keydown”,e=>{if(!alive)return;if(e.key===“ArrowLeft”&&!col(piece,px-1,py))px–;else if(e.key===“ArrowRight”&&!col(piece,px+1,py))px++;else if(e.key===“ArrowDown”&&!col(piece,px,py+1))py++;else if(e.key===“ArrowUp”){let r=rot(piece);if(!col(r,px,py))piece=r;}else if(e.key===” “){while(!col(piece,px,py+1))py++;place();}else return;e.preventDefault();render();});function go(){board=nb();score=0;lines=0;level=1;alive=true;nxt=null;spawn();render();timer=setInterval(drop,500);}go();</’,
-‘script></body></html>’];
-var FLAPPY_HTML = [’<!DOCTYPE html><html><head><style>*{margin:0;padding:0}body{background:#060910;display:flex;align-items:center;justify-content:center;height:100vh}canvas{cursor:pointer;display:block;}</style></head><body><canvas id="c"></canvas><’,’script>const c=document.getElementById(“c”),ctx=c.getContext(“2d”);c.width=340;c.height=500;let bird,pipes,score,best=0,state,fr;const BX=75,BR=17,G=0.46,JMP=-9,PW=50,GAP=140,PS=2.1;function reset(){bird={y:220,v:0};pipes=[];score=0;state=“wait”;fr=0;}function addPipe(){pipes.push({x:340,top:75+Math.random()*180,scored:false});}function update(){if(state!==“play”)return;bird.v+=G;bird.y+=bird.v;fr++;if(fr%90===0)addPipe();pipes.forEach(p=>p.x-=PS);pipes=pipes.filter(p=>p.x>-PW);pipes.forEach(p=>{if(!p.scored&&p.x+PW<BX){p.scored=true;score++;if(score>best)best=score;}if(BX+BR>p.x&&BX-BR<p.x+PW&&(bird.y-BR<p.top||bird.y+BR>p.top+GAP))state=“dead”;});if(bird.y+BR>500||bird.y-BR<0)state=“dead”;}function draw(){ctx.fillStyle=”#060910”;ctx.fillRect(0,0,340,500);pipes.forEach(p=>{ctx.strokeStyle=”#00ff88”;ctx.lineWidth=2;ctx.fillStyle=”#00ff8815”;ctx.fillRect(p.x,0,PW,p.top);ctx.fillRect(p.x,p.top+GAP,PW,500);ctx.strokeRect(p.x,0,PW,p.top);ctx.strokeRect(p.x,p.top+GAP,PW,500);});ctx.save();ctx.translate(BX,bird.y);ctx.rotate(Math.min(Math.max(bird.v*.07,-.48),.48));ctx.fillStyle=”#ffcc00”;ctx.shadowColor=”#ffcc00”;ctx.shadowBlur=12;ctx.beginPath();ctx.arc(0,0,BR,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.restore();ctx.fillStyle=”#fff”;ctx.font=“bold 24px monospace”;ctx.textAlign=“center”;ctx.fillText(score,170,44);ctx.font=“10px monospace”;ctx.fillStyle=”#446688”;ctx.fillText(“BEST: “+best,170,60);if(state===“wait”){ctx.fillStyle=”#00ff88”;ctx.font=“14px monospace”;ctx.fillText(“CLICK OR SPACE TO START”,170,260);}if(state===“dead”){ctx.fillStyle=“rgba(0,0,0,.65)”;ctx.fillRect(0,0,340,500);ctx.fillStyle=”#ff00aa”;ctx.font=“bold 24px monospace”;ctx.fillText(“GAME OVER”,170,215);ctx.fillStyle=”#fff”;ctx.font=“14px monospace”;ctx.fillText(“SCORE: “+score,170,248);ctx.fillStyle=”#00ff88”;ctx.fillText(“CLICK TO RESTART”,170,278);}}function flap(){if(state===“dead”||state===“wait”){reset();state=“play”;return;}bird.v=JMP;}c.addEventListener(“click”,flap);document.addEventListener(“keydown”,e=>{if(e.code===“Space”){flap();e.preventDefault();}});document.addEventListener(“touchstart”,flap,{passive:true});function loop(){update();draw();requestAnimationFrame(loop);}reset();loop();</’,
-‘script></body></html>’];
-var DINO_HTML = [’<!DOCTYPE html><html><head><style>*{margin:0;padding:0}body{background:#060910;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:monospace;color:#00ff88}#info{display:flex;gap:26px;margin-bottom:12px;font-size:13px;letter-spacing:3px}canvas{border:1px solid #00ff8825}#hint{margin-top:10px;font-size:11px;color:#446688;letter-spacing:2px}</style></head><body><div id="info"><span>SCORE <b id="sc">0</b></span><span>BEST <b id="bs">0</b></span></div><canvas id="c" width="680" height="200"></canvas><div id="hint">SPACE/TAP TO JUMP</div><’,’script>const c=document.getElementById(“c”),ctx=c.getContext(“2d”);let dn,obs,score,best=0,alive,spd,fr,jmps;function reset(){dn={x:75,y:150,vy:0,h:38,w:26};obs=[];score=0;alive=true;spd=3.8;fr=0;jmps=0;}function jump(){if(jmps<2){dn.vy=-12.5+(jmps*1.8);jmps++;}}function update(){if(!alive)return;fr++;score=Math.floor(fr/6);spd=3.8+fr/650;if(score>best)best=score;document.getElementById(“sc”).textContent=score;document.getElementById(“bs”).textContent=best;dn.vy+=.75;dn.y+=dn.vy;if(dn.y>=150){dn.y=150;dn.vy=0;jmps=0;}let gap=Math.max(36,76-Math.floor(fr/200));if(fr%gap===0)obs.push({x:680,w:16+Math.random()*16,h:26+Math.random()*26,bird:Math.random()<.28&&score>120});obs.forEach(o=>o.x-=spd);obs=obs.filter(o=>o.x>-50);obs.forEach(o=>{let oy=o.bird?105:168-o.h;if(dn.x+dn.w-7>o.x&&dn.x+7<o.x+o.w&&dn.y+dn.h-7>oy&&dn.y+7<oy+o.h)alive=false;});}function draw(){ctx.fillStyle=”#060910”;ctx.fillRect(0,0,680,200);ctx.strokeStyle=”#0a2015”;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,188);ctx.lineTo(680,188);ctx.stroke();ctx.fillStyle=”#00ff88”;ctx.shadowColor=”#00ff88”;ctx.shadowBlur=8;ctx.fillRect(dn.x,dn.y,dn.w,dn.h);ctx.shadowBlur=0;obs.forEach(o=>{let oy=o.bird?105:168-o.h;ctx.fillStyle=o.bird?”#ff00aa”:”#00cfff”;ctx.fillRect(o.x,oy,o.w,o.h);});if(!alive){ctx.fillStyle=“rgba(0,0,0,.72)”;ctx.fillRect(0,0,680,200);ctx.fillStyle=”#ff00aa”;ctx.font=“bold 20px monospace”;ctx.textAlign=“center”;ctx.fillText(“GAME OVER - SPACE TO RESTART”,340,93);}}document.addEventListener(“keydown”,e=>{if(e.code===“Space”){if(!alive)reset();else jump();e.preventDefault();}});document.addEventListener(“touchstart”,function(){if(!alive)reset();else jump();},{passive:true});function loop(){update();draw();requestAnimationFrame(loop);}reset();loop();</’,
-‘script></body></html>’];
-var G2048_HTML = [’<!DOCTYPE html><html><head><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#060910;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:monospace;padding:16px}h1{color:#00ff88;letter-spacing:8px;font-size:1.3rem;margin-bottom:9px}#sb{display:flex;gap:16px;margin-bottom:12px}.sb{background:#0a1525;padding:7px 16px;border-radius:4px;text-align:center}.sb label{display:block;font-size:10px;color:#446688;letter-spacing:2px}.sb span{font-size:1.2rem;color:#00ff88;font-weight:bold}#board{display:grid;grid-template-columns:repeat(4,80px);gap:6px;background:#0a1525;padding:10px;border-radius:7px}.cell{width:80px;height:80px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:bold}#hint{margin-top:11px;color:#446688;font-size:11px;letter-spacing:2px}.btn{margin-top:7px;background:#00ff8818;border:1px solid #00ff88;color:#00ff88;padding:6px 20px;font-family:monospace;font-size:11px;letter-spacing:2px;border-radius:3px;cursor:pointer;}</style></head><body><h1>2048</h1><div id="sb"><div class="sb"><label>SCORE</label><span id="sc">0</span></div><div class="sb"><label>BEST</label><span id="bs">0</span></div></div><div id="board"></div><div id="hint">ARROW KEYS TO PLAY</div><button class="btn" onclick="init()">NEW GAME</button><’,‘script>const C={“0”:”#0d1b2a”,“2”:”#0d3b2e”,“4”:”#0d5c37”,“8”:”#1a7a46”,“16”:”#2d9e5a”,“32”:”#45c46e”,“64”:”#00ff88”,“128”:”#ffcc00”,“256”:”#ff9900”,“512”:”#ff6600”,“1024”:”#ff3300”,“2048”:”#ff00aa”};const T={“0”:“transparent”,“2”:”#a0d8af”,“4”:”#a0d8af”,“8”:”#fff”,“16”:”#fff”,“32”:”#fff”,“64”:”#060910”,“128”:”#060910”,“256”:”#060910”,“512”:”#060910”,“1024”:”#060910”,“2048”:”#060910”};let grid,score,best=0;function init(){grid=Array(4).fill(0).map(()=>Array(4).fill(0));score=0;at();at();render();}function at(){let e=[];for(let r=0;r<4;r++)for(let c=0;c<4;c++)if(!grid[r][c])e.push([r,c]);if(!e.length)return;let[r,c]=e[Math.floor(Math.random()*e.length)];grid[r][c]=Math.random()<.9?2:4;}function render(){document.getElementById(“sc”).textContent=score;document.getElementById(“bs”).textContent=best;let b=document.getElementById(“board”);b.innerHTML=””;grid.forEach(row=>row.forEach(v=>{let d=document.createElement(“div”);d.className=“cell”;let k=String(Math.min(v,2048));d.style.background=C[k]||”#ff00aa”;d.style.color=T[k]||”#fff”;d.style.fontSize=v>=1000?“1rem”:v>=100?“1.2rem”:“1.45rem”;d.textContent=v||””;b.appendChild(d);}));}function sl(row){let r=row.filter(x=>x);for(let i=0;i<r.length-1;i++)if(r[i]===r[i+1]){score+=r[i]*2;if(score>best)best=score;r[i]*=2;r.splice(i+1,1);i++;}while(r.length<4)r.push(0);return r;}function move(dr){let m=false;if(dr===“l”)grid=grid.map(r=>{let s=sl(r);if(s.join()!==r.join())m=true;return s;});if(dr===“r”)grid=grid.map(r=>{let s=sl([…r].reverse()).reverse();if(s.join()!==r.join())m=true;return s;});if(dr===“u”){for(let c=0;c<4;c++){let col=grid.map(r=>r[c]);let s=sl(col);s.forEach((v,r)=>{if(v!==grid[r][c])m=true;grid[r][c]=v;});}}if(dr===“d”){for(let c=0;c<4;c++){let col=grid.map(r=>r[c]).reverse();let s=sl(col).reverse();s.forEach((v,r)=>{if(v!==grid[r][c])m=true;grid[r][c]=v;});}}if(m){at();render();}}document.addEventListener(“keydown”,e=>{const m={ArrowLeft:“l”,ArrowRight:“r”,ArrowUp:“u”,ArrowDown:“d”};if(m[e.key]){move(m[e.key]);e.preventDefault();}});let tx=0,ty=0;document.addEventListener(“touchstart”,e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});document.addEventListener(“touchend”,e=>{let dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>Math.abs(dy))move(dx>0?“r”:“l”);else move(dy>0?“d”:“u”);},{passive:true});init();</’,
-‘script></body></html>’];
+'script></body></html>'];
+var TETRIS_HTML = ['<!DOCTYPE html><html><head><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#060910;display:flex;align-items:center;justify-content:center;height:100vh;font-family:monospace;gap:18px}canvas{border:2px solid #00cfff;box-shadow:0 0 30px #00cfff30}#side{color:#fff;display:flex;flex-direction:column;gap:12px;min-width:105px}.panel{background:#0a1525;border:1px solid #00cfff18;padding:9px;border-radius:5px}.panel label{display:block;font-size:10px;color:#446688;letter-spacing:2px;margin-bottom:4px}.panel span{font-size:1.3rem;color:#00cfff;font-weight:bold}#next{display:grid;grid-template-columns:repeat(4,17px);gap:2px;margin-top:5px}.nc{width:17px;height:17px;border-radius:2px}p{font-size:10px;color:#334455;letter-spacing:1px;line-height:1.9}</style></head><body><canvas id="c" width="200" height="400"></canvas><div id="side"><div class="panel"><label>SCORE</label><span id="sc">0</span></div><div class="panel"><label>LINES</label><span id="ln">0</span></div><div class="panel"><label>LEVEL</label><span id="lv">1</span></div><div class="panel"><label>NEXT</label><div id="next"></div></div><div class="panel"><p>&#8592;&#8594; MOVE<br>&#8593; ROTATE<br>&#8595; SOFT<br>SPACE HARD</p></div></div><','script>const C=document.getElementById("c"),ctx=C.getContext("2d"),B=20,W=10,H=20;const PS=[[[1,1,1,1]],[[1,1],[1,1]],[[0,1,0],[1,1,1]],[[1,0,0],[1,1,1]],[[0,0,1],[1,1,1]],[[1,1,0],[0,1,1]],[[0,1,1],[1,1,0]]];const CL=["#00cfff","#ffcc00","#ff00aa","#ff6600","#00ff88","#ff3366","#a855f7"];let board,piece,px,py,nxt,score,lines,level,alive,timer;function nb(){return Array(H).fill(0).map(()=>Array(W).fill(0));}function rn(){return Math.floor(Math.random()*PS.length);}function spawn(){let t=nxt??rn();nxt=rn();piece=PS[t].map(r=>[...r]);px=Math.floor(W/2)-Math.floor(piece[0].length/2);py=0;if(col(piece,px,py)){alive=false;clearInterval(timer);}rNext();}function rNext(){let d=document.getElementById("next");d.innerHTML="";let p=PS[nxt];for(let r=0;r<4;r++)for(let c=0;c<4;c++){let el=document.createElement("div");el.className="nc";el.style.background=(p[r]&&p[r][c])?CL[nxt]:"#0d1b2a";d.appendChild(el);}}function col(p,ox,oy){for(let r=0;r<p.length;r++)for(let c=0;c<p[r].length;c++)if(p[r][c]&&(oy+r>=H||ox+c<0||ox+c>=W||board[oy+r][ox+c]))return true;return false;}function place(){piece.forEach((r,ri)=>r.forEach((v,ci)=>{if(v)board[py+ri][px+ci]=PS.indexOf(piece)+1;}));let cl=0;for(let r=H-1;r>=0;r--)if(board[r].every(c=>c)){board.splice(r,1);board.unshift(Array(W).fill(0));cl++;r++;}if(cl){lines+=cl;score+=[0,100,300,500,800][cl]*level;level=Math.floor(lines/10)+1;clearInterval(timer);timer=setInterval(drop,Math.max(50,500-level*38));document.getElementById("sc").textContent=score;document.getElementById("ln").textContent=lines;document.getElementById("lv").textContent=level;}spawn();}function drop(){if(col(piece,px,py+1))place();else py++;render();}function render(){ctx.fillStyle="#060910";ctx.fillRect(0,0,200,400);board.forEach((row,r)=>row.forEach((v,c)=>{if(v){ctx.fillStyle=CL[v-1];ctx.fillRect(c*B+1,r*B+1,B-2,B-2);}}));let ci=PS.indexOf(piece);piece.forEach((row,r)=>row.forEach((v,c)=>{if(v){ctx.fillStyle=CL[ci];ctx.fillRect((px+c)*B+1,(py+r)*B+1,B-2,B-2);}}));}function rot(p){return p[0].map((_,i)=>p.map(r=>r[i]).reverse());}document.addEventListener("keydown",e=>{if(!alive)return;if(e.key==="ArrowLeft"&&!col(piece,px-1,py))px--;else if(e.key==="ArrowRight"&&!col(piece,px+1,py))px++;else if(e.key==="ArrowDown"&&!col(piece,px,py+1))py++;else if(e.key==="ArrowUp"){let r=rot(piece);if(!col(r,px,py))piece=r;}else if(e.key===" "){while(!col(piece,px,py+1))py++;place();}else return;e.preventDefault();render();});function go(){board=nb();score=0;lines=0;level=1;alive=true;nxt=null;spawn();render();timer=setInterval(drop,500);}go();</',
+'script></body></html>'];
+var FLAPPY_HTML = ['<!DOCTYPE html><html><head><style>*{margin:0;padding:0}body{background:#060910;display:flex;align-items:center;justify-content:center;height:100vh}canvas{cursor:pointer;display:block;}</style></head><body><canvas id="c"></canvas><','script>const c=document.getElementById("c"),ctx=c.getContext("2d");c.width=340;c.height=500;let bird,pipes,score,best=0,state,fr;const BX=75,BR=17,G=0.46,JMP=-9,PW=50,GAP=140,PS=2.1;function reset(){bird={y:220,v:0};pipes=[];score=0;state="wait";fr=0;}function addPipe(){pipes.push({x:340,top:75+Math.random()*180,scored:false});}function update(){if(state!=="play")return;bird.v+=G;bird.y+=bird.v;fr++;if(fr%90===0)addPipe();pipes.forEach(p=>p.x-=PS);pipes=pipes.filter(p=>p.x>-PW);pipes.forEach(p=>{if(!p.scored&&p.x+PW<BX){p.scored=true;score++;if(score>best)best=score;}if(BX+BR>p.x&&BX-BR<p.x+PW&&(bird.y-BR<p.top||bird.y+BR>p.top+GAP))state="dead";});if(bird.y+BR>500||bird.y-BR<0)state="dead";}function draw(){ctx.fillStyle="#060910";ctx.fillRect(0,0,340,500);pipes.forEach(p=>{ctx.strokeStyle="#00ff88";ctx.lineWidth=2;ctx.fillStyle="#00ff8815";ctx.fillRect(p.x,0,PW,p.top);ctx.fillRect(p.x,p.top+GAP,PW,500);ctx.strokeRect(p.x,0,PW,p.top);ctx.strokeRect(p.x,p.top+GAP,PW,500);});ctx.save();ctx.translate(BX,bird.y);ctx.rotate(Math.min(Math.max(bird.v*.07,-.48),.48));ctx.fillStyle="#ffcc00";ctx.shadowColor="#ffcc00";ctx.shadowBlur=12;ctx.beginPath();ctx.arc(0,0,BR,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.restore();ctx.fillStyle="#fff";ctx.font="bold 24px monospace";ctx.textAlign="center";ctx.fillText(score,170,44);ctx.font="10px monospace";ctx.fillStyle="#446688";ctx.fillText("BEST: "+best,170,60);if(state==="wait"){ctx.fillStyle="#00ff88";ctx.font="14px monospace";ctx.fillText("CLICK OR SPACE TO START",170,260);}if(state==="dead"){ctx.fillStyle="rgba(0,0,0,.65)";ctx.fillRect(0,0,340,500);ctx.fillStyle="#ff00aa";ctx.font="bold 24px monospace";ctx.fillText("GAME OVER",170,215);ctx.fillStyle="#fff";ctx.font="14px monospace";ctx.fillText("SCORE: "+score,170,248);ctx.fillStyle="#00ff88";ctx.fillText("CLICK TO RESTART",170,278);}}function flap(){if(state==="dead"||state==="wait"){reset();state="play";return;}bird.v=JMP;}c.addEventListener("click",flap);document.addEventListener("keydown",e=>{if(e.code==="Space"){flap();e.preventDefault();}});document.addEventListener("touchstart",flap,{passive:true});function loop(){update();draw();requestAnimationFrame(loop);}reset();loop();</',
+'script></body></html>'];
+var DINO_HTML = ['<!DOCTYPE html><html><head><style>*{margin:0;padding:0}body{background:#060910;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:monospace;color:#00ff88}#info{display:flex;gap:26px;margin-bottom:12px;font-size:13px;letter-spacing:3px}canvas{border:1px solid #00ff8825}#hint{margin-top:10px;font-size:11px;color:#446688;letter-spacing:2px}</style></head><body><div id="info"><span>SCORE <b id="sc">0</b></span><span>BEST <b id="bs">0</b></span></div><canvas id="c" width="680" height="200"></canvas><div id="hint">SPACE/TAP TO JUMP</div><','script>const c=document.getElementById("c"),ctx=c.getContext("2d");let dn,obs,score,best=0,alive,spd,fr,jmps;function reset(){dn={x:75,y:150,vy:0,h:38,w:26};obs=[];score=0;alive=true;spd=3.8;fr=0;jmps=0;}function jump(){if(jmps<2){dn.vy=-12.5+(jmps*1.8);jmps++;}}function update(){if(!alive)return;fr++;score=Math.floor(fr/6);spd=3.8+fr/650;if(score>best)best=score;document.getElementById("sc").textContent=score;document.getElementById("bs").textContent=best;dn.vy+=.75;dn.y+=dn.vy;if(dn.y>=150){dn.y=150;dn.vy=0;jmps=0;}let gap=Math.max(36,76-Math.floor(fr/200));if(fr%gap===0)obs.push({x:680,w:16+Math.random()*16,h:26+Math.random()*26,bird:Math.random()<.28&&score>120});obs.forEach(o=>o.x-=spd);obs=obs.filter(o=>o.x>-50);obs.forEach(o=>{let oy=o.bird?105:168-o.h;if(dn.x+dn.w-7>o.x&&dn.x+7<o.x+o.w&&dn.y+dn.h-7>oy&&dn.y+7<oy+o.h)alive=false;});}function draw(){ctx.fillStyle="#060910";ctx.fillRect(0,0,680,200);ctx.strokeStyle="#0a2015";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,188);ctx.lineTo(680,188);ctx.stroke();ctx.fillStyle="#00ff88";ctx.shadowColor="#00ff88";ctx.shadowBlur=8;ctx.fillRect(dn.x,dn.y,dn.w,dn.h);ctx.shadowBlur=0;obs.forEach(o=>{let oy=o.bird?105:168-o.h;ctx.fillStyle=o.bird?"#ff00aa":"#00cfff";ctx.fillRect(o.x,oy,o.w,o.h);});if(!alive){ctx.fillStyle="rgba(0,0,0,.72)";ctx.fillRect(0,0,680,200);ctx.fillStyle="#ff00aa";ctx.font="bold 20px monospace";ctx.textAlign="center";ctx.fillText("GAME OVER - SPACE TO RESTART",340,93);}}document.addEventListener("keydown",e=>{if(e.code==="Space"){if(!alive)reset();else jump();e.preventDefault();}});document.addEventListener("touchstart",function(){if(!alive)reset();else jump();},{passive:true});function loop(){update();draw();requestAnimationFrame(loop);}reset();loop();</',
+'script></body></html>'];
+var G2048_HTML = ['<!DOCTYPE html><html><head><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#060910;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:monospace;padding:16px}h1{color:#00ff88;letter-spacing:8px;font-size:1.3rem;margin-bottom:9px}#sb{display:flex;gap:16px;margin-bottom:12px}.sb{background:#0a1525;padding:7px 16px;border-radius:4px;text-align:center}.sb label{display:block;font-size:10px;color:#446688;letter-spacing:2px}.sb span{font-size:1.2rem;color:#00ff88;font-weight:bold}#board{display:grid;grid-template-columns:repeat(4,80px);gap:6px;background:#0a1525;padding:10px;border-radius:7px}.cell{width:80px;height:80px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:bold}#hint{margin-top:11px;color:#446688;font-size:11px;letter-spacing:2px}.btn{margin-top:7px;background:#00ff8818;border:1px solid #00ff88;color:#00ff88;padding:6px 20px;font-family:monospace;font-size:11px;letter-spacing:2px;border-radius:3px;cursor:pointer;}</style></head><body><h1>2048</h1><div id="sb"><div class="sb"><label>SCORE</label><span id="sc">0</span></div><div class="sb"><label>BEST</label><span id="bs">0</span></div></div><div id="board"></div><div id="hint">ARROW KEYS TO PLAY</div><button class="btn" onclick="init()">NEW GAME</button><','script>const C={"0":"#0d1b2a","2":"#0d3b2e","4":"#0d5c37","8":"#1a7a46","16":"#2d9e5a","32":"#45c46e","64":"#00ff88","128":"#ffcc00","256":"#ff9900","512":"#ff6600","1024":"#ff3300","2048":"#ff00aa"};const T={"0":"transparent","2":"#a0d8af","4":"#a0d8af","8":"#fff","16":"#fff","32":"#fff","64":"#060910","128":"#060910","256":"#060910","512":"#060910","1024":"#060910","2048":"#060910"};let grid,score,best=0;function init(){grid=Array(4).fill(0).map(()=>Array(4).fill(0));score=0;at();at();render();}function at(){let e=[];for(let r=0;r<4;r++)for(let c=0;c<4;c++)if(!grid[r][c])e.push([r,c]);if(!e.length)return;let[r,c]=e[Math.floor(Math.random()*e.length)];grid[r][c]=Math.random()<.9?2:4;}function render(){document.getElementById("sc").textContent=score;document.getElementById("bs").textContent=best;let b=document.getElementById("board");b.innerHTML="";grid.forEach(row=>row.forEach(v=>{let d=document.createElement("div");d.className="cell";let k=String(Math.min(v,2048));d.style.background=C[k]||"#ff00aa";d.style.color=T[k]||"#fff";d.style.fontSize=v>=1000?"1rem":v>=100?"1.2rem":"1.45rem";d.textContent=v||"";b.appendChild(d);}));}function sl(row){let r=row.filter(x=>x);for(let i=0;i<r.length-1;i++)if(r[i]===r[i+1]){score+=r[i]*2;if(score>best)best=score;r[i]*=2;r.splice(i+1,1);i++;}while(r.length<4)r.push(0);return r;}function move(dr){let m=false;if(dr==="l")grid=grid.map(r=>{let s=sl(r);if(s.join()!==r.join())m=true;return s;});if(dr==="r")grid=grid.map(r=>{let s=sl([...r].reverse()).reverse();if(s.join()!==r.join())m=true;return s;});if(dr==="u"){for(let c=0;c<4;c++){let col=grid.map(r=>r[c]);let s=sl(col);s.forEach((v,r)=>{if(v!==grid[r][c])m=true;grid[r][c]=v;});}}if(dr==="d"){for(let c=0;c<4;c++){let col=grid.map(r=>r[c]).reverse();let s=sl(col).reverse();s.forEach((v,r)=>{if(v!==grid[r][c])m=true;grid[r][c]=v;});}}if(m){at();render();}}document.addEventListener("keydown",e=>{const m={ArrowLeft:"l",ArrowRight:"r",ArrowUp:"u",ArrowDown:"d"};if(m[e.key]){move(m[e.key]);e.preventDefault();}});let tx=0,ty=0;document.addEventListener("touchstart",e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});document.addEventListener("touchend",e=>{let dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>Math.abs(dy))move(dx>0?"r":"l");else move(dy>0?"d":"u");},{passive:true});init();</',
+'script></body></html>'];
 
 function getOfflineHTML(key) {
-var map = {snake:SNAKE_HTML,tetris:TETRIS_HTML,flappy:FLAPPY_HTML,dino:DINO_HTML,‘2048’:G2048_HTML};
-var parts = map[key]; return parts ? parts.join(’’) : null;
+  var map = {snake:SNAKE_HTML,tetris:TETRIS_HTML,flappy:FLAPPY_HTML,dino:DINO_HTML,'2048':G2048_HTML};
+  var parts = map[key]; return parts ? parts.join('') : null;
 }
 
 var GAMES = [
-{n:‘SNAKE’,e:’🐍’,cat:‘offline’,key:‘snake’,r:‘4.8’,p:‘Offline’},
-{n:‘TETRIS’,e:’🟥’,cat:‘offline’,key:‘tetris’,r:‘4.9’,p:‘Offline’},
-{n:‘2048’,e:’🟦’,cat:‘offline’,key:‘2048’,r:‘4.8’,p:‘Offline’},
-{n:‘FLAPPY BIRD’,e:’🐤’,cat:‘offline’,key:‘flappy’,r:‘4.7’,p:‘Offline’},
-{n:‘DINO RUN’,e:’🦖’,cat:‘offline’,key:‘dino’,r:‘4.8’,p:‘Offline’},
-{n:‘SLOPE’,e:’🔵’,cat:‘action’,u:‘https://glacierarcade.xyz/html/slope.html’,r:‘4.9’,p:‘50M+’},
-{n:‘SLOPE 2’,e:’🟣’,cat:‘action’,u:‘https://glacierarcade.xyz/html/slope2.html’,r:‘4.8’,p:‘20M+’},
-{n:‘RUN 3’,e:’🏃’,cat:‘action’,u:‘https://glacierarcade.xyz/html/run3.html’,r:‘4.9’,p:‘40M+’},
-{n:‘MINECRAFT’,e:’⛏’,cat:‘action’,u:‘https://glacierarcade.xyz/html/minecraft.html’,r:‘4.9’,p:‘50M+’},
-{n:‘SUBWAY SURFERS’,e:’🛹’,cat:‘action’,u:‘https://glacierarcade.xyz/html/subway-surfers.html’,r:‘4.9’,p:‘80M+’},
-{n:‘TEMPLE RUN 2’,e:’🌴’,cat:‘action’,u:‘https://glacierarcade.xyz/html/temple-run-2.html’,r:‘4.8’,p:‘40M+’},
-{n:‘GEOMETRY DASH’,e:’🔷’,cat:‘action’,u:‘https://glacierarcade.xyz/html/gdlite.html’,r:‘4.8’,p:‘15M+’},
-{n:‘STICKMAN HOOK’,e:’🛸’,cat:‘action’,u:‘https://glacierarcade.xyz/html/stickman-hook.html’,r:‘4.8’,p:‘12M+’},
-{n:‘TUNNEL RUSH’,e:’🔴’,cat:‘action’,u:‘https://glacierarcade.xyz/html/tunnel-rush.html’,r:‘4.8’,p:‘10M+’},
-{n:‘CLUSTER RUSH’,e:’🚛’,cat:‘action’,u:‘https://glacierarcade.xyz/html/cluster-rush.html’,r:‘4.7’,p:‘5M+’},
-{n:‘HAPPY WHEELS’,e:’🔚’,cat:‘action’,u:‘https://glacierarcade.xyz/html/happy-wheels-fanmade.html’,r:‘4.7’,p:‘10M+’},
-{n:‘VEX 5’,e:’🏃’,cat:‘action’,u:‘https://glacierarcade.xyz/html/vex5.html’,r:‘4.7’,p:‘6M+’},
-{n:‘OVO’,e:’🟡’,cat:‘action’,u:‘https://glacierarcade.xyz/html/ovo.html’,r:‘4.7’,p:‘5M+’},
-{n:‘PLANTS VS ZOMBIES’,e:’🌻’,cat:‘action’,u:‘https://glacierarcade.xyz/html/pvz.html’,r:‘4.8’,p:‘50M+’},
-{n:‘FNAF’,e:’🐻’,cat:‘action’,u:‘https://glacierarcade.xyz/html/fnaf.html’,r:‘4.7’,p:‘8M+’},
-{n:‘CHESS’,e:’♟’,cat:‘puzzle’,u:‘https://glacierarcade.xyz/html/chess.html’,r:‘4.9’,p:‘50M+’},
-{n:‘WORDLE’,e:’🟩’,cat:‘puzzle’,u:‘https://glacierarcade.xyz/html/wordle.html’,r:‘4.8’,p:‘30M+’},
-{n:‘BLOONS TD 5’,e:’🎈’,cat:‘puzzle’,u:‘https://glacierarcade.xyz/html/btd5.html’,r:‘4.8’,p:‘15M+’},
-{n:‘COOKIE CLICKER’,e:’🍪’,cat:‘puzzle’,u:‘https://glacierarcade.xyz/html/cookie-clicker.html’,r:‘4.6’,p:‘10M+’},
-{n:‘DRIFT BOSS’,e:’🚗’,cat:‘racing’,u:‘https://glacierarcade.xyz/html/drift-boss.html’,r:‘4.8’,p:‘15M+’},
-{n:‘DRIFT HUNTERS’,e:’🏎’,cat:‘racing’,u:‘https://glacierarcade.xyz/html/drift-hunters.html’,r:‘4.8’,p:‘8M+’},
-{n:‘DRIVE MAD’,e:’🚙’,cat:‘racing’,u:‘https://glacierarcade.xyz/html/drive-mad.html’,r:‘4.7’,p:‘10M+’},
-{n:‘MOTO X3M’,e:’🏍’,cat:‘racing’,u:‘https://glacierarcade.xyz/html/motox3m.html’,r:‘4.8’,p:‘8M+’},
-{n:‘SMASH KARTS’,e:’🏎’,cat:‘racing’,u:‘https://glacierarcade.xyz/html/smash-karts.html’,r:‘4.8’,p:‘12M+’},
-{n:‘TANUKI SUNSET’,e:’🦜’,cat:‘racing’,u:‘https://glacierarcade.xyz/html/tanuki-sunset.html’,r:‘4.7’,p:‘4M+’},
-{n:‘1V1.LOL’,e:’🎯’,cat:‘shooter’,u:‘https://glacierarcade.xyz/html/1v1lol.html’,r:‘4.8’,p:‘25M+’},
-{n:‘KRUNKER.IO’,e:’🔫’,cat:‘shooter’,u:‘https://glacierarcade.xyz/html/krunkerio.html’,r:‘4.9’,p:‘15M+’},
-{n:‘SHELL SHOCKERS’,e:’🥚’,cat:‘shooter’,u:‘https://glacierarcade.xyz/html/shell-shockers.html’,r:‘4.8’,p:‘10M+’},
-{n:‘GETAWAY SHOOTOUT’,e:’💨’,cat:‘shooter’,u:‘https://glacierarcade.xyz/html/getaway-shootout.html’,r:‘4.7’,p:‘8M+’},
-{n:‘ROOFTOP SNIPERS’,e:’🏗’,cat:‘shooter’,u:‘https://glacierarcade.xyz/html/rooftop-snipers.html’,r:‘4.7’,p:‘7M+’},
-{n:‘RETRO BOWL’,e:’🏈’,cat:‘sports’,u:‘https://glacierarcade.xyz/html/retro-bowl.html’,r:‘4.9’,p:‘30M+’},
-{n:‘RETRO BOWL COLLEGE’,e:’🏟’,cat:‘sports’,u:‘https://glacierarcade.xyz/html/retrobowlcollege.html’,r:‘4.8’,p:‘10M+’},
-{n:‘BASKET RANDOM’,e:’🏀’,cat:‘sports’,u:‘https://glacierarcade.xyz/html/basket-random.html’,r:‘4.7’,p:‘5M+’},
-{n:‘SOCCER RANDOM’,e:’⚽’,cat:‘sports’,u:‘https://glacierarcade.xyz/html/soccer-random.html’,r:‘4.6’,p:‘4M+’},
-{n:‘BOXING RANDOM’,e:’🥊’,cat:‘sports’,u:‘https://glacierarcade.xyz/html/boxing-random.html’,r:‘4.7’,p:‘4M+’},
-{n:‘SLITHER.IO’,e:’🐍’,cat:‘io’,u:‘https://glacierarcade.xyz/html/slither-io.html’,r:‘4.9’,p:‘50M+’},
-{n:‘PAPER.IO 2’,e:’📜’,cat:‘io’,u:‘https://glacierarcade.xyz/html/paperio2.html’,r:‘4.7’,p:‘20M+’},
-{n:‘HOLE.IO’,e:’⚪’,cat:‘io’,u:‘https://glacierarcade.xyz/html/hole-io.html’,r:‘4.6’,p:‘10M+’},
-{n:‘PACMAN’,e:’👾’,cat:‘classic’,u:‘https://glacierarcade.xyz/html/pacman.html’,r:‘4.9’,p:‘1B+’},
-{n:‘CHROME DINO’,e:’🦕’,cat:‘classic’,u:‘https://glacierarcade.xyz/html/chrome-dino.html’,r:‘4.8’,p:‘200M+’},
-{n:‘TETRIS CLASSIC’,e:’🟢’,cat:‘classic’,u:‘https://glacierarcade.xyz/html/tetris.html’,r:‘4.9’,p:‘1B+’},
-{n:‘FRIDAY NIGHT FUNKIN’,e:’🎤’,cat:‘classic’,u:‘https://glacierarcade.xyz/html/fnf.html’,r:‘4.8’,p:‘20M+’},
-{n:‘MINECRAFT CLASSIC’,e:’⛏’,cat:‘action’,u:‘https://glacierarcade.xyz/html/minecraft-classic.html’,r:‘4.9’,p:‘50M+’},
-{n:‘BASKETBALL STARS’,e:’🏀’,cat:‘sports’,u:‘https://glacierarcade.xyz/html/basketball-stars.html’,r:‘4.8’,p:‘10M+’},
-{n:‘HELIX JUMP’,e:’🥳’,cat:‘action’,u:‘https://glacierarcade.xyz/html/helix-jump.html’,r:‘4.7’,p:‘8M+’},
-{n:‘SNOW RIDER 3D’,e:’🏇’,cat:‘racing’,u:‘https://glacierarcade.xyz/html/snow-rider-3d.html’,r:‘4.8’,p:‘6M+’},
-{n:‘BULLET FORCE’,e:’💥’,cat:‘shooter’,u:‘https://glacierarcade.xyz/html/bullet-force.html’,r:‘4.8’,p:‘15M+’},
-{n:‘IDLE BREAKOUT’,e:’🔸’,cat:‘puzzle’,u:‘https://glacierarcade.xyz/html/idle-breakout.html’,r:‘4.7’,p:‘6M+’},
-{n:‘MONKEY MART’,e:’🦄’,cat:‘puzzle’,u:‘https://glacierarcade.xyz/html/monkey-mart.html’,r:‘4.8’,p:‘8M+’},
-{n:‘EGGY CAR’,e:’🥒’,cat:‘racing’,u:‘https://glacierarcade.xyz/html/eggy-car.html’,r:‘4.7’,p:‘7M+’},
-{n:‘NARROW ONE’,e:’🏹’,cat:‘shooter’,u:‘https://glacierarcade.xyz/html/narrow-one.html’,r:‘4.8’,p:‘8M+’},
-{n:‘SURVIV.IO’,e:’🏪’,cat:‘io’,u:‘https://glacierarcade.xyz/html/survivio.html’,r:‘4.8’,p:‘12M+’},
-{n:‘SKRIBBL.IO’,e:’🎨’,cat:‘io’,u:‘https://glacierarcade.xyz/html/skribblio.html’,r:‘4.7’,p:‘10M+’},
-{n:‘AGARIO’,e:’🔴’,cat:‘io’,u:‘https://glacierarcade.xyz/html/agario.html’,r:‘4.8’,p:‘20M+’},
-{n:‘DIEP.IO’,e:’🔼’,cat:‘io’,u:‘https://glacierarcade.xyz/html/diepio.html’,r:‘4.7’,p:‘8M+’},
-{n:‘SUPER SMASH FLASH 2’,e:’💥’,cat:‘classic’,u:‘https://glacierarcade.xyz/html/ssf2.html’,r:‘4.8’,p:‘20M+’},
-{n:‘MARIO KART’,e:’🚞’,cat:‘classic’,u:‘https://glacierarcade.xyz/html/mario-kart.html’,r:‘4.8’,p:‘30M+’},
-{n:‘SUPER MARIO 64’,e:’🌲’,cat:‘classic’,u:‘https://glacierarcade.xyz/html/super-mario-64.html’,r:‘4.9’,p:‘20M+’},
-{n:‘POKEMON SHOWDOWN’,e:’🦑’,cat:‘classic’,u:‘https://glacierarcade.xyz/html/pokemon-showdown.html’,r:‘4.8’,p:‘15M+’},
-{n:‘FIREBOY & WATERGIRL’,e:’🔥’,cat:‘puzzle’,u:‘https://glacierarcade.xyz/html/fireboy-and-watergirl.html’,r:‘4.8’,p:‘10M+’},
-{n:‘FIREBOY & WATERGIRL 2’,e:’💓’,cat:‘puzzle’,u:‘https://glacierarcade.xyz/html/fireboy-and-watergirl-2.html’,r:‘4.7’,p:‘8M+’},
-{n:‘FIREBOY & WATERGIRL 3’,e:’🏛’,cat:‘puzzle’,u:‘https://glacierarcade.xyz/html/fireboy-and-watergirl-3.html’,r:‘4.7’,p:‘6M+’},
-{n:‘AGE OF WAR’,e:’⚔’,cat:‘action’,u:‘https://glacierarcade.xyz/html/age-of-war.html’,r:‘4.7’,p:‘6M+’},
-{n:‘EARN TO DIE’,e:’🚘’,cat:‘action’,u:‘https://glacierarcade.xyz/html/earn-to-die.html’,r:‘4.7’,p:‘6M+’},
-{n:‘HEAD SOCCER’,e:’⚽’,cat:‘sports’,u:‘https://glacierarcade.xyz/html/head-soccer.html’,r:‘4.7’,p:‘5M+’},
+  {n:'SNAKE',e:'&#128013;',cat:'offline',key:'snake',r:'4.8',p:'Offline'},
+  {n:'TETRIS',e:'&#128997;',cat:'offline',key:'tetris',r:'4.9',p:'Offline'},
+  {n:'2048',e:'&#128998;',cat:'offline',key:'2048',r:'4.8',p:'Offline'},
+  {n:'FLAPPY BIRD',e:'&#128036;',cat:'offline',key:'flappy',r:'4.7',p:'Offline'},
+  {n:'DINO RUN',e:'&#129430;',cat:'offline',key:'dino',r:'4.8',p:'Offline'},
+  {n:'SLOPE',e:'&#128309;',cat:'action',u:'https://glacierarcade.xyz/html/slope.html',r:'4.9',p:'50M+'},
+  {n:'SLOPE 2',e:'&#128995;',cat:'action',u:'https://glacierarcade.xyz/html/slope2.html',r:'4.8',p:'20M+'},
+  {n:'RUN 3',e:'&#127939;',cat:'action',u:'https://glacierarcade.xyz/html/run3.html',r:'4.9',p:'40M+'},
+  {n:'MINECRAFT',e:'&#9935;',cat:'action',u:'https://glacierarcade.xyz/html/minecraft.html',r:'4.9',p:'50M+'},
+  {n:'SUBWAY SURFERS',e:'&#128761;',cat:'action',u:'https://glacierarcade.xyz/html/subway-surfers.html',r:'4.9',p:'80M+'},
+  {n:'TEMPLE RUN 2',e:'&#127796;',cat:'action',u:'https://glacierarcade.xyz/html/temple-run-2.html',r:'4.8',p:'40M+'},
+  {n:'GEOMETRY DASH',e:'&#128311;',cat:'action',u:'https://glacierarcade.xyz/html/gdlite.html',r:'4.8',p:'15M+'},
+  {n:'STICKMAN HOOK',e:'&#128760;',cat:'action',u:'https://glacierarcade.xyz/html/stickman-hook.html',r:'4.8',p:'12M+'},
+  {n:'TUNNEL RUSH',e:'&#128308;',cat:'action',u:'https://glacierarcade.xyz/html/tunnel-rush.html',r:'4.8',p:'10M+'},
+  {n:'CLUSTER RUSH',e:'&#128667;',cat:'action',u:'https://glacierarcade.xyz/html/cluster-rush.html',r:'4.7',p:'5M+'},
+  {n:'HAPPY WHEELS',e:'&#128282;',cat:'action',u:'https://glacierarcade.xyz/html/happy-wheels-fanmade.html',r:'4.7',p:'10M+'},
+  {n:'VEX 5',e:'&#127939;',cat:'action',u:'https://glacierarcade.xyz/html/vex5.html',r:'4.7',p:'6M+'},
+  {n:'OVO',e:'&#128993;',cat:'action',u:'https://glacierarcade.xyz/html/ovo.html',r:'4.7',p:'5M+'},
+  {n:'PLANTS VS ZOMBIES',e:'&#127803;',cat:'action',u:'https://glacierarcade.xyz/html/pvz.html',r:'4.8',p:'50M+'},
+  {n:'FNAF',e:'&#128059;',cat:'action',u:'https://glacierarcade.xyz/html/fnaf.html',r:'4.7',p:'8M+'},
+  {n:'CHESS',e:'&#9823;',cat:'puzzle',u:'https://glacierarcade.xyz/html/chess.html',r:'4.9',p:'50M+'},
+  {n:'WORDLE',e:'&#129001;',cat:'puzzle',u:'https://glacierarcade.xyz/html/wordle.html',r:'4.8',p:'30M+'},
+  {n:'BLOONS TD 5',e:'&#127880;',cat:'puzzle',u:'https://glacierarcade.xyz/html/btd5.html',r:'4.8',p:'15M+'},
+  {n:'COOKIE CLICKER',e:'&#127850;',cat:'puzzle',u:'https://glacierarcade.xyz/html/cookie-clicker.html',r:'4.6',p:'10M+'},
+  {n:'DRIFT BOSS',e:'&#128663;',cat:'racing',u:'https://glacierarcade.xyz/html/drift-boss.html',r:'4.8',p:'15M+'},
+  {n:'DRIFT HUNTERS',e:'&#127950;',cat:'racing',u:'https://glacierarcade.xyz/html/drift-hunters.html',r:'4.8',p:'8M+'},
+  {n:'DRIVE MAD',e:'&#128665;',cat:'racing',u:'https://glacierarcade.xyz/html/drive-mad.html',r:'4.7',p:'10M+'},
+  {n:'MOTO X3M',e:'&#127949;',cat:'racing',u:'https://glacierarcade.xyz/html/motox3m.html',r:'4.8',p:'8M+'},
+  {n:'SMASH KARTS',e:'&#127950;',cat:'racing',u:'https://glacierarcade.xyz/html/smash-karts.html',r:'4.8',p:'12M+'},
+  {n:'TANUKI SUNSET',e:'&#129436;',cat:'racing',u:'https://glacierarcade.xyz/html/tanuki-sunset.html',r:'4.7',p:'4M+'},
+  {n:'1V1.LOL',e:'&#127919;',cat:'shooter',u:'https://glacierarcade.xyz/html/1v1lol.html',r:'4.8',p:'25M+'},
+  {n:'KRUNKER.IO',e:'&#128299;',cat:'shooter',u:'https://glacierarcade.xyz/html/krunkerio.html',r:'4.9',p:'15M+'},
+  {n:'SHELL SHOCKERS',e:'&#129370;',cat:'shooter',u:'https://glacierarcade.xyz/html/shell-shockers.html',r:'4.8',p:'10M+'},
+  {n:'GETAWAY SHOOTOUT',e:'&#128168;',cat:'shooter',u:'https://glacierarcade.xyz/html/getaway-shootout.html',r:'4.7',p:'8M+'},
+  {n:'ROOFTOP SNIPERS',e:'&#127959;',cat:'shooter',u:'https://glacierarcade.xyz/html/rooftop-snipers.html',r:'4.7',p:'7M+'},
+  {n:'RETRO BOWL',e:'&#127944;',cat:'sports',u:'https://glacierarcade.xyz/html/retro-bowl.html',r:'4.9',p:'30M+'},
+  {n:'RETRO BOWL COLLEGE',e:'&#127967;',cat:'sports',u:'https://glacierarcade.xyz/html/retrobowlcollege.html',r:'4.8',p:'10M+'},
+  {n:'BASKET RANDOM',e:'&#127936;',cat:'sports',u:'https://glacierarcade.xyz/html/basket-random.html',r:'4.7',p:'5M+'},
+  {n:'SOCCER RANDOM',e:'&#9917;',cat:'sports',u:'https://glacierarcade.xyz/html/soccer-random.html',r:'4.6',p:'4M+'},
+  {n:'BOXING RANDOM',e:'&#129354;',cat:'sports',u:'https://glacierarcade.xyz/html/boxing-random.html',r:'4.7',p:'4M+'},
+  {n:'SLITHER.IO',e:'&#128013;',cat:'io',u:'https://glacierarcade.xyz/html/slither-io.html',r:'4.9',p:'50M+'},
+  {n:'PAPER.IO 2',e:'&#128220;',cat:'io',u:'https://glacierarcade.xyz/html/paperio2.html',r:'4.7',p:'20M+'},
+  {n:'HOLE.IO',e:'&#9898;',cat:'io',u:'https://glacierarcade.xyz/html/hole-io.html',r:'4.6',p:'10M+'},
+  {n:'PACMAN',e:'&#128126;',cat:'classic',u:'https://glacierarcade.xyz/html/pacman.html',r:'4.9',p:'1B+'},
+  {n:'CHROME DINO',e:'&#129429;',cat:'classic',u:'https://glacierarcade.xyz/html/chrome-dino.html',r:'4.8',p:'200M+'},
+  {n:'TETRIS CLASSIC',e:'&#128994;',cat:'classic',u:'https://glacierarcade.xyz/html/tetris.html',r:'4.9',p:'1B+'},
+  {n:'FRIDAY NIGHT FUNKIN',e:'&#127908;',cat:'classic',u:'https://glacierarcade.xyz/html/fnf.html',r:'4.8',p:'20M+'},
+  {n:'MINECRAFT CLASSIC',e:'&#9935;',cat:'action',u:'https://glacierarcade.xyz/html/minecraft-classic.html',r:'4.9',p:'50M+'},
+  {n:'BASKETBALL STARS',e:'&#127936;',cat:'sports',u:'https://glacierarcade.xyz/html/basketball-stars.html',r:'4.8',p:'10M+'},
+  {n:'HELIX JUMP',e:'&#129395;',cat:'action',u:'https://glacierarcade.xyz/html/helix-jump.html',r:'4.7',p:'8M+'},
+  {n:'SNOW RIDER 3D',e:'&#127943;',cat:'racing',u:'https://glacierarcade.xyz/html/snow-rider-3d.html',r:'4.8',p:'6M+'},
+  {n:'BULLET FORCE',e:'&#128165;',cat:'shooter',u:'https://glacierarcade.xyz/html/bullet-force.html',r:'4.8',p:'15M+'},
+  {n:'IDLE BREAKOUT',e:'&#128312;',cat:'puzzle',u:'https://glacierarcade.xyz/html/idle-breakout.html',r:'4.7',p:'6M+'},
+  {n:'MONKEY MART',e:'&#129412;',cat:'puzzle',u:'https://glacierarcade.xyz/html/monkey-mart.html',r:'4.8',p:'8M+'},
+  {n:'EGGY CAR',e:'&#129362;',cat:'racing',u:'https://glacierarcade.xyz/html/eggy-car.html',r:'4.7',p:'7M+'},
+  {n:'NARROW ONE',e:'&#127993;',cat:'shooter',u:'https://glacierarcade.xyz/html/narrow-one.html',r:'4.8',p:'8M+'},
+  {n:'SURVIV.IO',e:'&#127978;',cat:'io',u:'https://glacierarcade.xyz/html/survivio.html',r:'4.8',p:'12M+'},
+  {n:'SKRIBBL.IO',e:'&#127912;',cat:'io',u:'https://glacierarcade.xyz/html/skribblio.html',r:'4.7',p:'10M+'},
+  {n:'AGARIO',e:'&#128308;',cat:'io',u:'https://glacierarcade.xyz/html/agario.html',r:'4.8',p:'20M+'},
+  {n:'DIEP.IO',e:'&#128316;',cat:'io',u:'https://glacierarcade.xyz/html/diepio.html',r:'4.7',p:'8M+'},
+  {n:'SUPER SMASH FLASH 2',e:'&#128165;',cat:'classic',u:'https://glacierarcade.xyz/html/ssf2.html',r:'4.8',p:'20M+'},
+  {n:'MARIO KART',e:'&#128670;',cat:'classic',u:'https://glacierarcade.xyz/html/mario-kart.html',r:'4.8',p:'30M+'},
+  {n:'SUPER MARIO 64',e:'&#127794;',cat:'classic',u:'https://glacierarcade.xyz/html/super-mario-64.html',r:'4.9',p:'20M+'},
+  {n:'POKEMON SHOWDOWN',e:'&#129425;',cat:'classic',u:'https://glacierarcade.xyz/html/pokemon-showdown.html',r:'4.8',p:'15M+'},
+  {n:'FIREBOY & WATERGIRL',e:'&#128293;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl.html',r:'4.8',p:'10M+'},
+  {n:'FIREBOY & WATERGIRL 2',e:'&#128147;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl-2.html',r:'4.7',p:'8M+'},
+  {n:'FIREBOY & WATERGIRL 3',e:'&#127963;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl-3.html',r:'4.7',p:'6M+'},
+  {n:'AGE OF WAR',e:'&#9876;',cat:'action',u:'https://glacierarcade.xyz/html/age-of-war.html',r:'4.7',p:'6M+'},
+  {n:'EARN TO DIE',e:'&#128664;',cat:'action',u:'https://glacierarcade.xyz/html/earn-to-die.html',r:'4.7',p:'6M+'},
+  {n:'HEAD SOCCER',e:'&#9917;',cat:'sports',u:'https://glacierarcade.xyz/html/head-soccer.html',r:'4.7',p:'5M+'},
 ];
 
-var curCat = ‘all’, blobUrls = {};
+var curCat = 'all', blobUrls = {};
 
 function renderGames(list) {
-list = list || GAMES;
-var filtered = curCat === ‘all’ ? list : list.filter(function(g) { return g.cat === curCat; });
-var grid = document.getElementById(‘gGrid’); if (!grid) return;
-var html = ‘’;
-filtered.forEach(function(g, i) {
-var idx = GAMES.indexOf(g);
-html += ‘<div class="gcard" style="animation-delay:' + (i*0.03) + 's" data-idx="' + idx + '"><div class="holo"></div><div class="gthumb">’ + g.e + ‘</div><div class="ginfo"><div class="gname">’ + g.n + ‘</div><div class="gmeta"><span class="grating">★’ + (g.r||‘4.5’) + ‘</span><span>’ + (g.p||’’) + ‘</span></div></div></div>’;
-});
-grid.innerHTML = html;
-grid.querySelectorAll(’.gcard’).forEach(function(card) {
-card.addEventListener(‘click’, function() { openGame(parseInt(card.getAttribute(‘data-idx’))); });
-card.addEventListener(‘mousemove’, function(e) {
-var r = card.getBoundingClientRect(), x = (e.clientX-r.left)/r.width-.5, y = (e.clientY-r.top)/r.height-.5;
-card.style.transform = ‘perspective(600px) rotateY(’+x*14+‘deg) rotateX(’+(-y*14)+‘deg) scale(1.04)’;
-});
-card.addEventListener(‘mouseleave’, function() { card.style.transform = ‘’; });
-});
+  list = list || GAMES;
+  var filtered = curCat === 'all' ? list : list.filter(function(g) { return g.cat === curCat; });
+  var grid = document.getElementById('gGrid'); if (!grid) return;
+  var html = '';
+  filtered.forEach(function(g, i) {
+    var idx = GAMES.indexOf(g);
+    html += '<div class="gcard" style="animation-delay:' + (i*0.03) + 's" data-idx="' + idx + '"><div class="holo"></div><div class="gthumb">' + g.e + '</div><div class="ginfo"><div class="gname">' + g.n + '</div><div class="gmeta"><span class="grating">&#9733;' + (g.r||'4.5') + '</span><span>' + (g.p||'') + '</span></div></div></div>';
+  });
+  grid.innerHTML = html;
+  grid.querySelectorAll('.gcard').forEach(function(card) {
+    card.addEventListener('click', function() { openGame(parseInt(card.getAttribute('data-idx'))); });
+    card.addEventListener('mousemove', function(e) {
+      var r = card.getBoundingClientRect(), x = (e.clientX-r.left)/r.width-.5, y = (e.clientY-r.top)/r.height-.5;
+      card.style.transform = 'perspective(600px) rotateY('+x*14+'deg) rotateX('+(-y*14)+'deg) scale(1.04)';
+    });
+    card.addEventListener('mouseleave', function() { card.style.transform = ''; });
+  });
 }
 
 function setCat(btn, cat) {
-curCat = cat;
-document.querySelectorAll(’.catbtn’).forEach(function(b) { b.classList.remove(‘on’); });
-if (btn) btn.classList.add(‘on’);
-renderGames();
+  curCat = cat;
+  document.querySelectorAll('.catbtn').forEach(function(b) { b.classList.remove('on'); });
+  if (btn) btn.classList.add('on');
+  renderGames();
 }
 
 function filterGames(q) {
-q = (q || ‘’).toLowerCase();
-renderGames(GAMES.filter(function(g) { return !q || g.n.toLowerCase().indexOf(q) !== -1 || g.cat.indexOf(q) !== -1; }));
+  q = (q || '').toLowerCase();
+  renderGames(GAMES.filter(function(g) { return !q || g.n.toLowerCase().indexOf(q) !== -1 || g.cat.indexOf(q) !== -1; }));
 }
 
 function openGame(idx) {
-var g = GAMES[idx]; if (!g) return;
-var gGridWrap = document.getElementById(‘gGridWrap’), gSearch = document.getElementById(‘gSearch’);
-var gBackBar = document.getElementById(‘gBackBar’), gCurName = document.getElementById(‘gCurName’);
-var frame = document.getElementById(‘gFrame’);
-if (gGridWrap) gGridWrap.style.display = ‘none’;
-if (gSearch) gSearch.style.display = ‘none’;
-if (gBackBar) gBackBar.style.display = ‘flex’;
-if (gCurName) gCurName.textContent = g.n;
-if (!frame) return;
-frame.style.display = ‘block’; frame.innerHTML = ‘’;
-var fl = document.getElementById(‘flash’), app = document.getElementById(‘app’);
-if (fl) { fl.style.background = ‘var(–g)’; fl.style.opacity = ‘.25’; }
-if (app) { app.classList.add(‘shaking’); setTimeout(function() { app.classList.remove(‘shaking’); }, 320); }
-if (fl) setTimeout(function() { fl.style.opacity = ‘0’; }, 320);
-if (g.key) {
-var html = getOfflineHTML(g.key);
-if (html) {
-if (!blobUrls[g.key]) blobUrls[g.key] = makeBlob(html);
-if (blobUrls[g.key]) frame.innerHTML = ‘<iframe src="' + blobUrls[g.key] + '" style="width:100%;height:100%;border:none;" allowfullscreen></iframe>’;
-}
-} else if (g.u) {
-frame.innerHTML = ‘<iframe src="' + g.u + '" style="width:100%;height:100%;border:none;" allowfullscreen allow="fullscreen *; autoplay *"></iframe>’;
-}
+  var g = GAMES[idx]; if (!g) return;
+  var gGridWrap = document.getElementById('gGridWrap'), gSearch = document.getElementById('gSearch');
+  var gBackBar = document.getElementById('gBackBar'), gCurName = document.getElementById('gCurName');
+  var frame = document.getElementById('gFrame');
+  if (gGridWrap) gGridWrap.style.display = 'none';
+  if (gSearch) gSearch.style.display = 'none';
+  if (gBackBar) gBackBar.style.display = 'flex';
+  if (gCurName) gCurName.textContent = g.n;
+  if (!frame) return;
+  frame.style.display = 'block'; frame.innerHTML = '';
+  var fl = document.getElementById('flash'), app = document.getElementById('app');
+  if (fl) { fl.style.background = 'var(--g)'; fl.style.opacity = '.25'; }
+  if (app) { app.classList.add('shaking'); setTimeout(function() { app.classList.remove('shaking'); }, 320); }
+  if (fl) setTimeout(function() { fl.style.opacity = '0'; }, 320);
+  if (g.key) {
+    var html = getOfflineHTML(g.key);
+    if (html) {
+      if (!blobUrls[g.key]) blobUrls[g.key] = makeBlob(html);
+      if (blobUrls[g.key]) frame.innerHTML = '<iframe src="' + blobUrls[g.key] + '" style="width:100%;height:100%;border:none;" allowfullscreen></iframe>';
+    }
+  } else if (g.u) {
+    frame.innerHTML = '<iframe src="' + g.u + '" style="width:100%;height:100%;border:none;" allowfullscreen allow="fullscreen *; autoplay *"></iframe>';
+  }
 }
 
 function closeGame() {
-var gGridWrap = document.getElementById(‘gGridWrap’), gSearch = document.getElementById(‘gSearch’);
-var gBackBar = document.getElementById(‘gBackBar’), frame = document.getElementById(‘gFrame’);
-if (gGridWrap) gGridWrap.style.display = ‘block’;
-if (gSearch) gSearch.style.display = ‘block’;
-if (gBackBar) gBackBar.style.display = ‘none’;
-if (frame) { frame.style.display = ‘none’; frame.innerHTML = ‘’; }
+  var gGridWrap = document.getElementById('gGridWrap'), gSearch = document.getElementById('gSearch');
+  var gBackBar = document.getElementById('gBackBar'), frame = document.getElementById('gFrame');
+  if (gGridWrap) gGridWrap.style.display = 'block';
+  if (gSearch) gSearch.style.display = 'block';
+  if (gBackBar) gBackBar.style.display = 'none';
+  if (frame) { frame.style.display = 'none'; frame.innerHTML = ''; }
 }
 
 function goFull() {
-var iframe = document.querySelector(’#gFrame iframe’);
-if (iframe && iframe.requestFullscreen) iframe.requestFullscreen().catch(function(){});
+  var iframe = document.querySelector('#gFrame iframe');
+  if (iframe && iframe.requestFullscreen) iframe.requestFullscreen().catch(function(){});
 }
 
 // ══════ APPS — FIX: UB2 is now the MAIN unblocker ══════
 // UB2 = main unblocker (outerspace), UB1 = secondary
-var UB1 = (function(){ try { return localStorage.getItem(‘nx_ub1’) || ‘https://learn.szczech.com.ar/’; } catch(e){ return ‘https://learn.szczech.com.ar/’; } })();
-var UB2 = (function(){ try { return localStorage.getItem(‘nx_ub2’) || ‘https://outerspace.is-a.software/&’; } catch(e){ return ‘https://outerspace.is-a.software/&’; } })();
-var curAppUrl = ‘’;
+var UB1 = (function(){ try { return localStorage.getItem('nx_ub1') || 'https://learn.szczech.com.ar/'; } catch(e){ return 'https://learn.szczech.com.ar/'; } })();
+var UB2 = (function(){ try { return localStorage.getItem('nx_ub2') || 'https://outerspace.is-a.software/&'; } catch(e){ return 'https://outerspace.is-a.software/&'; } })();
+var curAppUrl = '';
 
 var APPS = [
-{ico:’🚀’,name:‘RESOURCE HUB 1’,desc:‘Primary unblocker portal’,tag:‘unblock’,getUrl:function(){return UB2;}},
-{ico:’🔗’,name:‘RESOURCE HUB 2’,desc:‘Secondary unblocker portal’,tag:‘unblock’,getUrl:function(){return UB1;}},
-{ico:’📺’,name:‘YOUTUBE’,desc:‘Watch videos & shorts’,tag:‘free’,url:‘https://www.youtube.com’},
-{ico:’💬’,name:‘DISCORD’,desc:‘Chat with friends’,tag:‘blocked’,url:‘https://discord.com/app’},
-{ico:’🎮’,name:‘ROBLOX’,desc:‘Play Roblox online’,tag:‘blocked’,url:‘https://www.roblox.com’},
-{ico:’🎵’,name:‘SPOTIFY’,desc:‘Stream music’,tag:‘blocked’,url:‘https://open.spotify.com’},
-{ico:’📖’,name:‘WIKIPEDIA’,desc:‘All human knowledge’,tag:‘free’,url:‘https://en.wikipedia.org’},
-{ico:’🕐’,name:‘KHAN ACADEMY’,desc:‘Free lessons & practice’,tag:‘free’,url:‘https://www.khanacademy.org’},
-{ico:’📊’,name:‘DESMOS’,desc:‘Graphing calculator’,tag:‘free’,url:‘https://www.desmos.com/calculator’},
-{ico:’🌎’,name:‘GOOGLE TRANSLATE’,desc:‘Translate any language’,tag:‘free’,url:‘https://translate.google.com’},
-{ico:’🎓’,name:‘GOOGLE SCHOLAR’,desc:‘Research & papers’,tag:‘free’,url:‘https://scholar.google.com’},
-{ico:’🃏’,name:‘QUIZLET’,desc:‘Flashcards & study tools’,tag:‘free’,url:‘https://quizlet.com’},
-{ico:’🎲’,name:‘COOLMATHGAMES’,desc:‘Math & puzzle games’,tag:‘free’,url:‘https://www.coolmathgames.com’},
-{ico:’🕹’,name:‘POKI’,desc:‘100s of free browser games’,tag:‘free’,url:‘https://poki.com’},
-{ico:’🤖’,name:‘CHATGPT’,desc:‘OpenAI chatbot’,tag:‘blocked’,url:‘https://chat.openai.com’},
-{ico:’📝’,name:‘GOOGLE DOCS’,desc:‘Write & collaborate’,tag:‘free’,url:‘https://docs.google.com’},
-{ico:’📚’,name:‘GOOGLE CLASSROOM’,desc:‘School portal’,tag:‘free’,url:‘https://classroom.google.com’},
+  {ico:'&#128640;',name:'RESOURCE HUB 1',desc:'Primary unblocker portal',tag:'unblock',getUrl:function(){return UB2;}},
+  {ico:'&#128279;',name:'RESOURCE HUB 2',desc:'Secondary unblocker portal',tag:'unblock',getUrl:function(){return UB1;}},
+  {ico:'&#128250;',name:'YOUTUBE',desc:'Watch videos & shorts',tag:'free',url:'https://www.youtube.com'},
+  {ico:'&#128172;',name:'DISCORD',desc:'Chat with friends',tag:'blocked',url:'https://discord.com/app'},
+  {ico:'&#127918;',name:'ROBLOX',desc:'Play Roblox online',tag:'blocked',url:'https://www.roblox.com'},
+  {ico:'&#127925;',name:'SPOTIFY',desc:'Stream music',tag:'blocked',url:'https://open.spotify.com'},
+  {ico:'&#128214;',name:'WIKIPEDIA',desc:'All human knowledge',tag:'free',url:'https://en.wikipedia.org'},
+  {ico:'&#128336;',name:'KHAN ACADEMY',desc:'Free lessons & practice',tag:'free',url:'https://www.khanacademy.org'},
+  {ico:'&#128202;',name:'DESMOS',desc:'Graphing calculator',tag:'free',url:'https://www.desmos.com/calculator'},
+  {ico:'&#127758;',name:'GOOGLE TRANSLATE',desc:'Translate any language',tag:'free',url:'https://translate.google.com'},
+  {ico:'&#127891;',name:'GOOGLE SCHOLAR',desc:'Research & papers',tag:'free',url:'https://scholar.google.com'},
+  {ico:'&#127183;',name:'QUIZLET',desc:'Flashcards & study tools',tag:'free',url:'https://quizlet.com'},
+  {ico:'&#127922;',name:'COOLMATHGAMES',desc:'Math & puzzle games',tag:'free',url:'https://www.coolmathgames.com'},
+  {ico:'&#128377;',name:'POKI',desc:'100s of free browser games',tag:'free',url:'https://poki.com'},
+  {ico:'&#129302;',name:'CHATGPT',desc:'OpenAI chatbot',tag:'blocked',url:'https://chat.openai.com'},
+  {ico:'&#128221;',name:'GOOGLE DOCS',desc:'Write & collaborate',tag:'free',url:'https://docs.google.com'},
+  {ico:'&#128218;',name:'GOOGLE CLASSROOM',desc:'School portal',tag:'free',url:'https://classroom.google.com'},
 ];
 
 function buildApps() {
-var grid = document.getElementById(‘appsGrid’); if (!grid) return;
-var html = ‘’;
-APPS.forEach(function(a, i) {
-var url = a.getUrl ? a.getUrl() : (a.url || ‘’);
-var isBlocked = a.tag === ‘blocked’;
-// FIX: Use UB2 (main unblocker) for blocked apps
-var openUrl = isBlocked ? (UB2 + encodeURIComponent(url)) : url;
-var tagLabel = a.tag === ‘unblock’ ? ‘🔗 PORTAL’ : isBlocked ? ‘🔓 VIA UNBLOCKER’ : ‘✓ FREE’;
-var tagCls = a.tag === ‘unblock’ ? ‘unblock’ : isBlocked ? ‘blocked’ : ‘free’;
-var featCls = a.tag === ‘unblock’ ? ’ feat’ : ‘’;
-html += ‘<div class=“acard’+featCls+’” data-appidx=”’+i+’” data-url=”’+openUrl.replace(/”/g,’"’)+’”><div class="aico">’+a.ico+’</div><div class="aname">’+a.name+’</div><div class="adesc">’+a.desc+’</div><span class="atag '+tagCls+'">’+tagLabel+’</span></div>’;
-});
-grid.innerHTML = html;
-grid.querySelectorAll(’.acard’).forEach(function(card) {
-card.addEventListener(‘click’, function() {
-var url = card.getAttribute(‘data-url’), idx = parseInt(card.getAttribute(‘data-appidx’)), a = APPS[idx];
-openApp(url, a ? a.name : ‘’, a && a.tag === ‘blocked’);
-});
-});
+  var grid = document.getElementById('appsGrid'); if (!grid) return;
+  var html = '';
+  APPS.forEach(function(a, i) {
+    var url = a.getUrl ? a.getUrl() : (a.url || '');
+    var isBlocked = a.tag === 'blocked';
+    // FIX: Use UB2 (main unblocker) for blocked apps
+    var openUrl = isBlocked ? (UB2 + encodeURIComponent(url)) : url;
+    var tagLabel = a.tag === 'unblock' ? '&#128279; PORTAL' : isBlocked ? '&#128275; VIA UNBLOCKER' : '&#10003; FREE';
+    var tagCls = a.tag === 'unblock' ? 'unblock' : isBlocked ? 'blocked' : 'free';
+    var featCls = a.tag === 'unblock' ? ' feat' : '';
+    html += '<div class="acard'+featCls+'" data-appidx="'+i+'" data-url="'+openUrl.replace(/"/g,'&quot;')+'"><div class="aico">'+a.ico+'</div><div class="aname">'+a.name+'</div><div class="adesc">'+a.desc+'</div><span class="atag '+tagCls+'">'+tagLabel+'</span></div>';
+  });
+  grid.innerHTML = html;
+  grid.querySelectorAll('.acard').forEach(function(card) {
+    card.addEventListener('click', function() {
+      var url = card.getAttribute('data-url'), idx = parseInt(card.getAttribute('data-appidx')), a = APPS[idx];
+      openApp(url, a ? a.name : '', a && a.tag === 'blocked');
+    });
+  });
 }
 
 function openApp(url, name, isBlocked) {
-curAppUrl = url;
-var appsView = document.getElementById(‘appsView’), viewer = document.getElementById(‘appViewer’);
-var avName = document.getElementById(‘avName’), frame = document.getElementById(‘appFrame’);
-if (appsView) appsView.style.display = ‘none’;
-if (viewer) viewer.style.display = ‘flex’;
-if (avName) avName.innerHTML = name + (isBlocked ? ’ 🔓’ : ‘’);
-if (frame) frame.src = url;
-if (isBlocked) toast(’🔓 UNBLOCKER’, ‘Loading via proxy…’, ‘var(–y)’);
+  curAppUrl = url;
+  var appsView = document.getElementById('appsView'), viewer = document.getElementById('appViewer');
+  var avName = document.getElementById('avName'), frame = document.getElementById('appFrame');
+  if (appsView) appsView.style.display = 'none';
+  if (viewer) viewer.style.display = 'flex';
+  if (avName) avName.innerHTML = name + (isBlocked ? ' &#128275;' : '');
+  if (frame) frame.src = url;
+  if (isBlocked) toast('&#128275; UNBLOCKER', 'Loading via proxy...', 'var(--y)');
 }
 
 function closeApp() {
-var appsView = document.getElementById(‘appsView’), viewer = document.getElementById(‘appViewer’), frame = document.getElementById(‘appFrame’);
-if (appsView) appsView.style.display = ‘block’;
-if (viewer) viewer.style.display = ‘none’;
-if (frame) frame.src = ‘about:blank’;
+  var appsView = document.getElementById('appsView'), viewer = document.getElementById('appViewer'), frame = document.getElementById('appFrame');
+  if (appsView) appsView.style.display = 'block';
+  if (viewer) viewer.style.display = 'none';
+  if (frame) frame.src = 'about:blank';
 }
 
 // ══════ AI — FIX: Use pollinations.ai free API ══════
 function setAI(btn, pane) {
-document.querySelectorAll(’.aitool’).forEach(function(b) { b.classList.remove(‘on’); });
-document.querySelectorAll(’.aipane’).forEach(function(p) { p.classList.remove(‘on’); });
-if (btn) btn.classList.add(‘on’);
-var el = document.getElementById(‘aipane-’ + pane);
-if (el) el.classList.add(‘on’);
+  document.querySelectorAll('.aitool').forEach(function(b) { b.classList.remove('on'); });
+  document.querySelectorAll('.aipane').forEach(function(p) { p.classList.remove('on'); });
+  if (btn) btn.classList.add('on');
+  var el = document.getElementById('aipane-' + pane);
+  if (el) el.classList.add('on');
 }
 
 function aiMsg(role, text) {
-var c = document.getElementById(‘chatMsgs’); if (!c) return null;
-var d = document.createElement(‘div’); d.className = ‘msg ’ + role;
-d.innerHTML = ‘<div class="mav">’ + (role===‘ai’?’🤖’:’👤’) + ‘</div><div class="mbub">’ + (text||’’).replace(/</g,’<’) + ‘</div>’;
-c.appendChild(d); c.scrollTop = c.scrollHeight; return d;
+  var c = document.getElementById('chatMsgs'); if (!c) return null;
+  var d = document.createElement('div'); d.className = 'msg ' + role;
+  d.innerHTML = '<div class="mav">' + (role==='ai'?'&#129302;':'&#128100;') + '</div><div class="mbub">' + (text||'').replace(/</g,'&lt;') + '</div>';
+  c.appendChild(d); c.scrollTop = c.scrollHeight; return d;
 }
 
 // Use pollinations.ai — completely free, no API key needed
 async function callFreeAI(prompt, systemPrompt) {
-var messages = [];
-if (systemPrompt) messages.push({role:‘system’, content: systemPrompt});
-messages.push({role:‘user’, content: prompt});
-var res = await fetch(‘https://text.pollinations.ai/openai’, {
-method: ‘POST’,
-headers: {‘Content-Type’: ‘application/json’},
-body: JSON.stringify({
-model: ‘openai’,
-messages: messages,
-max_tokens: 800
-})
-});
-var data = await res.json();
-return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || ‘Sorry, no response.’;
+  var messages = [];
+  if (systemPrompt) messages.push({role:'system', content: systemPrompt});
+  messages.push({role:'user', content: prompt});
+  var res = await fetch('https://text.pollinations.ai/openai', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      model: 'openai',
+      messages: messages,
+      max_tokens: 800
+    })
+  });
+  var data = await res.json();
+  return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || 'Sorry, no response.';
 }
 
 function sendChat() {
-var inp = document.getElementById(‘chatInput’); if (!inp) return;
-var text = inp.value.trim(); if (!text) return;
-inp.value = ‘’;
-aiMsg(‘user’, text);
-var wait = aiMsg(‘ai’, ‘<div class="spinner"></div>’);
-callFreeAI(text, ‘You are StudyBot, a helpful AI tutor for students. Be concise, friendly, and educational. Keep responses under 200 words.’)
-.then(function(reply) {
-if (wait) { var bub = wait.querySelector(’.mbub’); if (bub) bub.textContent = reply; }
-})
-.catch(function() {
-if (wait) { var bub = wait.querySelector(’.mbub’); if (bub) bub.textContent = ‘\u26A0\uFE0F Could not connect to AI. Try again!’; }
-});
+  var inp = document.getElementById('chatInput'); if (!inp) return;
+  var text = inp.value.trim(); if (!text) return;
+  inp.value = '';
+  aiMsg('user', text);
+  var wait = aiMsg('ai', '<div class="spinner"></div>');
+  callFreeAI(text, 'You are StudyBot, a helpful AI tutor for students. Be concise, friendly, and educational. Keep responses under 200 words.')
+    .then(function(reply) {
+      if (wait) { var bub = wait.querySelector('.mbub'); if (bub) bub.textContent = reply; }
+    })
+    .catch(function() {
+      if (wait) { var bub = wait.querySelector('.mbub'); if (bub) bub.textContent = '\u26A0\uFE0F Could not connect to AI. Try again!'; }
+    });
 }
 
 function doTranslate() {
-var inEl = document.getElementById(‘transIn’), outEl = document.getElementById(‘transOut’), toEl = document.getElementById(‘toLang’);
-if (!inEl || !outEl || !toEl) return;
-var inp = inEl.value.trim(), to = toEl.value; if (!inp) return;
-outEl.value = ‘\u23F3 Translating…’;
-callFreeAI(’Translate the following text to ’ + to + ‘. Return ONLY the translation, nothing else:\n\n’ + inp)
-.then(function(r) { outEl.value = r; })
-.catch(function() { outEl.value = ‘Error: could not translate.’; });
+  var inEl = document.getElementById('transIn'), outEl = document.getElementById('transOut'), toEl = document.getElementById('toLang');
+  if (!inEl || !outEl || !toEl) return;
+  var inp = inEl.value.trim(), to = toEl.value; if (!inp) return;
+  outEl.value = '\u23F3 Translating...';
+  callFreeAI('Translate the following text to ' + to + '. Return ONLY the translation, nothing else:\n\n' + inp)
+    .then(function(r) { outEl.value = r; })
+    .catch(function() { outEl.value = 'Error: could not translate.'; });
 }
 
 function doSummarize() {
-var inEl = document.getElementById(‘sumIn’), outEl = document.getElementById(‘sumOut’);
-if (!inEl || !outEl) return;
-var inp = inEl.value.trim(); if (!inp) return;
-outEl.textContent = ‘\u23F3 Summarizing…’;
-callFreeAI(‘Summarize the following text in 3-5 bullet points. Be concise:\n\n’ + inp)
-.then(function(r) { outEl.textContent = r; })
-.catch(function() { outEl.textContent = ‘Error: could not summarize.’; });
+  var inEl = document.getElementById('sumIn'), outEl = document.getElementById('sumOut');
+  if (!inEl || !outEl) return;
+  var inp = inEl.value.trim(); if (!inp) return;
+  outEl.textContent = '\u23F3 Summarizing...';
+  callFreeAI('Summarize the following text in 3-5 bullet points. Be concise:\n\n' + inp)
+    .then(function(r) { outEl.textContent = r; })
+    .catch(function() { outEl.textContent = 'Error: could not summarize.'; });
 }
 
 // ══════ SETTINGS ══════
-var panicMode = ‘blank’;
-var PANIC_URLS = {blank:‘about:blank’,classroom:‘https://classroom.google.com’,docs:‘https://docs.google.com’,search:‘https://google.com’};
+var panicMode = 'blank';
+var PANIC_URLS = {blank:'about:blank',classroom:'https://classroom.google.com',docs:'https://docs.google.com',search:'https://google.com'};
 
 function loadSettings() {
-try {
-var s1 = localStorage.getItem(‘nx_ub1’);
-if (s1) { UB1 = s1; var el=document.getElementById(‘ub1Url’); if(el) el.value = s1; }
-else { var el=document.getElementById(‘ub1Url’); if(el) el.value = UB1; }
-var s2 = localStorage.getItem(‘nx_ub2’);
-if (s2) { UB2 = s2; var el=document.getElementById(‘ub2Url’); if(el) el.value = s2; }
-else { var el=document.getElementById(‘ub2Url’); if(el) el.value = UB2; }
-var sp = localStorage.getItem(‘nx_panic’) || ‘blank’; setPanic(sp);
-var st = localStorage.getItem(‘nx_theme’);
-if (st) { var th = JSON.parse(st); applyTheme(th[0], th[1]); }
-var wc = localStorage.getItem(‘nx_weather_city’);
-if (wc) { var el=document.getElementById(‘wxCity’); if(el) el.value = wc; fetchWeather(); }
-var cn = localStorage.getItem(‘nx_chat_name’);
-if (cn) { var el=document.getElementById(‘nameIn’); if(el) el.value = cn; }
-} catch(e) {}
+  try {
+    var s1 = localStorage.getItem('nx_ub1');
+    if (s1) { UB1 = s1; var el=document.getElementById('ub1Url'); if(el) el.value = s1; }
+    else { var el=document.getElementById('ub1Url'); if(el) el.value = UB1; }
+    var s2 = localStorage.getItem('nx_ub2');
+    if (s2) { UB2 = s2; var el=document.getElementById('ub2Url'); if(el) el.value = s2; }
+    else { var el=document.getElementById('ub2Url'); if(el) el.value = UB2; }
+    var sp = localStorage.getItem('nx_panic') || 'blank'; setPanic(sp);
+    var st = localStorage.getItem('nx_theme');
+    if (st) { var th = JSON.parse(st); applyTheme(th[0], th[1]); }
+    var wc = localStorage.getItem('nx_weather_city');
+    if (wc) { var el=document.getElementById('wxCity'); if(el) el.value = wc; fetchWeather(); }
+    var cn = localStorage.getItem('nx_chat_name');
+    if (cn) { var el=document.getElementById('nameIn'); if(el) el.value = cn; }
+  } catch(e) {}
 }
 
 function saveUB(num) {
-var urlEl = document.getElementById(‘ub’+num+‘Url’), passEl = document.getElementById(‘ub’+num+‘Pass’);
-var okEl = document.getElementById(‘ub’+num+‘ok’), errEl = document.getElementById(‘ub’+num+‘err’);
-if (!urlEl || !passEl) return;
-var url = urlEl.value.trim(), pass = passEl.value;
-if (okEl) okEl.style.display = ‘none’;
-if (errEl) errEl.style.display = ‘none’;
-if (!url) return;
-if (pass !== PW) { if(errEl) errEl.style.display = ‘block’; passEl.value = ‘’; return; }
-try {
-if (num === 1) { UB1 = url; localStorage.setItem(‘nx_ub1’, url); }
-else { UB2 = url; localStorage.setItem(‘nx_ub2’, url); }
-} catch(e) {}
-if (okEl) okEl.style.display = ‘block’;
-passEl.value = ‘’; buildApps();
-toast(’✓ SAVED’, ‘Unblocker ’ + num + ’ updated!’);
+  var urlEl = document.getElementById('ub'+num+'Url'), passEl = document.getElementById('ub'+num+'Pass');
+  var okEl = document.getElementById('ub'+num+'ok'), errEl = document.getElementById('ub'+num+'err');
+  if (!urlEl || !passEl) return;
+  var url = urlEl.value.trim(), pass = passEl.value;
+  if (okEl) okEl.style.display = 'none';
+  if (errEl) errEl.style.display = 'none';
+  if (!url) return;
+  if (pass !== PW) { if(errEl) errEl.style.display = 'block'; passEl.value = ''; return; }
+  try {
+    if (num === 1) { UB1 = url; localStorage.setItem('nx_ub1', url); }
+    else { UB2 = url; localStorage.setItem('nx_ub2', url); }
+  } catch(e) {}
+  if (okEl) okEl.style.display = 'block';
+  passEl.value = ''; buildApps();
+  toast('&#10003; SAVED', 'Unblocker ' + num + ' updated!');
 }
 
 function savePass() {
-var oldEl = document.getElementById(‘passOld’), newEl = document.getElementById(‘passNew’);
-var okEl = document.getElementById(‘passOk’), errEl = document.getElementById(‘passErr’);
-if (!oldEl || !newEl) return;
-var old = oldEl.value, neu = newEl.value.trim();
-if (okEl) okEl.style.display = ‘none’;
-if (errEl) errEl.style.display = ‘none’;
-if (old !== PW || !neu) { if(errEl) errEl.style.display = ‘block’; return; }
-PW = neu;
-try { localStorage.setItem(‘nx_pw’, PW); } catch(e) {}
-if (okEl) okEl.style.display = ‘block’;
-oldEl.value = ‘’; newEl.value = ‘’;
-toast(’🔒 SAVED’, ‘Password changed!’);
+  var oldEl = document.getElementById('passOld'), newEl = document.getElementById('passNew');
+  var okEl = document.getElementById('passOk'), errEl = document.getElementById('passErr');
+  if (!oldEl || !newEl) return;
+  var old = oldEl.value, neu = newEl.value.trim();
+  if (okEl) okEl.style.display = 'none';
+  if (errEl) errEl.style.display = 'none';
+  if (old !== PW || !neu) { if(errEl) errEl.style.display = 'block'; return; }
+  PW = neu;
+  try { localStorage.setItem('nx_pw', PW); } catch(e) {}
+  if (okEl) okEl.style.display = 'block';
+  oldEl.value = ''; newEl.value = '';
+  toast('&#128274; SAVED', 'Password changed!');
 }
 
 function setTheme(g, b, el) {
-try { localStorage.setItem(‘nx_theme’, JSON.stringify([g,b])); } catch(e) {}
-applyTheme(g, b);
-var ok = document.getElementById(‘themeOk’);
-if (ok) { ok.style.display = ‘block’; setTimeout(function(){ ok.style.display=‘none’; }, 2000); }
-document.querySelectorAll(’.tdot’).forEach(function(d){ d.classList.remove(‘sel’); });
-if (el) el.classList.add(‘sel’);
+  try { localStorage.setItem('nx_theme', JSON.stringify([g,b])); } catch(e) {}
+  applyTheme(g, b);
+  var ok = document.getElementById('themeOk');
+  if (ok) { ok.style.display = 'block'; setTimeout(function(){ ok.style.display='none'; }, 2000); }
+  document.querySelectorAll('.tdot').forEach(function(d){ d.classList.remove('sel'); });
+  if (el) el.classList.add('sel');
 }
 
 function applyTheme(g, b) {
-document.documentElement.style.setProperty(’–g’, g);
-document.documentElement.style.setProperty(’–b’, b);
+  document.documentElement.style.setProperty('--g', g);
+  document.documentElement.style.setProperty('--b', b);
 }
 
 function setPanic(mode) {
-panicMode = mode;
-try { localStorage.setItem(‘nx_panic’, mode); } catch(e) {}
-document.querySelectorAll(’.popt’).forEach(function(b){ b.classList.remove(‘on’); });
-var el = document.getElementById(‘popt-’ + mode);
-if (el) el.classList.add(‘on’);
+  panicMode = mode;
+  try { localStorage.setItem('nx_panic', mode); } catch(e) {}
+  document.querySelectorAll('.popt').forEach(function(b){ b.classList.remove('on'); });
+  var el = document.getElementById('popt-' + mode);
+  if (el) el.classList.add('on');
 }
 
 var panicActive = false;
 function triggerPanic() {
-var overlay = document.getElementById(‘panic’), frame = document.getElementById(‘panicFrame’);
-if (!overlay || !frame) return;
-panicActive = true; overlay.style.display = ‘block’;
-frame.src = PANIC_URLS[panicMode] || ‘about:blank’;
-overlay.style.background = panicMode === ‘blank’ ? ‘#fff’ : ‘transparent’;
+  var overlay = document.getElementById('panic'), frame = document.getElementById('panicFrame');
+  if (!overlay || !frame) return;
+  panicActive = true; overlay.style.display = 'block';
+  frame.src = PANIC_URLS[panicMode] || 'about:blank';
+  overlay.style.background = panicMode === 'blank' ? '#fff' : 'transparent';
 }
 
 function dismissPanic() {
-var overlay = document.getElementById(‘panic’), frame = document.getElementById(‘panicFrame’);
-if (!overlay || !panicActive) return;
-panicActive = false; overlay.style.display = ‘none’;
-if (frame) frame.src = ‘about:blank’;
+  var overlay = document.getElementById('panic'), frame = document.getElementById('panicFrame');
+  if (!overlay || !panicActive) return;
+  panicActive = false; overlay.style.display = 'none';
+  if (frame) frame.src = 'about:blank';
 }
 
 function fetchWeather() {
-var cityEl = document.getElementById(‘wxCity’), resEl = document.getElementById(‘wxResult’);
-if (!cityEl || !resEl) return;
-var city = cityEl.value.trim(); if (!city) return;
-try { localStorage.setItem(‘nx_weather_city’, city); } catch(e) {}
-resEl.textContent = ‘Loading…’;
-fetch(‘https://geocoding-api.open-meteo.com/v1/search?name=’ + encodeURIComponent(city) + ‘&count=1&language=en&format=json’)
-.then(function(r) { return r.json(); })
-.then(function(gd) {
-if (!gd.results || !gd.results.length) { resEl.textContent = ‘City not found’; return; }
-var loc = gd.results[0];
-return fetch(‘https://api.open-meteo.com/v1/forecast?latitude=’+loc.latitude+’&longitude=’+loc.longitude+’&current=temperature_2m,weathercode,windspeed_10m&temperature_unit=fahrenheit&windspeed_unit=mph’)
-.then(function(r) { return r.json(); })
-.then(function(wd) {
-var temp = Math.round(wd.current.temperature_2m), wind = Math.round(wd.current.windspeed_10m), code = wd.current.weathercode;
-var icon = code<=1?’☀’:code<=3?’⛅’:code<=48?’🌫’:code<=67?’🌧’:code<=77?’❄’:code<=82?’🌦’:’⛈’;
-var desc = code===0?‘Clear’:code<=1?‘Mostly Clear’:code<=3?‘Partly Cloudy’:code<=48?‘Foggy’:code<=55?‘Drizzle’:code<=67?‘Rain’:code<=77?‘Snow’:‘Showers’;
-var display = icon+’ ‘+loc.name+’, ‘+loc.country+’ · ‘+temp+’°F · ‘+desc+’ · Wind ’+wind+‘mph’;
-resEl.innerHTML = display;
-var badge = document.getElementById(‘wxBadge’);
-if (badge) { badge.innerHTML = display; badge.style.display = ‘block’; }
-});
-})
-.catch(function() { resEl.textContent = ‘Failed to load weather’; });
+  var cityEl = document.getElementById('wxCity'), resEl = document.getElementById('wxResult');
+  if (!cityEl || !resEl) return;
+  var city = cityEl.value.trim(); if (!city) return;
+  try { localStorage.setItem('nx_weather_city', city); } catch(e) {}
+  resEl.textContent = 'Loading...';
+  fetch('https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(city) + '&count=1&language=en&format=json')
+    .then(function(r) { return r.json(); })
+    .then(function(gd) {
+      if (!gd.results || !gd.results.length) { resEl.textContent = 'City not found'; return; }
+      var loc = gd.results[0];
+      return fetch('https://api.open-meteo.com/v1/forecast?latitude='+loc.latitude+'&longitude='+loc.longitude+'&current=temperature_2m,weathercode,windspeed_10m&temperature_unit=fahrenheit&windspeed_unit=mph')
+        .then(function(r) { return r.json(); })
+        .then(function(wd) {
+          var temp = Math.round(wd.current.temperature_2m), wind = Math.round(wd.current.windspeed_10m), code = wd.current.weathercode;
+          var icon = code<=1?'&#9728;':code<=3?'&#9925;':code<=48?'&#127787;':code<=67?'&#127783;':code<=77?'&#10052;':code<=82?'&#127782;':'&#9928;';
+          var desc = code===0?'Clear':code<=1?'Mostly Clear':code<=3?'Partly Cloudy':code<=48?'Foggy':code<=55?'Drizzle':code<=67?'Rain':code<=77?'Snow':'Showers';
+          var display = icon+' '+loc.name+', '+loc.country+' &middot; '+temp+'&deg;F &middot; '+desc+' &middot; Wind '+wind+'mph';
+          resEl.innerHTML = display;
+          var badge = document.getElementById('wxBadge');
+          if (badge) { badge.innerHTML = display; badge.style.display = 'block'; }
+        });
+    })
+    .catch(function() { resEl.textContent = 'Failed to load weather'; });
 }
 
 // ══════ CHAT — FIX: Use a working public backend ══════
 // Using jsonbin.io as a free persistent store, or localStorage for same-device fallback
 // For real multi-user: use a public Firebase with open rules OR a simple echo server
-// We’ll use a working Firebase public endpoint
-var CHAT_BASE = ‘https://studyhub-chat-default-rtdb.firebaseio.com’;
-var chatRoom = null, chatName = ‘Anon’, pollTimer = null, lastMsgTime = 0;
+// We'll use a working Firebase public endpoint
+var CHAT_BASE = 'https://studyhub-chat-default-rtdb.firebaseio.com';
+var chatRoom = null, chatName = 'Anon', pollTimer = null, lastMsgTime = 0;
 
 function joinRoom() {
-var codeEl = document.getElementById(‘roomIn’), nameEl = document.getElementById(‘nameIn’);
-if (!codeEl) return;
-var code = codeEl.value.trim().toLowerCase().replace(/[^a-z0-9]/g,’’);
-var name = (nameEl && nameEl.value.trim()) || ‘Anon’;
-if (!code) { toast(’⚠’, ‘Enter a room code first!’, ‘var(–p)’); return; }
-chatRoom = code; chatName = name;
-try { localStorage.setItem(‘nx_chat_name’, name); } catch(e) {}
-var roomNameEl = document.getElementById(‘chatRoomName’);
-if (roomNameEl) roomNameEl.textContent = ‘Room: ’ + code + ’ \u2014 as ’ + name;
-var chatLog = document.getElementById(‘chatLog’);
-if (chatLog) chatLog.innerHTML = ‘’;
-if (pollTimer) clearInterval(pollTimer);
-lastMsgTime = 0;
-loadMsgs();
-pollTimer = setInterval(loadMsgs, 2500);
-toast(’💬 JOINED’, ’Room: ’ + code);
+  var codeEl = document.getElementById('roomIn'), nameEl = document.getElementById('nameIn');
+  if (!codeEl) return;
+  var code = codeEl.value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+  var name = (nameEl && nameEl.value.trim()) || 'Anon';
+  if (!code) { toast('&#9888;', 'Enter a room code first!', 'var(--p)'); return; }
+  chatRoom = code; chatName = name;
+  try { localStorage.setItem('nx_chat_name', name); } catch(e) {}
+  var roomNameEl = document.getElementById('chatRoomName');
+  if (roomNameEl) roomNameEl.textContent = 'Room: ' + code + ' \u2014 as ' + name;
+  var chatLog = document.getElementById('chatLog');
+  if (chatLog) chatLog.innerHTML = '';
+  if (pollTimer) clearInterval(pollTimer);
+  lastMsgTime = 0;
+  loadMsgs();
+  pollTimer = setInterval(loadMsgs, 2500);
+  toast('&#128172; JOINED', 'Room: ' + code);
 }
 
 function loadMsgs() {
-if (!chatRoom) return;
-var url = CHAT_BASE + ‘/rooms/’ + chatRoom + ‘/messages.json?orderBy=%22ts%22&limitToLast=60’;
-fetch(url)
-.then(function(r) {
-if (!r.ok) throw new Error(‘HTTP ’ + r.status);
-return r.json();
-})
-.then(function(data) {
-if (!data || typeof data !== ‘object’) return;
-var msgs = Object.values(data).filter(function(m){ return m && m.ts; }).sort(function(a,b){ return a.ts - b.ts; });
-if (!msgs.length) return;
-var newest = msgs[msgs.length-1].ts;
-if (newest === lastMsgTime) return;
-lastMsgTime = newest;
-var log = document.getElementById(‘chatLog’); if (!log) return;
-var wasBottom = log.scrollTop + log.clientHeight >= log.scrollHeight - 20;
-log.innerHTML = msgs.map(function(m) {
-var mine = m.name === chatName;
-var time = new Date(m.ts).toLocaleTimeString([], {hour:‘2-digit’,minute:‘2-digit’});
-return ‘<div style="display:flex;flex-direction:column;gap:2px;'+(mine?'align-items:flex-end':'')+'"><span style="font-size:.52rem;color:#446688;letter-spacing:.8px;">’+escHtml(m.name||‘Anon’)+’ · ‘+time+’</span><div style="max-width:72%;background:'+(mine?'rgba(0,255,136,.07)':'rgba(255,0,170,.06)')+';border:1px solid '+(mine?'rgba(0,255,136,.15)':'rgba(255,0,170,.12)')+';border-radius:5px;padding:7px 11px;font-size:.68rem;color:#c0d8ff;line-height:1.7;">’+escHtml(m.text||’’)+’</div></div>’;
-}).join(’’);
-if (wasBottom) log.scrollTop = log.scrollHeight;
-})
-.catch(function(e){
-// Silently fail on network errors
-console.warn(‘Chat load error:’, e);
-});
+  if (!chatRoom) return;
+  var url = CHAT_BASE + '/rooms/' + chatRoom + '/messages.json?orderBy=%22ts%22&limitToLast=60';
+  fetch(url)
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(data) {
+      if (!data || typeof data !== 'object') return;
+      var msgs = Object.values(data).filter(function(m){ return m && m.ts; }).sort(function(a,b){ return a.ts - b.ts; });
+      if (!msgs.length) return;
+      var newest = msgs[msgs.length-1].ts;
+      if (newest === lastMsgTime) return;
+      lastMsgTime = newest;
+      var log = document.getElementById('chatLog'); if (!log) return;
+      var wasBottom = log.scrollTop + log.clientHeight >= log.scrollHeight - 20;
+      log.innerHTML = msgs.map(function(m) {
+        var mine = m.name === chatName;
+        var time = new Date(m.ts).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+        return '<div style="display:flex;flex-direction:column;gap:2px;'+(mine?'align-items:flex-end':'')+'"><span style="font-size:.52rem;color:#446688;letter-spacing:.8px;">'+escHtml(m.name||'Anon')+' &middot; '+time+'</span><div style="max-width:72%;background:'+(mine?'rgba(0,255,136,.07)':'rgba(255,0,170,.06)')+';border:1px solid '+(mine?'rgba(0,255,136,.15)':'rgba(255,0,170,.12)')+';border-radius:5px;padding:7px 11px;font-size:.68rem;color:#c0d8ff;line-height:1.7;">'+escHtml(m.text||'')+'</div></div>';
+      }).join('');
+      if (wasBottom) log.scrollTop = log.scrollHeight;
+    })
+    .catch(function(e){
+      // Silently fail on network errors
+      console.warn('Chat load error:', e);
+    });
 }
 
 function sendMsg() {
-var inp = document.getElementById(‘chatMsgIn’); if (!inp) return;
-var text = inp.value.trim(); if (!text || !chatRoom) return;
-inp.value = ‘’;
-var msg = {name: chatName, text: text, ts: Date.now()};
-fetch(CHAT_BASE + ‘/rooms/’ + chatRoom + ‘/messages.json’, {
-method: ‘POST’,
-headers: {‘Content-Type’: ‘application/json’},
-body: JSON.stringify(msg)
-})
-.then(function(r) {
-if (!r.ok) throw new Error(‘HTTP ’ + r.status);
-// Immediately show own message
-setTimeout(loadMsgs, 300);
-})
-.catch(function(e) {
-console.warn(‘Send failed:’, e);
-toast(’⚠’, ‘Message failed to send’, ‘var(–p)’);
-// Put text back
-inp.value = text;
-});
+  var inp = document.getElementById('chatMsgIn'); if (!inp) return;
+  var text = inp.value.trim(); if (!text || !chatRoom) return;
+  inp.value = '';
+  var msg = {name: chatName, text: text, ts: Date.now()};
+  fetch(CHAT_BASE + '/rooms/' + chatRoom + '/messages.json', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(msg)
+  })
+  .then(function(r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    // Immediately show own message
+    setTimeout(loadMsgs, 300);
+  })
+  .catch(function(e) {
+    console.warn('Send failed:', e);
+    toast('&#9888;', 'Message failed to send', 'var(--p)');
+    // Put text back
+    inp.value = text;
+  });
 }
 
 function escHtml(s) {
-return String(s).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/”/g,’"’);
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ══════ ESC = PANIC ══════
-document.addEventListener(‘keydown’, function(e) {
-if (e.key === ‘Escape’) {
-if (panicActive) { dismissPanic(); return; }
-var app = document.getElementById(‘app’);
-if (app && app.style.display !== ‘none’) { triggerPanic(); return; }
-}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (panicActive) { dismissPanic(); return; }
+    var app = document.getElementById('app');
+    if (app && app.style.display !== 'none') { triggerPanic(); return; }
+  }
 });
 
-document.addEventListener(‘DOMContentLoaded’, function() {
-var overlay = document.getElementById(‘panic’);
-if (overlay) overlay.addEventListener(‘click’, function(e) { if (e.target === overlay) dismissPanic(); });
+document.addEventListener('DOMContentLoaded', function() {
+  var overlay = document.getElementById('panic');
+  if (overlay) overlay.addEventListener('click', function(e) { if (e.target === overlay) dismissPanic(); });
 });
 </script>
-
 </body>
 </html>
