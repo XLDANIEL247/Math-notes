@@ -1761,15 +1761,24 @@ function brLoad(url) {
   var status = document.getElementById('brStatus');
   if (inp) inp.value = url;
   if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
-  if (frame) {
-    frame.src = 'https://mathread.org/viewer.html?url=' + encodeURIComponent(url);
-    frame.onload = function() { if (status) { status.textContent = 'LOADED'; status.style.color = 'var(--g)'; } };
-  }
-}function brHome() {
+  if (!frame) return;
+  var targetUrl = url;
+  // Load unlocker with hash - it reads this on DOMContentLoaded
+  frame.src = 'unlocker/index.html#' + encodeURIComponent(targetUrl);
+  frame.onload = function() {
+    if (status) { status.textContent = 'LOADED'; status.style.color = 'var(--g)'; }
+    // postMessage as backup in case hash was missed
+    setTimeout(function() {
+      try { frame.contentWindow.postMessage({ type: 'navigate', url: targetUrl }, '*'); } catch(e) {}
+    }, 300);
+  };
+}
+
+function brHome() {
   var frame = document.getElementById('brFrame');
   var inp = document.getElementById('brUrl');
   var status = document.getElementById('brStatus');
-  if (frame) frame.src = 'https://mathread.org';
+  if (frame) frame.src = 'unlocker/index.html';
   if (inp) inp.value = '';
   if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
   if (frame) frame.onload = function() { if (status) { status.textContent = 'PROXY HOME'; status.style.color = 'var(--g)'; } };
