@@ -1259,8 +1259,8 @@ function goFull() {
 
 // ══════ APPS — FIX: UB2 is now the MAIN unblocker ══════
 // UB2 = main unblocker (outerspace), UB1 = secondary
-var UB1 = (function(){ try { return localStorage.getItem('nx_ub1') || 'https://2rzfcx-8080.csb.app/'; } catch(e){ return 'https://2rzfcx-8080.csb.app/'; } })();
-var UB2 = (function(){ try { return localStorage.getItem('nx_ub2') || 'https://2rzfcx-8080.csb.app/'; } catch(e){ return 'https://2rzfcx-8080.csb.app/'; } })();
+var UB1 = (function(){ try { return localStorage.getItem('nx_ub1') || 'https://mathread.org/'; } catch(e){ return 'https://mathread.org/'; } })();
+var UB2 = (function(){ try { return localStorage.getItem('nx_ub2') || 'https://mathread.org/'; } catch(e){ return 'https://mathread.org/'; } })();
 var curAppUrl = '';
 
 var APPS = [
@@ -1760,30 +1760,20 @@ function brLoad(url) {
   var inp = document.getElementById('brUrl');
   var status = document.getElementById('brStatus');
   if (inp) inp.value = url;
-  if (status) { status.textContent = '⏳ LOADING...'; status.style.color = 'var(--y)'; }
+  if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
   if (frame) {
-    frame.src = brGetProxyUrl(url);
-    frame.onload = function() {
-      if (status) { status.textContent = '✓ LOADED'; status.style.color = 'var(--g)'; }
-    };
-    frame.onerror = function() {
-      if (status) { status.textContent = 'BLOCKED - try new tab'; status.style.color = 'var(--p)'; }
-    };
+    frame.src = 'https://mathread.org/viewer.html?url=' + encodeURIComponent(url);
+    frame.onload = function() { if (status) { status.textContent = 'LOADED'; status.style.color = 'var(--g)'; } };
   }
-}
-
-function brHome() {
+}function brHome() {
   var frame = document.getElementById('brFrame');
-  var status = document.getElementById('brStatus');
   var inp = document.getElementById('brUrl');
-  if (frame) frame.src = UB2;
+  var status = document.getElementById('brStatus');
+  if (frame) frame.src = 'https://mathread.org';
   if (inp) inp.value = '';
-  if (status) { status.textContent = '⏳ LOADING...'; status.style.color = 'var(--y)'; }
-  if (frame) frame.onload = function() {
-    if (status) { status.textContent = '✓ PROXY HOME'; status.style.color = 'var(--g)'; }
-  };
+  if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
+  if (frame) frame.onload = function() { if (status) { status.textContent = 'PROXY HOME'; status.style.color = 'var(--g)'; } };
 }
-
 function brGo() {
   var inp = document.getElementById('brUrl'); if (!inp) return;
   var raw = inp.value.trim(); if (!raw) return;
