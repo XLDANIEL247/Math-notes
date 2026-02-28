@@ -1761,12 +1761,17 @@ function brLoad(url) {
   var status = document.getElementById('brStatus');
   if (inp) inp.value = url;
   if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
-  if (frame) {
-    frame.src = 'unlocker/index.html#' + encodeURIComponent(url);
-    frame.onload = function() { if (status) { status.textContent = 'LOADED'; status.style.color = 'var(--g)'; } };
-  }
-}
-function brHome() {
+  if (!frame) return;
+  // Force full reload with hash so unlocker picks it up on DOMContentLoaded
+  frame.src = 'unlocker/index.html#' + encodeURIComponent(url);
+  frame.onload = function() {
+    if (status) { status.textContent = 'LOADED'; status.style.color = 'var(--g)'; }
+    // Also try postMessage in case hash was missed
+    try {
+      frame.contentWindow.postMessage({ type: 'navigate', url: url }, '*');
+    } catch(e) {}
+  };
+}function brHome() {
   var frame = document.getElementById('brFrame');
   var inp = document.getElementById('brUrl');
   var status = document.getElementById('brStatus');
