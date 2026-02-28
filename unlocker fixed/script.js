@@ -661,10 +661,29 @@ function toggleDevTools() {
 async function checkHashParameters() {
     if (window.location.hash) {
         const hash = decodeURIComponent(window.location.hash.substring(1));
-        if (hash) handleSubmit(hash);
+        if (hash) {
+            // Wait for proxy to be ready before navigating
+            let attempts = 0;
+            const tryNav = function() {
+                attempts++;
+                try {
+                    handleSubmit(hash);
+                } catch(e) {
+                    if (attempts < 20) setTimeout(tryNav, 500);
+                }
+            };
+            setTimeout(tryNav, 1000);
+        }
         history.replaceState(null, null, location.pathname);
     }
 }
+
+// Also listen for postMessage navigate requests at any time
+window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'navigate' && e.data.url) {
+        setTimeout(function() { handleSubmit(e.data.url); }, 500);
+    }
+});
 
 // =====================================================
 // MAIN INITIALIZATION
