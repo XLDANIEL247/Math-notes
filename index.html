@@ -514,7 +514,7 @@ input:focus,textarea:focus{
     <div class="g-welcome">Welcome back</div>
     <div class="g-email-chip">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="#4285f4"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-      <span style="font-family:Arial;font-size:14px;color:#202124">student@school.edu</span>
+      <span style="font-family:Arial;font-size:14px;color:#202124"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9deee9e8f9f8f3e9ddeefef5f2f2f1b3f8f9e8">[email&#160;protected]</a></span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368"><path d="M7 10l5 5 5-5z"/></svg>
     </div>
     <div class="g-field-label">Enter your password</div>
@@ -844,7 +844,7 @@ input:focus,textarea:focus{
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ══════ PASSWORD & LOGIN ══════
 var DEFAULT_PW = 'Jesus247';
 var PW = (function() {
@@ -1762,19 +1762,19 @@ function brLoad(url) {
   if (inp) inp.value = url;
   if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
   if (frame) {
-    frame.src = 'https://mathread.org/viewer.html?url=' + encodeURIComponent(url);
+    frame.src = 'unlocker/index.html#' + encodeURIComponent(url);
     frame.onload = function() { if (status) { status.textContent = 'LOADED'; status.style.color = 'var(--g)'; } };
   }
-}function brHome() {
+}
+function brHome() {
   var frame = document.getElementById('brFrame');
   var inp = document.getElementById('brUrl');
   var status = document.getElementById('brStatus');
-  if (frame) frame.src = 'https://mathread.org';
+  if (frame) frame.src = 'unlocker/index.html';
   if (inp) inp.value = '';
   if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
   if (frame) frame.onload = function() { if (status) { status.textContent = 'PROXY HOME'; status.style.color = 'var(--g)'; } };
-}
-function brGo() {
+}function brGo() {
   var inp = document.getElementById('brUrl'); if (!inp) return;
   var raw = inp.value.trim(); if (!raw) return;
   var url;
@@ -2182,10 +2182,4 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-  var overlay = document.getElementById('panic');
-  if (overlay) overlay.addEventListener('click', function(e) { if (e.target === overlay) dismissPanic(); });
-});
-</script>
-</body>
-</html>
+document.addEventLi
