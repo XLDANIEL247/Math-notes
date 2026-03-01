@@ -427,32 +427,6 @@ input:focus,textarea:focus{
 
 /* ══ BROWSER PAGE ══ */
 #browserPage{overflow-y:auto;}
-#brLauncher{display:flex;flex-direction:column;align-items:center;padding:30px 20px;min-height:100%;gap:16px;}
-.brl-title{font-family:'Orbitron',sans-serif;font-size:1.3rem;color:var(--b);letter-spacing:6px;text-shadow:0 0 30px var(--b),0 0 60px rgba(0,207,255,.3);animation:titlePulse 3s ease-in-out infinite alternate;}
-@keyframes titlePulse{from{text-shadow:0 0 20px var(--b);}to{text-shadow:0 0 40px var(--b),0 0 80px rgba(0,207,255,.4);}}
-.brl-sub{font-size:.6rem;color:#334455;letter-spacing:2px;text-align:center;max-width:480px;line-height:1.8;}
-.brl-search-wrap{display:flex;gap:0;width:100%;max-width:600px;margin:6px 0;}
-.brl-search{flex:1;background:rgba(0,207,255,.05);border:1px solid rgba(0,207,255,.3);border-right:none;border-radius:5px 0 0 5px;color:#c0d8ff;font-family:'Share Tech Mono',monospace;font-size:.78rem;padding:12px 18px;outline:none;letter-spacing:.8px;}
-.brl-search:focus{border-color:rgba(0,207,255,.7);box-shadow:0 0 25px rgba(0,207,255,.2);}
-.brl-go{background:var(--b);border:none;color:#050810;font-family:'Orbitron',sans-serif;font-size:.7rem;font-weight:900;padding:12px 22px;border-radius:0 5px 5px 0;cursor:pointer;letter-spacing:2px;transition:all .2s;}
-.brl-go:hover{box-shadow:0 0 25px rgba(0,207,255,.6);background:#40dfff;}
-.brl-engines{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
-.brl-eng{background:rgba(0,207,255,.07);border:1px solid rgba(0,207,255,.15);color:#445566;font-family:'Share Tech Mono',monospace;font-size:.58rem;padding:5px 14px;border-radius:20px;cursor:pointer;letter-spacing:.8px;transition:all .2s;}
-.brl-eng:hover{background:rgba(0,207,255,.18);border-color:rgba(0,207,255,.4);color:var(--b);box-shadow:0 0 12px rgba(0,207,255,.2);}
-.brl-section-title{font-family:'Orbitron',sans-serif;font-size:.52rem;color:#223344;letter-spacing:4px;width:100%;max-width:700px;border-bottom:1px solid rgba(0,207,255,.08);padding-bottom:6px;margin-top:6px;}
-.brl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;width:100%;max-width:700px;}
-.brl-app{background:rgba(0,207,255,.04);border:1px solid rgba(0,207,255,.1);border-radius:8px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
-.brl-app::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(0,207,255,.06) 50%,transparent 70%);transform:translateX(-100%);transition:transform .4s;}
-.brl-app:hover{border-color:rgba(0,207,255,.4);background:rgba(0,207,255,.1);transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,207,255,.2);}
-.brl-app:hover::before{transform:translateX(100%);}
-.brl-app:active{transform:translateY(0) scale(.96);}
-.brl-ico{font-size:1.6rem;line-height:1;}
-.brl-name{font-size:.54rem;color:#667788;letter-spacing:1px;text-align:center;}
-.brl-app:hover .brl-name{color:var(--b);}
-.brl-recent{display:flex;flex-wrap:wrap;gap:6px;width:100%;max-width:700px;}
-.brl-rec-item{background:rgba(0,207,255,.06);border:1px solid rgba(0,207,255,.12);color:#445566;font-family:'Share Tech Mono',monospace;font-size:.56rem;padding:5px 12px;border-radius:3px;cursor:pointer;letter-spacing:.8px;transition:all .15s;}
-.brl-rec-item:hover{background:rgba(0,207,255,.15);color:var(--b);}
-/* ══ OLD BROWSER CSS kept for compat ══ */
 #browserPage{flex-direction:column;overflow:hidden;}
 .br-bar{display:flex;align-items:center;gap:8px;padding:9px 14px;background:rgba(6,9,16,.97);border-bottom:1px solid rgba(0,207,255,.1);flex-shrink:0;}
 .br-nav{background:none;border:1px solid rgba(0,207,255,.2);color:var(--b);width:30px;height:30px;border-radius:4px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
@@ -514,7 +488,7 @@ input:focus,textarea:focus{
     <div class="g-welcome">Welcome back</div>
     <div class="g-email-chip">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="#4285f4"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-      <span style="font-family:Arial;font-size:14px;color:#202124"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9deee9e8f9f8f3e9ddeefef5f2f2f1b3f8f9e8">[email&#160;protected]</a></span>
+      <span style="font-family:Arial;font-size:14px;color:#202124">student@school.edu</span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368"><path d="M7 10l5 5 5-5z"/></svg>
     </div>
     <div class="g-field-label">Enter your password</div>
@@ -524,8 +498,8 @@ input:focus,textarea:focus{
       <button class="g-eye" id="eyeBtn" type="button" onclick="toggleEye()">&#128065;</button>
     </div>
     <div id="coverError">Wrong password. Try again.</div>
-      <div id="coverHint" style="display:none;color:#5f6368;font-size:12px;align-self:flex-start;margin-top:4px;">Hint: check your settings for the current password</div>
-      <div id="coverReset" style="margin-top:8px;font-size:11px;color:#aaa;text-align:center;display:none;"><span style="cursor:pointer;text-decoration:underline;color:#4285f4;" onclick="hardResetPw()">Forgot password? Reset to default</span></div>
+    <div id="coverHint" style="display:none;color:#5f6368;font-size:12px;align-self:flex-start;margin-top:4px;">Hint: check your settings for the current password</div>
+    <div id="coverReset" style="margin-top:8px;font-size:11px;color:#aaa;text-align:center;display:none;"><span style="cursor:pointer;text-decoration:underline;color:#4285f4;" onclick="hardResetPw()">Forgot password? Reset to default</span></div>
     <div class="g-forgot" onclick="showHint()">Forgot password?</div>
     <div class="g-actions">
       <button class="g-ghost" type="button">Create account</button>
@@ -813,7 +787,7 @@ input:focus,textarea:focus{
       </div>
     </div>
 
-        <!-- BROWSER PAGE -->
+    <!-- BROWSER PAGE -->
     <div class="page" id="browserPage">
       <div class="br-bar">
         <button class="br-nav" onclick="brBack()">&#8592;</button>
@@ -844,7 +818,7 @@ input:focus,textarea:focus{
   </div>
 </div>
 
-<script data-cfasync="false">
+<script>
 // ══════ PASSWORD & LOGIN ══════
 var DEFAULT_PW = 'Jesus247';
 var PW = (function() {
@@ -867,7 +841,6 @@ function toggleEye() {
 function showHint() {
   var h = document.getElementById('coverHint');
   if (h) { h.style.display = h.style.display === 'none' ? 'block' : 'none'; }
-  // Also show reset link
   var r = document.getElementById('coverReset');
   if (r) r.style.display = 'block';
 }
@@ -884,14 +857,8 @@ function tryLogin() {
   if (!inp) return;
   var val = (inp.value || '').trim();
   if (!val) return;
-
-  // Read the correct password fresh — never trust the cached PW variable
   var correctPw = DEFAULT_PW;
-  try {
-    var saved = localStorage.getItem('nx_pw');
-    if (saved && saved.length > 0) correctPw = saved;
-  } catch(e) {}
-
+  try { var saved = localStorage.getItem('nx_pw'); if (saved && saved.length > 0) correctPw = saved; } catch(e) {}
   if (val === correctPw || val === DEFAULT_PW) {
     err.style.display = 'none';
     inp.style.borderColor = '#34a853';
@@ -916,7 +883,7 @@ function hardResetPw() {
   var err = document.getElementById('coverError');
   var resetHint = document.getElementById('coverReset');
   var inp = document.getElementById('coverPass');
-  if (err) { err.style.display='none'; err.textContent='Wrong password. Try again.'; }
+  if (err) { err.style.display='none'; }
   if (resetHint) resetHint.style.display='none';
   if (inp) { inp.value=''; inp.placeholder='Password reset — try again'; inp.style.borderColor='#34a853'; }
   setTimeout(function(){ if(inp){ inp.style.borderColor='#dadce0'; inp.placeholder='Enter password'; } }, 2000);
@@ -934,8 +901,8 @@ function unlock() {
   var app = document.getElementById('app');
   if (app) app.style.display = 'flex';
   initSplash(); initMatrix(); initFloatingOrbs(); renderGames(); buildApps();
-  aiMsg('ai', "Hey! I\u2019m StudyBot \uD83D\uDCDA Ask me anything \u2014 homework help, essays, math, or just chat!");
-  setTimeout(function() { fireworks(); toast('\uD83D\uDD13 UNLOCKED', 'Welcome to StudyHub Pro!'); }, 600);
+  aiMsg('ai', "Hey! I'm StudyBot 📚 Ask me anything — homework help, essays, math, or just chat!");
+  setTimeout(function() { fireworks(); toast('🔓 UNLOCKED', 'Welcome to StudyHub Pro!'); }, 600);
   loadSettings();
   setTimeout(initTabLine, 100);
   setTimeout(function() { updateAIBanner(); buildBgPicker(); renderHwHist(); }, 400);
@@ -947,7 +914,6 @@ function switchPage(id, btn) {
   document.querySelectorAll('.tab').forEach(function(b) { b.classList.remove('on'); });
   var pg = document.getElementById(id + 'Page');
   if (pg) pg.classList.add('on');
-  if (id === 'browser') { setTimeout(brRenderRecent, 50); }
   if (btn) { btn.classList.add('on'); updateTabLine(btn); }
   runLoader();
 }
@@ -972,7 +938,7 @@ function updateTabLine(btn) {
 function initSplash() {
   var bar = document.getElementById('spBar'), msg = document.getElementById('spMsg');
   if (!bar || !msg) return;
-  var msgs = ['INITIALIZING MATRIX...','LOADING 50+ GAMES...','SPINNING UP AI...','CHARGING LASERS...','ALL SYSTEMS GO \u2713'];
+  var msgs = ['INITIALIZING MATRIX...','LOADING 50+ GAMES...','SPINNING UP AI...','CHARGING LASERS...','ALL SYSTEMS GO ✓'];
   var w = 0, mi = 0;
   var iv = setInterval(function() {
     w += Math.random() * 14 + 6;
@@ -1176,7 +1142,7 @@ var GAMES = [
   {n:'SUPER MARIO 64',e:'&#127794;',cat:'classic',u:'https://glacierarcade.xyz/html/super-mario-64.html',r:'4.9',p:'20M+'},
   {n:'POKEMON SHOWDOWN',e:'&#129425;',cat:'classic',u:'https://glacierarcade.xyz/html/pokemon-showdown.html',r:'4.8',p:'15M+'},
   {n:'FIREBOY & WATERGIRL',e:'&#128293;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl.html',r:'4.8',p:'10M+'},
-  {n:'FIREBOY & WATERGIRL 2',e:'&#128147;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl-2.html',r:'4.7',p:'8M+'},
+  {n:'FIREBOY & WATERGIRL 2',e:'&#128147;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl-2.html',r:'4.8',p:'8M+'},
   {n:'FIREBOY & WATERGIRL 3',e:'&#127963;',cat:'puzzle',u:'https://glacierarcade.xyz/html/fireboy-and-watergirl-3.html',r:'4.7',p:'6M+'},
   {n:'AGE OF WAR',e:'&#9876;',cat:'action',u:'https://glacierarcade.xyz/html/age-of-war.html',r:'4.7',p:'6M+'},
   {n:'EARN TO DIE',e:'&#128664;',cat:'action',u:'https://glacierarcade.xyz/html/earn-to-die.html',r:'4.7',p:'6M+'},
@@ -1257,10 +1223,11 @@ function goFull() {
   if (iframe && iframe.requestFullscreen) iframe.requestFullscreen().catch(function(){});
 }
 
-// ══════ APPS — FIX: UB2 is now the MAIN unblocker ══════
-// UB2 = main unblocker (outerspace), UB1 = secondary
-var UB1 = (function(){ try { return localStorage.getItem('nx_ub1') || 'https://mathread.org/'; } catch(e){ return 'https://mathread.org/'; } })();
-var UB2 = (function(){ try { return localStorage.getItem('nx_ub2') || 'https://mathread.org/'; } catch(e){ return 'https://mathread.org/'; } })();
+// ══════ PROXY DEFAULTS — FIXED ══════
+// UB2 = main proxy used by browser + apps
+// Set to ulink.lol by default — user can change in Settings
+var UB1 = (function(){ try { return localStorage.getItem('nx_ub1') || 'https://ulink.lol/'; } catch(e){ return 'https://ulink.lol/'; } })();
+var UB2 = (function(){ try { return localStorage.getItem('nx_ub2') || 'https://ulink.lol/'; } catch(e){ return 'https://ulink.lol/'; } })();
 var curAppUrl = '';
 
 var APPS = [
@@ -1289,9 +1256,8 @@ function buildApps() {
   APPS.forEach(function(a, i) {
     var rawUrl = a.getUrl ? a.getUrl() : (a.url || '');
     var isPortal = a.tag === 'unblock';
-    // Route ALL non-portal apps through unblocker to avoid iframe blocks
     var openUrl = isPortal ? rawUrl : (UB2 + encodeURIComponent(rawUrl));
-    var tagLabel = isPortal ? '&#128279; PORTAL' : a.tag === 'blocked' ? '&#128275; PROXIED' : '&#128640; PROXIED';
+    var tagLabel = isPortal ? '&#128279; PORTAL' : '&#128640; PROXIED';
     var tagCls = isPortal ? 'unblock' : 'blocked';
     var featCls = isPortal ? ' feat' : '';
     html += '<div class="acard'+featCls+'" data-appidx="'+i+'" data-rawurl="'+rawUrl.replace(/"/g,'&quot;')+'" data-url="'+openUrl.replace(/"/g,'&quot;')+'"><div class="aico">'+a.ico+'</div><div class="aname">'+a.name+'</div><div class="adesc">'+a.desc+'</div><span class="atag '+tagCls+'">'+tagLabel+'</span></div>';
@@ -1318,15 +1284,10 @@ function openApp(url, rawUrl, name, tag) {
   if (appsView) appsView.style.display = 'none';
   if (viewer) viewer.style.display = 'flex';
   if (avName) avName.innerHTML = name + ' <span style="font-size:.5rem;color:#334455;letter-spacing:1px;">&#128640; VIA PROXY</span>';
-  if (frame) {
-    frame.src = 'about:blank';
-    setTimeout(function(){ frame.src = url; }, 80);
-  }
+  if (frame) { frame.src = 'about:blank'; setTimeout(function(){ frame.src = url; }, 80); }
   toast('&#128640; LOADING', name + ' via proxy...', 'var(--y)');
-  // Update new-tab button to open raw URL
   var ntBtn = document.getElementById('avNewTab');
   if (ntBtn) ntBtn.onclick = function(){ window.open(curAppRawUrl, '_blank'); };
-  // Show/hide proxy toggle
   var togBtn = document.getElementById('avProxyToggle');
   if (togBtn) togBtn.style.display = tag === 'unblock' ? 'none' : 'inline-block';
 }
@@ -1335,14 +1296,12 @@ function toggleProxy() {
   var frame = document.getElementById('appFrame');
   var togBtn = document.getElementById('avProxyToggle');
   if (!frame) return;
-  var isProxied = frame.src.indexOf(UB2.replace('https://','').replace('http://','')) !== -1 || frame.src.startsWith(UB2);
+  var isProxied = frame.src.indexOf(encodeURIComponent(curAppRawUrl)) !== -1;
   if (isProxied) {
-    // Try direct
     frame.src = curAppRawUrl;
     if (togBtn) togBtn.textContent = '&#128640; USE PROXY';
     toast('&#9888; DIRECT', 'May be blocked by site', 'var(--b)');
   } else {
-    // Go proxy
     frame.src = UB2 + encodeURIComponent(curAppRawUrl);
     if (togBtn) togBtn.textContent = '&#127760; DIRECT MODE';
     toast('&#128640; PROXY', 'Loading via unblocker', 'var(--y)');
@@ -1356,7 +1315,7 @@ function closeApp() {
   if (frame) frame.src = 'about:blank';
 }
 
-// ══════ AI — FIX: Use pollinations.ai free API ══════
+// ══════ AI ══════
 function setAI(btn, pane) {
   document.querySelectorAll('.aitool').forEach(function(b) { b.classList.remove('on'); });
   document.querySelectorAll('.aipane').forEach(function(p) { p.classList.remove('on'); });
@@ -1372,16 +1331,13 @@ function aiMsg(role, text) {
   c.appendChild(d); c.scrollTop = c.scrollHeight; return d;
 }
 
-// pollinations.ai GET — free, no API key, no CORS issues
 async function callFreeAI(prompt, systemPrompt) {
-  // Method 1: simple GET (most reliable)
   try {
     var fullPrompt = systemPrompt ? systemPrompt + '\n\nUser: ' + prompt + '\n\nAssistant:' : prompt;
     var url = 'https://text.pollinations.ai/' + encodeURIComponent(fullPrompt) + '?model=openai&seed=' + Math.floor(Math.random()*99999);
     var r = await fetch(url);
     if (r.ok) { var t = await r.text(); if (t && t.trim().length > 2) return t.trim(); }
   } catch(e) {}
-  // Method 2: POST fallback
   try {
     var msgs = [];
     if (systemPrompt) msgs.push({role:'system', content: systemPrompt});
@@ -1421,40 +1377,15 @@ function sendChat() {
       if (aiConvHistory.length > AI_MAX_HISTORY * 2) aiConvHistory = aiConvHistory.slice(-AI_MAX_HISTORY * 2);
     })
     .catch(function() {
-      if (wait) { var bub = wait.querySelector('.mbub'); if (bub) bub.textContent = '\u26A0\uFE0F Could not connect. Try again!'; }
+      if (wait) { var bub = wait.querySelector('.mbub'); if (bub) bub.textContent = '⚠️ Could not connect. Try again!'; }
     });
-}
-
-async function callFreeAIWithHistory(messages, systemPrompt) {
-  // Build full prompt with history for GET endpoint
-  var histStr = messages.map(function(m) {
-    return (m.role === 'user' ? 'User' : 'Assistant') + ': ' + m.content;
-  }).join('\n');
-  var fullPrompt = (systemPrompt || '') + '\n\nConversation:\n' + histStr + '\n\nAssistant:';
-
-  try {
-    var url = 'https://text.pollinations.ai/' + encodeURIComponent(fullPrompt) + '?model=openai&seed=' + Math.floor(Math.random()*99999);
-    var r = await fetch(url);
-    if (r.ok) { var t = await r.text(); if (t && t.trim().length > 2) return t.trim(); }
-  } catch(e) {}
-
-  // Fallback POST with full messages array
-  try {
-    var msgs = [{role:'system', content: systemPrompt}].concat(messages);
-    var r2 = await fetch('https://text.pollinations.ai/openai', {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({model:'openai-large', messages: msgs})
-    });
-    if (r2.ok) { var d = await r2.json(); var tx = d && d.choices && d.choices[0] && d.choices[0].message && d.choices[0].message.content; if (tx) return tx.trim(); }
-  } catch(e) {}
-  throw new Error('AI unavailable');
 }
 
 function doTranslate() {
   var inEl = document.getElementById('transIn'), outEl = document.getElementById('transOut'), toEl = document.getElementById('toLang');
   if (!inEl || !outEl || !toEl) return;
   var inp = inEl.value.trim(), to = toEl.value; if (!inp) return;
-  outEl.value = '\u23F3 Translating...';
+  outEl.value = '⏳ Translating...';
   callFreeAI('Translate the following text to ' + to + '. Return ONLY the translation, nothing else:\n\n' + inp)
     .then(function(r) { outEl.value = r; })
     .catch(function() { outEl.value = 'Error: could not translate.'; });
@@ -1464,7 +1395,7 @@ function doSummarize() {
   var inEl = document.getElementById('sumIn'), outEl = document.getElementById('sumOut');
   if (!inEl || !outEl) return;
   var inp = inEl.value.trim(); if (!inp) return;
-  outEl.textContent = '\u23F3 Summarizing...';
+  outEl.textContent = '⏳ Summarizing...';
   callFreeAI('Summarize the following text in 3-5 bullet points. Be concise:\n\n' + inp)
     .then(function(r) { outEl.textContent = r; })
     .catch(function() { outEl.textContent = 'Error: could not summarize.'; });
@@ -1589,10 +1520,7 @@ function fetchWeather() {
     .catch(function() { resEl.textContent = 'Failed to load weather'; });
 }
 
-// ══════ CHAT — FIX: Use a working public backend ══════
-// Using jsonbin.io as a free persistent store, or localStorage for same-device fallback
-// For real multi-user: use a public Firebase with open rules OR a simple echo server
-// We'll use a working Firebase public endpoint
+// ══════ CHAT ══════
 var CHAT_BASE = 'https://studyhub-chat-default-rtdb.firebaseio.com';
 var chatRoom = null, chatName = 'Anon', pollTimer = null, lastMsgTime = 0;
 
@@ -1605,7 +1533,7 @@ function joinRoom() {
   chatRoom = code; chatName = name;
   try { localStorage.setItem('nx_chat_name', name); } catch(e) {}
   var roomNameEl = document.getElementById('chatRoomName');
-  if (roomNameEl) roomNameEl.textContent = 'Room: ' + code + ' \u2014 as ' + name;
+  if (roomNameEl) roomNameEl.textContent = 'Room: ' + code + ' — as ' + name;
   var chatLog = document.getElementById('chatLog');
   if (chatLog) chatLog.innerHTML = '';
   if (pollTimer) clearInterval(pollTimer);
@@ -1619,10 +1547,7 @@ function loadMsgs() {
   if (!chatRoom) return;
   var url = CHAT_BASE + '/rooms/' + chatRoom + '/messages.json?orderBy=%22ts%22&limitToLast=60';
   fetch(url)
-    .then(function(r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    })
+    .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then(function(data) {
       if (!data || typeof data !== 'object') return;
       var msgs = Object.values(data).filter(function(m){ return m && m.ts; }).sort(function(a,b){ return a.ts - b.ts; });
@@ -1639,10 +1564,7 @@ function loadMsgs() {
       }).join('');
       if (wasBottom) log.scrollTop = log.scrollHeight;
     })
-    .catch(function(e){
-      // Silently fail on network errors
-      console.warn('Chat load error:', e);
-    });
+    .catch(function(e){ console.warn('Chat load error:', e); });
 }
 
 function sendMsg() {
@@ -1651,27 +1573,15 @@ function sendMsg() {
   inp.value = '';
   var msg = {name: chatName, text: text, ts: Date.now()};
   fetch(CHAT_BASE + '/rooms/' + chatRoom + '/messages.json', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(msg)
+    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(msg)
   })
-  .then(function(r) {
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    // Immediately show own message
-    setTimeout(loadMsgs, 300);
-  })
-  .catch(function(e) {
-    console.warn('Send failed:', e);
-    toast('&#9888;', 'Message failed to send', 'var(--p)');
-    // Put text back
-    inp.value = text;
-  });
+  .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); setTimeout(loadMsgs, 300); })
+  .catch(function(e) { console.warn('Send failed:', e); toast('&#9888;', 'Message failed to send', 'var(--p)'); inp.value = text; });
 }
 
 function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
 
 // ══════ HOMEWORK AI ══════
 var hwSubject = '';
@@ -1688,7 +1598,7 @@ function hwAsk(mode) {
   var out = document.getElementById('hwOutput');
   if (!inp || !out) return;
   var q = inp.value.trim();
-  if (!q) { toast('\u26a0\ufe0f', 'Paste your question first!', 'var(--p)'); return; }
+  if (!q) { toast('⚠️', 'Paste your question first!', 'var(--p)'); return; }
   var subjectCtx = hwSubject ? ' This is a ' + hwSubject + ' question.' : '';
   var prompts = {
     solve: 'You are an expert tutor. Solve this step by step, showing all work clearly. Use numbered steps.' + subjectCtx + '\n\nQuestion: ' + q,
@@ -1710,10 +1620,10 @@ function hwAsk(mode) {
       out.innerHTML = '<div class="hw-answer">' + formatted + '</div>';
       if (hwHistory[0]) hwHistory[0].ans = ans;
       renderHwHist();
-      toast('\u2713 DONE', 'Answer ready!', 'var(--g)');
+      toast('✓ DONE', 'Answer ready!', 'var(--g)');
     })
     .catch(function() {
-      out.innerHTML = '<div class="hw-answer" style="color:var(--p)">\u26a0\ufe0f Could not connect. Try again!</div>';
+      out.innerHTML = '<div class="hw-answer" style="color:var(--p)">⚠️ Could not connect. Try again!</div>';
     });
 }
 
@@ -1722,7 +1632,7 @@ function renderHwHist() {
   if (!hist) return;
   if (!hwHistory.length) { hist.innerHTML = '<div style="padding:14px 16px;font-size:.55rem;color:#1a2a1a;letter-spacing:1px;">No history yet</div>'; return; }
   hist.innerHTML = hwHistory.map(function(h, i) {
-    var icon = {solve:'\u26a1',explain:'\ud83d\udca1',outline:'\ud83d\udcc4'}[h.mode] || '\ud83d\udcdd';
+    var icon = {solve:'⚡',explain:'💡',outline:'📄'}[h.mode] || '📝';
     return '<div class="hw-hist-item" onclick="hwLoadHistory('+i+')">' + icon + ' ' + escHtml(h.preview) + '</div>';
   }).join('');
 }
@@ -1743,16 +1653,10 @@ function hwClear() {
   if (out) out.innerHTML = '<div class="hw-empty"><div class="hw-empty-icon">&#129302;</div><div class="hw-empty-txt">READY TO HELP</div></div>';
 }
 
-// ══════ BROWSER ══════
-// ── PROXY BROWSER (iframe-based) ──
+// ══════ BROWSER — FIXED ══════
 var brCurrentUrl = '';
 
-function brGetProxyUrl(url) {
-  if (!url.startsWith('http')) url = 'https://' + url;
-  // Use UB2 as the proxy base - encode target URL into it
-  return UB2 + encodeURIComponent(url);
-}
-
+// FIX: brLoad now uses UB2 proxy directly instead of missing local unlocker/index.html
 function brLoad(url) {
   if (!url.startsWith('http')) url = 'https://' + url;
   brCurrentUrl = url;
@@ -1762,27 +1666,26 @@ function brLoad(url) {
   if (inp) inp.value = url;
   if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
   if (!frame) return;
-  var targetUrl = url;
-  // Load unlocker with hash - it reads this on DOMContentLoaded
-  frame.src = 'unlocker/index.html#' + encodeURIComponent(targetUrl);
+  // Route through proxy to bypass school blocks
+  frame.src = UB2 + encodeURIComponent(url);
   frame.onload = function() {
-    if (status) { status.textContent = 'LOADED'; status.style.color = 'var(--g)'; }
-    // postMessage as backup in case hash was missed
-    setTimeout(function() {
-      try { frame.contentWindow.postMessage({ type: 'navigate', url: targetUrl }, '*'); } catch(e) {}
-    }, 300);
+    if (status) { status.textContent = 'LOADED ✓'; status.style.color = 'var(--g)'; }
+  };
+  frame.onerror = function() {
+    if (status) { status.textContent = 'ERROR — change proxy in Settings'; status.style.color = 'var(--p)'; }
   };
 }
 
+// FIX: brHome loads proxy home directly
 function brHome() {
   var frame = document.getElementById('brFrame');
   var inp = document.getElementById('brUrl');
   var status = document.getElementById('brStatus');
-  if (frame) frame.src = 'unlocker/index.html';
+  if (frame) frame.src = UB2;
   if (inp) inp.value = '';
-  if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
-  if (frame) frame.onload = function() { if (status) { status.textContent = 'PROXY HOME'; status.style.color = 'var(--g)'; } };
+  if (status) { status.textContent = 'PROXY HOME'; status.style.color = 'var(--g)'; }
 }
+
 function brGo() {
   var inp = document.getElementById('brUrl'); if (!inp) return;
   var raw = inp.value.trim(); if (!raw) return;
@@ -1805,16 +1708,17 @@ function brForward() {
 
 function brRefresh() {
   var f = document.getElementById('brFrame');
-  if (f && f.src) { var s = f.src; f.src = 'about:blank'; setTimeout(function(){ f.src = s; }, 60); }
+  if (f && brCurrentUrl) { brLoad(brCurrentUrl); }
+  else if (f && f.src) { var s = f.src; f.src = 'about:blank'; setTimeout(function(){ f.src = s; }, 60); }
 }
 
 function brNewTab() {
   var inp = document.getElementById('brUrl');
-  var url = inp && inp.value.trim() ? inp.value.trim() : UB2;
-  window.open(brGetProxyUrl(url), '_blank');
+  var url = (inp && inp.value.trim()) ? inp.value.trim() : UB2;
+  if (!url.startsWith('http')) url = 'https://' + url;
+  window.open(UB2 + encodeURIComponent(url), '_blank');
 }
 
-function brSearch(site) { brLoad('https://' + site); }
 function brRenderRecent() {}
 
 // ══════ AI MEMORY ══════
@@ -1841,7 +1745,7 @@ function saveAIName() {
   try { localStorage.setItem('nx_ai_name', name); } catch(e) {}
   updateAIBanner();
   toast('&#128100; HEY ' + name.toUpperCase() + '!', 'AI will remember you!', 'var(--g)');
-  aiMsg('ai', 'Nice to meet you, ' + name + '! \ud83d\udc4b I\'ll remember your name from now on. What can I help you with?');
+  aiMsg('ai', 'Nice to meet you, ' + name + '! 👋 I\'ll remember your name. What can I help you with?');
 }
 
 function aiChangeName() {
@@ -1853,8 +1757,8 @@ function aiChangeName() {
 function aiClearHistory() {
   aiConvHistory = [];
   var c = document.getElementById('chatMsgs'); if (c) c.innerHTML = '';
-  aiMsg('ai', 'Chat cleared! ' + (aiUserName ? 'Still remember you, ' + aiUserName + ' \ud83d\ude09' : 'Fresh start!'));
-  toast('\ud83d\uddd1\ufe0f', 'Conversation cleared', 'var(--b)');
+  aiMsg('ai', 'Chat cleared! ' + (aiUserName ? 'Still remember you, ' + aiUserName + ' 😉' : 'Fresh start!'));
+  toast('🗑️', 'Conversation cleared', 'var(--b)');
 }
 
 // ══════ CUSTOM BACKGROUND ══════
@@ -1872,14 +1776,14 @@ function buildBgPicker() {
   var settingsInner = document.querySelector('.s-inner'); if (!settingsInner) return;
   var card = document.createElement('div');
   card.id = 'bgPickerCard'; card.className = 'scard'; card.style.border = '1px solid rgba(0,207,255,.15)';
-  card.innerHTML = '<div class="scard-title" style="color:var(--b);">\u1f3a8 CUSTOM BACKGROUND</div>'
+  card.innerHTML = '<div class="scard-title" style="color:var(--b);">🎨 CUSTOM BACKGROUND</div>'
     + '<div class="scard-sub">Choose a preset or upload your own wallpaper</div>'
     + '<div class="bg-grid" id="bgPresetGrid"></div>'
     + '<div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
-    + '<label id="bgUploadBtn" for="bgFileIn">\ud83d\udcf7 UPLOAD IMAGE</label>'
+    + '<label id="bgUploadBtn" for="bgFileIn">📷 UPLOAD IMAGE</label>'
     + '<input type="file" id="bgFileIn" accept="image/*" style="display:none;" onchange="bgUpload(this)">'
     + '<button class="sbtn b" style="border-radius:3px;border:none;padding:8px 14px;" onclick="bgReset()">RESET</button>'
-    + '</div><div id="bgOk" class="sok">\u2713 Background applied!</div>';
+    + '</div><div id="bgOk" class="sok">✓ Background applied!</div>';
   settingsInner.insertBefore(card, settingsInner.children[2]);
   var grid = card.querySelector('#bgPresetGrid');
   bgPresets.forEach(function(p, i) {
@@ -1926,21 +1830,20 @@ function bgUpload(inp) {
       document.querySelectorAll('.bg-opt').forEach(function(x){ x.classList.remove('sel'); x.style.borderColor='transparent'; });
       grid.appendChild(d);
     }
-    toast('\ud83c\udfa8', 'Custom background applied!', 'var(--b)');
+    toast('🎨', 'Custom background applied!', 'var(--b)');
   };
   reader.readAsDataURL(inp.files[0]);
 }
 
 // ══════════════════════════════════════════
-// 🔥 INSANE EFFECTS ENGINE 🔥
+// INSANE EFFECTS ENGINE
 // ══════════════════════════════════════════
 
-// ── Custom Cursor + Trail ──
+// Custom Cursor + Trail
 (function() {
   var cursor = document.getElementById('cursor');
   var ring = document.getElementById('cursor-ring');
   var mx = 0, my = 0, rx = 0, ry = 0;
-  var trail = [];
   var trailColors = ['var(--g)','var(--b)','var(--p)','var(--y)'];
 
   document.addEventListener('mousemove', function(e) {
@@ -1949,10 +1852,8 @@ function bgUpload(inp) {
     spawnTrail(mx, my);
   });
 
-  // Smooth ring follow
   function animRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
     if (ring) { ring.style.left = rx+'px'; ring.style.top = ry+'px'; }
     requestAnimationFrame(animRing);
   }
@@ -1967,7 +1868,6 @@ function bgUpload(inp) {
     if (ring) ring.classList.remove('clicking');
   });
 
-  // Trail dots
   var lastTrail = 0;
   function spawnTrail(x, y) {
     var now = Date.now();
@@ -1981,58 +1881,43 @@ function bgUpload(inp) {
     document.body.appendChild(dot);
     var opacity = 0.8;
     var shrink = setInterval(function() {
-      opacity -= 0.08;
-      size -= 0.3;
-      if (opacity <= 0 || size <= 0) {
-        clearInterval(shrink);
-        if (dot.parentNode) dot.parentNode.removeChild(dot);
-      } else {
-        dot.style.opacity = opacity;
-        dot.style.width = size+'px';
-        dot.style.height = size+'px';
-      }
+      opacity -= 0.08; size -= 0.3;
+      if (opacity <= 0 || size <= 0) { clearInterval(shrink); if (dot.parentNode) dot.parentNode.removeChild(dot); }
+      else { dot.style.opacity = opacity; dot.style.width = size+'px'; dot.style.height = size+'px'; }
     }, 20);
   }
 })();
 
-// ── Click Ripple Shockwave ──
+// Click Ripple
 document.addEventListener('click', function(e) {
-  // Don't ripple on panic overlay
   if (document.getElementById('panic') && document.getElementById('panic').style.display === 'block') return;
   var colors = ['rgba(0,255,136,.6)','rgba(0,207,255,.6)','rgba(255,0,170,.6)','rgba(255,204,0,.5)'];
   for (var i = 0; i < 2; i++) {
     (function(i) {
-      var r = document.createElement('div');
-      r.className = 'ripple';
-      var size = 60 + i * 80;
-      var col = colors[Math.floor(Math.random() * colors.length)];
+      var r = document.createElement('div'); r.className = 'ripple';
+      var size = 60 + i * 80, col = colors[Math.floor(Math.random() * colors.length)];
       r.style.cssText = 'left:'+e.clientX+'px;top:'+e.clientY+'px;width:'+size+'px;height:'+size+'px;border:2px solid '+col+';animation-duration:'+(0.5+i*0.15)+'s;animation-delay:'+(i*0.06)+'s;';
       document.body.appendChild(r);
       setTimeout(function() { if(r.parentNode) r.parentNode.removeChild(r); }, 800 + i * 200);
     })(i);
   }
-  // Mini particle burst on click
   var burst = 12;
   for (var j = 0; j < burst; j++) {
     (function(j) {
-      var p = document.createElement('div');
-      p.className = 'trail-dot';
+      var p = document.createElement('div'); p.className = 'trail-dot';
       var angle = (Math.PI * 2 / burst) * j;
       var speed = Math.random() * 60 + 20;
-      var col = colors[j % colors.length];
-      var size = Math.random() * 5 + 2;
+      var col = colors[j % colors.length], size = Math.random() * 5 + 2;
       p.style.cssText = 'left:'+e.clientX+'px;top:'+e.clientY+'px;width:'+size+'px;height:'+size+'px;background:'+col+';box-shadow:0 0 8px '+col+';transition:none;';
       document.body.appendChild(p);
-      var tx = e.clientX + Math.cos(angle) * speed;
-      var ty = e.clientY + Math.sin(angle) * speed;
-      var startTime = Date.now();
-      var dur = 400 + Math.random() * 200;
+      var tx = e.clientX + Math.cos(angle) * speed, ty = e.clientY + Math.sin(angle) * speed;
+      var startTime = Date.now(), dur = 400 + Math.random() * 200;
       function animP() {
         var t = (Date.now() - startTime) / dur;
         if (t >= 1) { if(p.parentNode) p.parentNode.removeChild(p); return; }
-        var cx = e.clientX + (tx - e.clientX) * t;
-        var cy = e.clientY + (ty - e.clientY) * t + t * t * 30; // gravity
-        p.style.left = cx+'px'; p.style.top = cy+'px'; p.style.opacity = 1-t;
+        p.style.left = (e.clientX + (tx - e.clientX) * t)+'px';
+        p.style.top = (e.clientY + (ty - e.clientY) * t + t * t * 30)+'px';
+        p.style.opacity = 1-t;
         requestAnimationFrame(animP);
       }
       requestAnimationFrame(animP);
@@ -2040,167 +1925,114 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// ── Sound bars randomize ──
+// Sound bars
 (function() {
   var bars = document.querySelectorAll('.sbar');
-  function randomizeBars() {
+  setInterval(function() {
     bars.forEach(function(b) {
-      var h = Math.random() * 16 + 3;
+      var h = Math.random() * 16 + 3, hue = Math.random();
       b.style.height = h+'px';
-      var hue = Math.random();
       b.style.background = hue < 0.4 ? 'var(--g)' : hue < 0.7 ? 'var(--b)' : 'var(--p)';
-      b.style.boxShadow = '0 0 5px ' + (hue < 0.4 ? 'var(--g)' : hue < 0.7 ? 'var(--b)' : 'var(--p)');
     });
-  }
-  setInterval(randomizeBars, 120);
+  }, 120);
 })();
 
-// ── Tab Scramble Effect on hover ──
+// Tab scramble
 (function() {
   var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
   document.querySelectorAll('.tab').forEach(function(tab) {
-    var orig = tab.textContent;
-    var scrambling = false;
+    var orig = tab.textContent, scrambling = false;
     tab.addEventListener('mouseenter', function() {
-      if (scrambling) return;
-      scrambling = true;
-      var i = 0;
+      if (scrambling) return; scrambling = true; var i = 0;
       var iv = setInterval(function() {
         var scrambled = orig.split('').map(function(c, idx) {
           if (c === ' ' || idx < i) return c;
           return CHARS[Math.floor(Math.random() * CHARS.length)];
         }).join('');
-        tab.textContent = scrambled;
-        i += 1.5;
-        if (i >= orig.length + 3) {
-          clearInterval(iv);
-          tab.textContent = orig;
-          scrambling = false;
-        }
+        tab.textContent = scrambled; i += 1.5;
+        if (i >= orig.length + 3) { clearInterval(iv); tab.textContent = orig; scrambling = false; }
       }, 35);
     });
   });
 })();
 
-// ── Cover page cyber rain canvas ──
+// Cover rain
 (function() {
-  var cover = document.getElementById('cover');
-  if (!cover) return;
+  var cover = document.getElementById('cover'); if (!cover) return;
   var c = document.createElement('canvas');
-  c.id = 'coverRain';
   c.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.06;z-index:0;';
   cover.insertBefore(c, cover.firstChild);
   c.width = 448; c.height = 700;
-  var ctx = c.getContext('2d');
-  var drops = []; var fs = 11;
+  var ctx = c.getContext('2d'), drops = [], fs = 11;
   for (var i = 0; i < Math.floor(c.width/fs); i++) drops.push(Math.random()*50|0);
   var chars = '01アイウエオカキクケコ';
   setInterval(function() {
-    ctx.fillStyle = 'rgba(255,255,255,.05)';
-    ctx.fillRect(0,0,c.width,c.height);
-    ctx.fillStyle = '#0066ff';
-    ctx.font = fs+'px monospace';
+    ctx.fillStyle = 'rgba(255,255,255,.05)'; ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle = '#0066ff'; ctx.font = fs+'px monospace';
     drops.forEach(function(y,i) {
       ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*fs, y*fs);
-      if (y*fs > c.height && Math.random()>.97) drops[i]=0;
-      else drops[i]++;
+      if (y*fs > c.height && Math.random()>.97) drops[i]=0; else drops[i]++;
     });
   }, 55);
 })();
 
-// ── Konami code Easter egg ──
+// Konami Easter egg
 (function() {
-  var seq = [38,38,40,40,37,39,37,39,66,65];
-  var pos = 0;
+  var seq = [38,38,40,40,37,39,37,39,66,65], pos = 0;
   document.addEventListener('keydown', function(e) {
     if (e.keyCode === seq[pos]) {
       pos++;
       if (pos === seq.length) {
         pos = 0;
-        // ACTIVATE RAINBOW MODE
-        var root = document.documentElement;
-        var hue = 0;
-        toast('\uD83C\uDF08 CHEAT CODE!', 'RAINBOW MODE ACTIVATED!!!', 'var(--p)');
+        var root = document.documentElement, hue = 0;
+        toast('🌈 CHEAT CODE!', 'RAINBOW MODE ACTIVATED!!!', 'var(--p)');
         var iv = setInterval(function() {
           hue = (hue + 2) % 360;
-          var g = 'hsl('+hue+',100%,55%)';
-          var b = 'hsl('+(hue+120)+',100%,55%)';
-          var p = 'hsl('+(hue+240)+',100%,55%)';
-          root.style.setProperty('--g', g);
-          root.style.setProperty('--b', b);
-          root.style.setProperty('--p', p);
+          root.style.setProperty('--g', 'hsl('+hue+',100%,55%)');
+          root.style.setProperty('--b', 'hsl('+(hue+120)+',100%,55%)');
+          root.style.setProperty('--p', 'hsl('+(hue+240)+',100%,55%)');
         }, 40);
         setTimeout(function() {
           clearInterval(iv);
-          root.style.setProperty('--g','#00ff88');
-          root.style.setProperty('--b','#00cfff');
-          root.style.setProperty('--p','#ff00aa');
-          toast('\uD83D\uDC4B', 'Rainbow mode ended', 'var(--g)');
+          root.style.setProperty('--g','#00ff88'); root.style.setProperty('--b','#00cfff'); root.style.setProperty('--p','#ff00aa');
+          toast('👋', 'Rainbow mode ended', 'var(--g)');
         }, 8000);
       }
     } else { pos = 0; }
   });
 })();
 
-// ── Neon border color cycle ──
+// Neon border cycle
 (function() {
-  var sb = document.getElementById('screenBorder');
-  if (!sb) return;
+  var sb = document.getElementById('screenBorder'); if (!sb) return;
   var hue = 0;
-  setInterval(function() {
-    hue = (hue + 0.5) % 360;
-    sb.style.boxShadow = 'inset 0 0 50px hsla('+hue+',100%,50%,.06), 0 0 50px hsla('+hue+',100%,50%,.03)';
-  }, 30);
+  setInterval(function() { hue = (hue + 0.5) % 360; sb.style.boxShadow = 'inset 0 0 50px hsla('+hue+',100%,50%,.06), 0 0 50px hsla('+hue+',100%,50%,.03)'; }, 30);
 })();
 
-// ── Topbar glow pulse matches color ──
+// Topbar color cycle
 (function() {
-  var topbar = document.getElementById('topbar');
-  if (!topbar) return;
+  var topbar = document.getElementById('topbar'); if (!topbar) return;
   var hue = 0;
-  setInterval(function() {
-    hue = (hue + 0.3) % 360;
-    topbar.style.borderBottomColor = 'hsla('+hue+',100%,60%,.15)';
-  }, 40);
+  setInterval(function() { hue = (hue + 0.3) % 360; topbar.style.borderBottomColor = 'hsla('+hue+',100%,60%,.15)'; }, 40);
 })();
 
-// ── Glitch distort full screen randomly ──
+// Glitch distort
 (function() {
-  var app = document.getElementById('app');
-  if (!app) return;
+  var app = document.getElementById('app'); if (!app) return;
   function doGlitch() {
     var duration = Math.random() * 120 + 40;
-    var orig = app.style.filter || '';
     app.style.filter = 'hue-rotate('+(Math.random()*30-15)+'deg) brightness(1.1)';
     app.style.transform = 'skewX('+(Math.random()*.5-.25)+'deg)';
-    setTimeout(function() {
-      app.style.filter = orig;
-      app.style.transform = '';
-      setTimeout(doGlitch, Math.random()*8000 + 4000);
-    }, duration);
+    setTimeout(function() { app.style.filter = ''; app.style.transform = ''; setTimeout(doGlitch, Math.random()*8000 + 4000); }, duration);
   }
   setTimeout(doGlitch, 5000);
 })();
-
 
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     if (panicActive) { dismissPanic(); return; }
     var app = document.getElementById('app');
     if (app && app.style.display !== 'none') { triggerPanic(); return; }
-  }
-});
-
-document.addEventListener('keydown', function(e) {
-  var k = e.key;
-  var konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-  if (!window._kc) window._kc = [];
-  window._kc.push(k);
-  if (window._kc.length > konamiCode.length) window._kc.shift();
-  if (window._kc.join(',') === konamiCode.join(',')) {
-    document.body.style.animation = 'rainbow 1s infinite';
-    toast('🌈 KONAMI', 'RAINBOW MODE ACTIVATED!', '#ff00ff');
-    setTimeout(function(){ document.body.style.animation = ''; }, 5000);
   }
 });
 </script>
