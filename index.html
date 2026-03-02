@@ -1226,8 +1226,8 @@ function goFull() {
 // ══════ PROXY DEFAULTS — FIXED ══════
 // UB2 = main proxy used by browser + apps
 // Set to ulink.lol by default — user can change in Settings
-var UB1 = (function(){ try { return localStorage.getItem('nx_ub1') || 'https://xldaniel247.github.io/Math-notes/unblocker/'; } catch(e){ return 'https://xldaniel247.github.io/Math-notes/unblocker/'; } })();
-var UB2 = (function(){ try { return localStorage.getItem('nx_ub2') || 'https://xldaniel247.github.io/Math-notes/unblocker/'; } catch(e){ return 'https://xldaniel247.github.io/Math-notes/unblocker/'; } })();
+var UB1 = (function(){ try { return localStorage.getItem('nx_ub1') || 'https://xldaniel247.github.io/Math-notes/unblocker/embed.html#'; } catch(e){ return 'https://xldaniel247.github.io/Math-notes/unblocker/embed.html#'; } })();
+var UB2 = (function(){ try { return localStorage.getItem('nx_ub2') || 'https://xldaniel247.github.io/Math-notes/unblocker/embed.html#'; } catch(e){ return 'https://xldaniel247.github.io/Math-notes/unblocker/embed.html#'; } })();
 var curAppUrl = '';
 
 var APPS = [
@@ -1256,7 +1256,7 @@ function buildApps() {
   APPS.forEach(function(a, i) {
     var rawUrl = a.getUrl ? a.getUrl() : (a.url || '');
     var isPortal = a.tag === 'unblock';
-    var openUrl = isPortal ? rawUrl : (UB2 + encodeURIComponent(rawUrl));
+    var openUrl = isPortal ? rawUrl : (UB2 + rawUrl);
     var tagLabel = isPortal ? '&#128279; PORTAL' : '&#128640; PROXIED';
     var tagCls = isPortal ? 'unblock' : 'blocked';
     var featCls = isPortal ? ' feat' : '';
@@ -1302,7 +1302,7 @@ function toggleProxy() {
     if (togBtn) togBtn.textContent = '&#128640; USE PROXY';
     toast('&#9888; DIRECT', 'May be blocked by site', 'var(--b)');
   } else {
-    frame.src = UB2 + encodeURIComponent(curAppRawUrl);
+    frame.src = UB2 + curAppRawUrl;
     if (togBtn) togBtn.textContent = '&#127760; DIRECT MODE';
     toast('&#128640; PROXY', 'Loading via unblocker', 'var(--y)');
   }
@@ -1666,8 +1666,8 @@ function brLoad(url) {
   if (inp) inp.value = url;
   if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
   if (!frame) return;
-  // Route through proxy to bypass school blocks
-  frame.src = UB2 + encodeURIComponent(url);
+  // Route through Scramjet proxy (hash-based, no encoding needed)
+  frame.src = UB2 + url;
   frame.onload = function() {
     if (status) { status.textContent = 'LOADED ✓'; status.style.color = 'var(--g)'; }
   };
