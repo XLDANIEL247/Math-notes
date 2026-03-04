@@ -1226,8 +1226,8 @@ function goFull() {
 // ══════ PROXY DEFAULTS — FIXED ══════
 // UB2 = main proxy used by browser + apps
 // Set to ulink.lol by default — user can change in Settings
-var UB1 = (function(){ try { return localStorage.getItem('nx_ub1') || 'https://xldaniel247.github.io/Math-notes/unblocker/embed.html#'; } catch(e){ return 'https://xldaniel247.github.io/Math-notes/unblocker/embed.html#'; } })();
-var UB2 = (function(){ try { return localStorage.getItem('nx_ub2') || 'https://xldaniel247.github.io/Math-notes/unblocker/embed.html#'; } catch(e){ return 'https://xldaniel247.github.io/Math-notes/unblocker/embed.html#'; } })();
+var UB1 = (function(){ try { return localStorage.getItem('nx_ub1') || 'https://xldaniel247.github.io/Math-notes/unblocker/index.html#'; } catch(e){ return 'https://xldaniel247.github.io/Math-notes/unblocker/index.html#'; } })();
+var UB2 = (function(){ try { return localStorage.getItem('nx_ub2') || 'https://xldaniel247.github.io/Math-notes/unblocker/index.html#'; } catch(e){ return 'https://xldaniel247.github.io/Math-notes/unblocker/index.html#'; } })();
 var curAppUrl = '';
 
 var APPS = [
@@ -1666,7 +1666,7 @@ function brLoad(url) {
   if (inp) inp.value = url;
   if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
   if (!frame) return;
-  // Route through Scramjet proxy (hash-based, no encoding needed)
+  // Route through proxy to bypass school blocks
   frame.src = UB2 + url;
   frame.onload = function() {
     if (status) { status.textContent = 'LOADED ✓'; status.style.color = 'var(--g)'; }
