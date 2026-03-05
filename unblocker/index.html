@@ -1,49 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browser</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.all.js" defer></script>
-    <script type="module">
-        import * as BareMux from "https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux/dist/index.mjs";
-        window.BareMux = BareMux;
-    </script>
-    <link rel="stylesheet" href="style.css">
-    <script src="./script.js" defer></script>
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proxy</title>
+  <script>
+    if (!console.debug) console.debug = console.log;
+    if (!console.trace) console.trace = console.log;
+    if (!console.group) console.group = console.log;
+    if (!console.groupEnd) console.groupEnd = function(){};
+    if (!console.groupCollapsed) console.groupCollapsed = console.log;
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; background: #0a0a0f; font-family: 'Courier New', monospace; color: #e0e0e0; overflow: hidden; }
 
-    </style>
+    #splash {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #0a0a0f;
+      transition: opacity 0.5s ease;
+    }
+    #splash.hidden { opacity: 0; pointer-events: none; }
+
+    .logo { font-size: 2rem; font-weight: bold; letter-spacing: 0.3em; color: #00ff88; margin-bottom: 8px; }
+    .tagline { font-size: 0.75rem; letter-spacing: 0.2em; color: #444; margin-bottom: 40px; }
+
+    .bar-wrap { width: 220px; height: 2px; background: #1a1a2e; border-radius: 2px; overflow: hidden; margin-bottom: 16px; }
+    .bar { height: 100%; width: 0%; background: #00ff88; border-radius: 2px; transition: width 0.3s ease; }
+    .status { font-size: 0.7rem; letter-spacing: 0.15em; color: #555; min-height: 1em; }
+
+    #frame { width: 100%; height: 100%; border: none; display: none; }
+
+    #error {
+      position: fixed; inset: 0; z-index: 200;
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      background: #0a0a0f; text-align: center; padding: 40px;
+    }
+    .err-title { font-size: 1.2rem; color: #ff4466; letter-spacing: 0.2em; margin-bottom: 12px; }
+    .err-msg { font-size: 0.75rem; color: #555; line-height: 1.8; margin-bottom: 24px; }
+    .retry-btn {
+      padding: 10px 28px; background: transparent; border: 1px solid #00ff88;
+      color: #00ff88; font-family: 'Courier New', monospace; font-size: 0.75rem;
+      letter-spacing: 0.15em; cursor: pointer; transition: all 0.2s;
+    }
+    .retry-btn:hover { background: #00ff8820; }
+  </style>
 </head>
-
 <body>
-    <!-- Home Button -->
 
+<div id="splash">
+  <div class="logo">PROXY</div>
+  <div class="tagline">SECURE · FAST · PRIVATE</div>
+  <div class="bar-wrap"><div class="bar" id="bar"></div></div>
+  <div class="status" id="status">Initializing...</div>
+</div>
 
-    <div id="app"></div>
+<div id="error">
+  <div class="err-title">CONNECTION FAILED</div>
+  <div class="err-msg" id="err-msg">Could not connect to any proxy server.<br>Try again or check your connection.</div>
+  <button class="retry-btn" onclick="location.reload()">RETRY</button>
+</div>
 
-    <div class="wisp-settings-modal hidden" id="wisp-settings-modal">
-        <div class="settings-card">
-            <div class="settings-header">
-                <h2><i class="fa-solid fa-server"></i> Proxy Settings</h2>
-                <button class="close-btn" id="close-wisp-modal"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="settings-content">
-                <div class="section-title"><i class="fa-solid fa-cloud"></i> Select Server</div>
-                <div class="server-list" id="server-list"></div>
-                <div class="section-title"><i class="fa-solid fa-plus-circle"></i> Custom Server</div>
-                <div class="custom-input-group">
-                    <input type="text" id="custom-wisp-input" placeholder="wss://your-wisp-server.com/wisp/">
-                    <button id="save-custom-wisp"><i class="fa-solid fa-plus"></i></button>
-                </div>
-            </div>
-            <div class="settings-footer">
-                Lower ping = faster browsing
-            </div>
-        </div>
-    </div>
+<iframe id="frame"></iframe>
+
+<script src="https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.all.js"></script>
+<script type="module">
+  import * as BareMux from "https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2.1.8/dist/index.mjs";
+
+  const WISPS = [
+    "wss://wisp.mercurywork.shop/",
+    "wss://wisp.doge-v3.com/wisp/",
+    "wss://anura.pro/wisp/",
+    "wss://wisp.fnfcnm.com/wisp/",
+    "wss://wisp.astrosv.dpdns.org/wisp/",
+  ];
+
+  const splash = document.getElementById('splash');
+  const bar = document.getElementById('bar');
+  const status = document.getElementById('status');
+  const frame = document.getElementById('frame');
+  const errorDiv = document.getElementById('error');
+  const errMsg = document.getElementById('err-msg');
+
+  function setProgress(pct, msg) {
+    bar.style.width = pct + '%';
+    status.textContent = msg;
+  }
+
+  function showError(msg) {
+    errorDiv.style.display = 'flex';
+    errMsg.innerHTML = msg;
+    splash.classList.add('hidden');
+  }
+
+  async function findWisp() {
+    return new Promise((resolve) => {
+      let done = false;
+      let tried = 0;
+      for (const url of WISPS) {
+        const ws = new WebSocket(url);
+        ws.onopen = () => {
+          if (!done) { done = true; ws.close(); resolve(url); }
+          else ws.close();
+        };
+        ws.onerror = () => {
+          tried++;
+          if (tried === WISPS.length && !done) resolve(null);
+        };
+      }
+      setTimeout(() => { if (!done) resolve(null); }, 8000);
+    });
+  }
+
+  async function start() {
+    const targetUrl = decodeURIComponent(location.hash.slice(1));
+
+    if (!targetUrl || !targetUrl.startsWith('http')) {
+      showError('No URL provided.<br><small style="color:#333">Format: index.html#https://example.com</small>');
+      return;
+    }
+
+    setProgress(20, 'Finding server...');
+    const wisp = await findWisp();
+    if (!wisp) { showError('No proxy servers available.<br>Your school may be blocking WebSockets.'); return; }
+
+    setProgress(50, 'Connecting...');
+    try {
+      const basePath = location.pathname.replace(/[^/]*$/, '') + '/';
+      const { ScramjetController } = $scramjetLoadController();
+
+      const sj = new ScramjetController({
+        prefix: basePath + 'scramjet/',
+        files: {
+          wasm: 'https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.wasm.wasm',
+          all:  'https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.all.js',
+          sync: 'https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.sync.js',
+        }
+      });
+
+      setProgress(70, 'Loading proxy...');
+      await sj.init();
+
+      const conn = new BareMux.BareMuxConnection(basePath + 'bareworker.js');
+      await conn.setTransport('https://cdn.jsdelivr.net/npm/@mercuryworkshop/epoxy-transport@2.1.28/dist/index.mjs', [{ wisp }]);
+
+      setProgress(90, 'Opening site...');
+      const activeFrame = sj.createFrame();
+      activeFrame.frame.id = 'frame';
+      activeFrame.frame.style.cssText = 'width:100%;height:100%;border:none;position:fixed;inset:0;';
+      document.body.appendChild(activeFrame.frame);
+
+      activeFrame.frame.addEventListener('load', () => {
+        setProgress(100, 'Loaded!');
+        setTimeout(() => splash.classList.add('hidden'), 400);
+      });
+
+      activeFrame.go(targetUrl);
+
+    } catch(e) {
+      showError('Proxy error: ' + e.message);
+    }
+  }
+
+  window.addEventListener('load', start);
+</script>
 </body>
-
 </html>
