@@ -355,36 +355,77 @@ const INSTANCES = [
 ];
 let instanceIdx = 0;
 
+// Get or prompt for YouTube API key
+function getApiKey() {
+  let key = localStorage.getItem('wave_yt_key');
+  if (!key) {
+    key = prompt(
+      'WAVE needs a free YouTube API key to search music.\n\n' +
+      'Get one free in 2 minutes:\n' +
+      '1. Go to console.cloud.google.com\n' +
+      '2. New Project → Enable "YouTube Data API v3"\n' +
+      '3. Credentials → Create API Key\n' +
+      '4. Paste it here:'
+    );
+    if (key) localStorage.setItem('wave_yt_key', key.trim());
+  }
+  return key;
+}
+
 async function apiSearch(query, max=15) {
+  // Try YouTube Data API first (googleapis.com - never blocked by schools)
+  const key = getApiKey();
+  if (key) {
+    try {
+      const r = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoCategoryId=10&maxResults=${max}&q=${encodeURIComponent(query)}&key=${key}`,
+        {signal: AbortSignal.timeout(8000)}
+      );
+      if (r.ok) {
+        const data = await r.json();
+        if (data.items?.length) {
+          // Get durations via videos endpoint
+          const ids = data.items.map(i => i.id.videoId).join(',');
+          let durations = {};
+          try {
+            const dr = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${ids}&key=${key}`);
+            const dd = await dr.json();
+            dd.items?.forEach(v => {
+              const m = v.contentDetails.duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+              durations[v.id] = ((+m[1]||0)*3600) + ((+m[2]||0)*60) + (+m[3]||0);
+            });
+          } catch(e) {}
+          return data.items.map(v => ({
+            id: v.id.videoId,
+            title: v.snippet.title,
+            artist: v.snippet.channelTitle,
+            duration: durations[v.id.videoId] || 0,
+            thumb: v.snippet.thumbnails?.medium?.url || `https://i.ytimg.com/vi/${v.id.videoId}/mqdefault.jpg`
+          }));
+        }
+      } else if (r.status === 403) {
+        // Bad key — clear it and ask again next time
+        localStorage.removeItem('wave_yt_key');
+      }
+    } catch(e) {}
+  }
+
+  // Fallback: try Invidious instances
   for (let i = 0; i < INSTANCES.length; i++) {
     const base = INSTANCES[(instanceIdx + i) % INSTANCES.length];
     try {
-      const r = await fetch(`${base}/api/v1/search?q=${encodeURIComponent(query)}&type=video&fields=videoId,title,author,lengthSeconds,videoThumbnails&page=1`, {signal: AbortSignal.timeout(6000)});
+      const r = await fetch(`${base}/api/v1/search?q=${encodeURIComponent(query)}&type=video&page=1`, {signal: AbortSignal.timeout(5000)});
       if (!r.ok) continue;
       const data = await r.json();
-      if (!data || !data.length) continue;
+      if (!data?.length) continue;
       instanceIdx = (instanceIdx + i) % INSTANCES.length;
       return data.slice(0, max).map(v => ({
-        id: v.videoId,
-        title: v.title,
-        artist: v.author,
+        id: v.videoId, title: v.title, artist: v.author,
         duration: v.lengthSeconds,
         thumb: `https://i.ytimg.com/vi/${v.videoId}/mqdefault.jpg`
       }));
     } catch(e) { continue; }
   }
-  // Last resort: use corsproxy to hit an invidious instance
-  try {
-    const r = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://inv.nadeko.net/api/v1/search?q=${encodeURIComponent(query)}&type=video&page=1`)}`, {signal: AbortSignal.timeout(8000)});
-    if (r.ok) {
-      const data = await r.json();
-      return (data||[]).slice(0,max).map(v => ({
-        id: v.videoId, title: v.title, artist: v.author,
-        duration: v.lengthSeconds,
-        thumb: `https://i.ytimg.com/vi/${v.videoId}/mqdefault.jpg`
-      }));
-    }
-  } catch(e) {}
   return [];
 }
 
