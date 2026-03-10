@@ -98,9 +98,31 @@ html, body { height:100%; background:var(--bg); color:var(--text); font-family:'
 .toast { position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--surface2); border:1px solid var(--border); padding:10px 20px; border-radius:8px; font-size:0.8rem; opacity:0; transition:all 0.3s; pointer-events:none; z-index:999; }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 #yt-player { position:fixed; top:-9999px; left:-9999px; width:1px; height:1px; }
+#embed-overlay { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.92); display:none; align-items:center; justify-content:center; flex-direction:column; gap:16px; }
+#embed-overlay.show { display:flex; }
+#embed-frame { width:640px; height:360px; max-width:90vw; max-height:50vh; border:none; border-radius:12px; }
+.embed-info { color:#fff; text-align:center; }
+.embed-title { font-size:1rem; font-weight:600; margin-bottom:4px; }
+.embed-artist { font-size:0.8rem; color:#888; }
+.embed-close { position:absolute; top:20px; right:20px; background:transparent; border:1px solid #444; color:#fff; padding:8px 16px; border-radius:8px; cursor:pointer; font-size:0.8rem; }
+.embed-nav { display:flex; gap:12px; margin-top:8px; }
+.embed-btn { background:transparent; border:1px solid #333; color:#ccc; padding:8px 20px; border-radius:8px; cursor:pointer; font-size:0.8rem; transition:all 0.15s; }
+.embed-btn:hover { border-color:#e8ff47; color:#e8ff47; }
 </style>
 </head>
 <body>
+<div id="embed-overlay">
+  <button class="embed-close" onclick="closeEmbed()">✕ Close</button>
+  <iframe id="embed-frame" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  <div class="embed-info">
+    <div class="embed-title" id="embedTitle"></div>
+    <div class="embed-artist" id="embedArtist"></div>
+  </div>
+  <div class="embed-nav">
+    <button class="embed-btn" onclick="prevSong()">⏮ Prev</button>
+    <button class="embed-btn" onclick="nextSong()">Next ⏭</button>
+  </div>
+</div>
 <div id="yt-player"></div>
 <div class="toast" id="toast"></div>
 <div class="app">
@@ -301,8 +323,9 @@ let isShuffle = false, isRepeat = false, isMuted = false, volume = 80;
 let liked = JSON.parse(localStorage.getItem('wave_liked') || '[]');
 let progressInterval = null, currentTab = 'trending';
 
-// ── YT API ──
+// ── YT EMBED (direct - works even when IFrame API is blocked) ──
 window.onYouTubeIframeAPIReady = function() {
+  // Try IFrame API first
   player = new YT.Player('yt-player', {
     height:'1', width:'1',
     playerVars:{autoplay:0, controls:0},
@@ -313,10 +336,29 @@ window.onYouTubeIframeAPIReady = function() {
   });
 };
 
+// Fallback if IFrame API fails - just load tab directly
+setTimeout(() => { if (!player) loadTab('trending'); }, 3000);
+
 function onPlayerState(e) {
   if (e.data === YT.PlayerState.PLAYING) { isPlaying=true; updatePlayBtn(); startProgress(); }
   else if (e.data === YT.PlayerState.PAUSED) { isPlaying=false; updatePlayBtn(); }
   else if (e.data === YT.PlayerState.ENDED) { isRepeat ? player.seekTo(0)||player.playVideo() : nextSong(); }
+}
+
+function openEmbed(song) {
+  document.getElementById('embedTitle').textContent = song.title;
+  document.getElementById('embedArtist').textContent = song.artist;
+  document.getElementById('embed-frame').src = `https://www.youtube-nocookie.com/embed/${song.id}?autoplay=1&rel=0`;
+  document.getElementById('embed-overlay').classList.add('show');
+  isPlaying = true;
+  updatePlayBtn();
+}
+
+function closeEmbed() {
+  document.getElementById('embed-overlay').classList.remove('show');
+  document.getElementById('embed-frame').src = '';
+  isPlaying = false;
+  updatePlayBtn();
 }
 
 // ── SEARCH ──
@@ -380,8 +422,6 @@ function loadSong(idx) {
   if (idx<0||idx>=queue.length) return;
   currentIdx = idx;
   const song = queue[idx];
-  if (!player) return;
-  player.loadVideoById(song.id);
   document.getElementById('npTitle').textContent = song.title;
   document.getElementById('npArtist').textContent = song.artist;
   const thumb = document.getElementById('npThumb');
@@ -392,11 +432,21 @@ function loadSong(idx) {
   likeBtn.classList.toggle('liked', isLiked);
   likeBtn.querySelector('svg').setAttribute('fill', isLiked?'currentColor':'none');
   updateQueue();
+  // Try IFrame API first, fall back to embed overlay
+  if (player && player.loadVideoById) {
+    try { player.loadVideoById(song.id); return; } catch(e) {}
+  }
+  openEmbed(song);
 }
 
 function togglePlay() {
-  if (!player||queue.length===0) return;
-  isPlaying ? player.pauseVideo() : player.playVideo();
+  if (queue.length===0) return;
+  if (player && player.getPlayerState) {
+    try { isPlaying ? player.pauseVideo() : player.playVideo(); return; } catch(e) {}
+  }
+  // Fallback to embed overlay
+  if (!isPlaying) openEmbed(queue[currentIdx]);
+  else closeEmbed();
 }
 function updatePlayBtn() {
   document.getElementById('playIcon').innerHTML = isPlaying
