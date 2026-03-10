@@ -160,12 +160,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 <script>
 // Streaming servers - tried in order
 const SERVERS = [
-  {name:'VidSrc',    url: id => `https://vidsrc.icu/embed/movie/${id}`},
-  {name:'VidSrc 2',  url: id => `https://vidsrc.cc/v2/embed/movie/${id}`},
-  {name:'VidSrc 3',  url: id => `https://vidsrc.to/embed/movie/${id}`},
-  {name:'MultiEmbed',url: id => `https://multiembed.mov/?video_id=${id}`},
-  {name:'GoDrive',   url: id => `https://godriveplayer.com/player.php?imdb=${id}`},
-  {name:'2Embed',    url: id => `https://www.2embed.cc/embed/${id}`},
+  {name:'Embed #1',  url: id => `https://www.2embed.cc/embed/${id}`},
+  {name:'Embed #2',  url: id => `https://multiembed.mov/?video_id=${id}&tmdb=0`},
+  {name:'Embed #3',  url: id => `https://player.autoembed.cc/embed/movie/${id}`},
+  {name:'Embed #4',  url: id => `https://moviesapi.club/movie/${id}`},
+  {name:'Embed #5',  url: id => `https://nontonfilm.mom/embed/${id}`},
+  {name:'Embed #6',  url: id => `https://flicky.host/film/${id}`},
 ];
 
 // IMDB IDs for popular movies
