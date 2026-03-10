@@ -4,34 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Proxy</title>
-  <script>
-    if (!console.debug) console.debug = console.log;
-    if (!console.trace) console.trace = console.log;
-    if (!console.group) console.group = console.log;
-    if (!console.groupEnd) console.groupEnd = function(){};
-    if (!console.groupCollapsed) console.groupCollapsed = console.log;
-  </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; background: #0a0a0f; font-family: 'Courier New', monospace; color: #e0e0e0; overflow: hidden; }
-
     #splash {
       position: fixed; inset: 0; z-index: 100;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      background: #0a0a0f;
-      transition: opacity 0.5s ease;
+      background: #0a0a0f; transition: opacity 0.5s ease;
     }
     #splash.hidden { opacity: 0; pointer-events: none; }
-
     .logo { font-size: 2rem; font-weight: bold; letter-spacing: 0.3em; color: #00ff88; margin-bottom: 8px; }
     .tagline { font-size: 0.75rem; letter-spacing: 0.2em; color: #444; margin-bottom: 40px; }
-
     .bar-wrap { width: 220px; height: 2px; background: #1a1a2e; border-radius: 2px; overflow: hidden; margin-bottom: 16px; }
-    .bar { height: 100%; width: 0%; background: #00ff88; border-radius: 2px; transition: width 0.3s ease; }
+    .bar { height: 100%; width: 0%; background: #00ff88; border-radius: 2px; transition: width 0.4s ease; }
     .status { font-size: 0.7rem; letter-spacing: 0.15em; color: #555; min-height: 1em; }
-
-    #frame { width: 100%; height: 100%; border: none; display: none; }
-
     #error {
       position: fixed; inset: 0; z-index: 200;
       display: none; flex-direction: column; align-items: center; justify-content: center;
@@ -45,35 +31,27 @@
       letter-spacing: 0.15em; cursor: pointer; transition: all 0.2s;
     }
     .retry-btn:hover { background: #00ff8820; }
+    iframe { width: 100%; height: 100%; border: none; position: fixed; inset: 0; display: none; }
   </style>
 </head>
 <body>
-
 <div id="splash">
   <div class="logo">PROXY</div>
   <div class="tagline">SECURE · FAST · PRIVATE</div>
   <div class="bar-wrap"><div class="bar" id="bar"></div></div>
   <div class="status" id="status">Initializing...</div>
 </div>
-
 <div id="error">
   <div class="err-title">CONNECTION FAILED</div>
-  <div class="err-msg" id="err-msg">Could not connect to any proxy server.<br>Try again or check your connection.</div>
+  <div class="err-msg" id="err-msg">All proxy servers are unavailable.</div>
   <button class="retry-btn" onclick="location.reload()">RETRY</button>
 </div>
-
 <iframe id="frame"></iframe>
-
-<script src="https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.all.js"></script>
-<script type="module">
-  import * as BareMux from "https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2.1.8/dist/index.mjs";
-
-  const WISPS = [
-    "wss://wisp.mercurywork.shop/",
-    "wss://wisp.doge-v3.com/wisp/",
-    "wss://anura.pro/wisp/",
-    "wss://wisp.fnfcnm.com/wisp/",
-    "wss://wisp.astrosv.dpdns.org/wisp/",
+<script>
+  const PROXIES = [
+    u => `https://uv.studysesh.net/service/${btoa(u)}/`,
+    u => `https://skolr.app/service/${btoa(u)}/`,
+    u => `https://interstellar.lawsons.ca/~/uv/service/${btoa(u)}/`,
   ];
 
   const splash = document.getElementById('splash');
@@ -81,95 +59,29 @@
   const status = document.getElementById('status');
   const frame = document.getElementById('frame');
   const errorDiv = document.getElementById('error');
-  const errMsg = document.getElementById('err-msg');
 
-  function setProgress(pct, msg) {
-    bar.style.width = pct + '%';
-    status.textContent = msg;
-  }
-
-  function showError(msg) {
-    errorDiv.style.display = 'flex';
-    errMsg.innerHTML = msg;
-    splash.classList.add('hidden');
-  }
-
-  async function findWisp() {
-    return new Promise((resolve) => {
-      let done = false;
-      let tried = 0;
-      for (const url of WISPS) {
-        const ws = new WebSocket(url);
-        ws.onopen = () => {
-          if (!done) { done = true; ws.close(); resolve(url); }
-          else ws.close();
-        };
-        ws.onerror = () => {
-          tried++;
-          if (tried === WISPS.length && !done) resolve(null);
-        };
-      }
-      setTimeout(() => { if (!done) resolve(null); }, 8000);
-    });
-  }
+  function setProgress(pct, msg) { bar.style.width = pct + '%'; status.textContent = msg; }
+  function showError(msg) { errorDiv.style.display = 'flex'; document.getElementById('err-msg').innerHTML = msg; splash.classList.add('hidden'); }
+  function showFrame() { frame.style.display = 'block'; splash.classList.add('hidden'); }
 
   async function start() {
     const targetUrl = decodeURIComponent(location.hash.slice(1));
-
     if (!targetUrl || !targetUrl.startsWith('http')) {
-      showError('No URL provided.<br><small style="color:#333">Format: index.html#https://example.com</small>');
+      showError('No URL provided.<br><small>Format: index.html#https://example.com</small>');
       return;
     }
-
-    setProgress(20, 'Finding server...');
-    const wisp = await findWisp();
-    if (!wisp) { showError('No proxy servers available.<br>Your school may be blocking WebSockets.'); return; }
-
-    setProgress(50, 'Connecting...');
-    try {
-      const basePath = location.pathname.replace(/[^/]*$/, '') + '/';
-
-      // Register service worker first
-      if ('serviceWorker' in navigator) {
-        await navigator.serviceWorker.register(basePath + 'sw.js', { scope: basePath });
-        await navigator.serviceWorker.ready;
-      }
-
-      const { ScramjetController } = $scramjetLoadController();
-
-      const sj = new ScramjetController({
-        prefix: basePath + 'scramjet/',
-        files: {
-          wasm: 'https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.wasm.wasm',
-          all:  'https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.all.js',
-          sync: 'https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.sync.js',
-        }
+    for (let i = 0; i < PROXIES.length; i++) {
+      setProgress(20 + (i * 25), `Trying server ${i+1} of ${PROXIES.length}...`);
+      frame.src = PROXIES[i](targetUrl);
+      const ok = await new Promise(resolve => {
+        const t = setTimeout(() => resolve(false), 7000);
+        frame.onload = () => { clearTimeout(t); resolve(true); };
+        frame.onerror = () => { clearTimeout(t); resolve(false); };
       });
-
-      setProgress(70, 'Loading proxy...');
-      await sj.init();
-
-      const conn = new BareMux.BareMuxConnection(basePath + 'bareworker.js');
-      await conn.setTransport('https://cdn.jsdelivr.net/npm/@mercuryworkshop/epoxy-transport@2.1.28/dist/index.mjs', [{ wisp }]);
-
-      setProgress(90, 'Opening site...');
-      const activeFrame = sj.createFrame();
-      activeFrame.frame.id = 'frame';
-      activeFrame.frame.style.cssText = 'width:100%;height:100%;border:none;position:fixed;inset:0;';
-      document.body.appendChild(activeFrame.frame);
-
-      activeFrame.frame.addEventListener('load', () => {
-        setProgress(100, 'Loaded!');
-        setTimeout(() => splash.classList.add('hidden'), 400);
-      });
-
-      activeFrame.go(targetUrl);
-
-    } catch(e) {
-      showError('Proxy error: ' + e.message);
+      if (ok) { setProgress(100, 'Loaded!'); showFrame(); return; }
     }
+    showError('All proxy servers failed.<br>Your school may be blocking them.');
   }
-
   window.addEventListener('load', start);
 </script>
 </body>
