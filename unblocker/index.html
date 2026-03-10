@@ -7,30 +7,17 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; background: #0a0a0f; font-family: 'Courier New', monospace; color: #e0e0e0; overflow: hidden; }
-    #splash {
-      position: fixed; inset: 0; z-index: 100;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      background: #0a0a0f; transition: opacity 0.5s ease;
-    }
+    #splash { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0a0a0f; transition: opacity 0.5s ease; }
     #splash.hidden { opacity: 0; pointer-events: none; }
     .logo { font-size: 2rem; font-weight: bold; letter-spacing: 0.3em; color: #00ff88; margin-bottom: 8px; }
     .tagline { font-size: 0.75rem; letter-spacing: 0.2em; color: #444; margin-bottom: 40px; }
     .bar-wrap { width: 220px; height: 2px; background: #1a1a2e; border-radius: 2px; overflow: hidden; margin-bottom: 16px; }
     .bar { height: 100%; width: 0%; background: #00ff88; border-radius: 2px; transition: width 0.4s ease; }
     .status { font-size: 0.7rem; letter-spacing: 0.15em; color: #555; min-height: 1em; }
-    #error {
-      position: fixed; inset: 0; z-index: 200;
-      display: none; flex-direction: column; align-items: center; justify-content: center;
-      background: #0a0a0f; text-align: center; padding: 40px;
-    }
+    #error { position: fixed; inset: 0; z-index: 200; display: none; flex-direction: column; align-items: center; justify-content: center; background: #0a0a0f; text-align: center; padding: 40px; }
     .err-title { font-size: 1.2rem; color: #ff4466; letter-spacing: 0.2em; margin-bottom: 12px; }
     .err-msg { font-size: 0.75rem; color: #555; line-height: 1.8; margin-bottom: 24px; }
-    .retry-btn {
-      padding: 10px 28px; background: transparent; border: 1px solid #00ff88;
-      color: #00ff88; font-family: 'Courier New', monospace; font-size: 0.75rem;
-      letter-spacing: 0.15em; cursor: pointer; transition: all 0.2s;
-    }
-    .retry-btn:hover { background: #00ff8820; }
+    .retry-btn { padding: 10px 28px; background: transparent; border: 1px solid #00ff88; color: #00ff88; font-family: 'Courier New', monospace; font-size: 0.75rem; letter-spacing: 0.15em; cursor: pointer; }
     iframe { width: 100%; height: 100%; border: none; position: fixed; inset: 0; display: none; }
   </style>
 </head>
@@ -42,16 +29,17 @@
   <div class="status" id="status">Initializing...</div>
 </div>
 <div id="error">
-  <div class="err-title">CONNECTION FAILED</div>
-  <div class="err-msg" id="err-msg">All proxy servers are unavailable.</div>
+  <div class="err-title">BLOCKED</div>
+  <div class="err-msg" id="err-msg">Your school is blocking all proxy servers.<br>Try changing the proxy URL in Settings.</div>
   <button class="retry-btn" onclick="location.reload()">RETRY</button>
 </div>
 <iframe id="frame"></iframe>
 <script>
+  // These use well-known domains/CDNs that are harder for schools to block
   const PROXIES = [
-    u => `https://uv.studysesh.net/service/${btoa(u)}/`,
-    u => `https://skolr.app/service/${btoa(u)}/`,
-    u => `https://interstellar.lawsons.ca/~/uv/service/${btoa(u)}/`,
+    u => `https://www.croxyproxy.com/requests/send/?url=${encodeURIComponent(u)}`,
+    u => `https://translate.google.com/translate?sl=en&tl=en&u=${encodeURIComponent(u)}`,
+    u => `https://webcache.googleusercontent.com/search?q=cache:${encodeURIComponent(u)}`,
   ];
 
   const splash = document.getElementById('splash');
@@ -70,6 +58,7 @@
       showError('No URL provided.<br><small>Format: index.html#https://example.com</small>');
       return;
     }
+
     for (let i = 0; i < PROXIES.length; i++) {
       setProgress(20 + (i * 25), `Trying server ${i+1} of ${PROXIES.length}...`);
       frame.src = PROXIES[i](targetUrl);
@@ -80,8 +69,9 @@
       });
       if (ok) { setProgress(100, 'Loaded!'); showFrame(); return; }
     }
-    showError('All proxy servers failed.<br>Your school may be blocking them.');
+    showError('All proxy servers are blocked by your school.<br>Ask your admin or try a different network.');
   }
+
   window.addEventListener('load', start);
 </script>
 </body>
