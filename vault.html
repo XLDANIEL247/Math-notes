@@ -1,4 +1,4 @@
-s<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -99,13 +99,29 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 <div class="modal" id="modal">
   <div class="mhdr">
     <div class="mtitle-m" id="modalTitle">-</div>
-    <div class="server-btns" id="serverBtns"></div>
     <button class="mclose" onclick="closeModal()">✕ Close</button>
   </div>
-  <div class="mbody"><iframe id="modalFrame" src="" allowfullscreen allow="autoplay; fullscreen; encrypted-media" sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-fullscreen"></iframe></div>
-  <div class="mmeta">
-    <span id="modalMeta"></span>
-    <span class="block-warn">⚠ If blocked, try another server above</span>
+  <div class="mbody" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;padding:40px 24px;">
+    <div style="text-align:center;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:0.1em;margin-bottom:6px;" id="modalTitleBig">-</div>
+      <div style="font-size:0.82rem;color:var(--muted);" id="modalMeta"></div>
+    </div>
+    <div style="font-size:0.8rem;color:var(--muted);text-align:center;">Choose where to watch — both are 100% free and legal</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+      <button id="btnYT" onclick="watchYT()" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 32px;background:#ff0000;border:none;border-radius:12px;cursor:pointer;transition:transform 0.15s;min-width:140px;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        <svg width="32" height="22" viewBox="0 0 32 22" fill="white"><path d="M31.3 3.4C30.9 1.9 29.7.7 28.2.3 25.7 0 16 0 16 0S6.3 0 3.8.3C2.3.7 1.1 1.9.7 3.4 0 6 0 11 0 11s0 5 .7 7.6c.4 1.5 1.6 2.7 3.1 3.1C6.3 22 16 22 16 22s9.7 0 12.2-.3c1.5-.4 2.7-1.6 3.1-3.1C32 16 32 11 32 11s0-5-.7-7.6zM13 15.5v-9l8 4.5-8 4.5z"/></svg>
+        <span style="color:white;font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.9rem;">YouTube</span>
+        <span style="color:rgba(255,255,255,0.7);font-size:0.7rem;">Free with ads</span>
+      </button>
+      <button id="btnTubi" onclick="watchTubi()" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 32px;background:#fa500e;border:none;border-radius:12px;cursor:pointer;transition:transform 0.15s;min-width:140px;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        <svg width="32" height="32" viewBox="0 0 50 50" fill="white"><text x="2" y="38" font-size="42" font-family="Arial Black,sans-serif" font-weight="900">T</text></svg>
+        <span style="color:white;font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.9rem;">Tubi</span>
+        <span style="color:rgba(255,255,255,0.7);font-size:0.7rem;">Free with ads</span>
+      </button>
+    </div>
+    <div style="font-size:0.72rem;color:var(--muted2);text-align:center;max-width:380px;line-height:1.8;border-top:1px solid var(--border);padding-top:20px;">
+      💡 <strong style="color:var(--muted);">Tip:</strong> Tubi has the bigger library. YouTube is better for classics.<br/>Both open in a new tab — completely safe, no popups.
+    </div>
   </div>
 </div>
 
@@ -160,12 +176,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 <script>
 // Streaming servers - tried in order
 const SERVERS = [
-  {name:'Embed #1',  url: id => `https://www.2embed.cc/embed/${id}`},
-  {name:'Embed #2',  url: id => `https://multiembed.mov/?video_id=${id}&tmdb=0`},
-  {name:'Embed #3',  url: id => `https://player.autoembed.cc/embed/movie/${id}`},
-  {name:'Embed #4',  url: id => `https://moviesapi.club/movie/${id}`},
-  {name:'Embed #5',  url: id => `https://nontonfilm.mom/embed/${id}`},
-  {name:'Embed #6',  url: id => `https://flicky.host/film/${id}`},
+  {name:'Server 1', url: id => `https://www.2embed.cc/embed/${id}`},
+  {name:'Server 2', url: id => `https://multiembed.mov/?video_id=${id}`},
+  {name:'Server 3', url: id => `https://player.autoembed.cc/embed/movie/${id}`},
+  {name:'Server 4', url: id => `https://moviesapi.club/movie/${id}`},
+  {name:'Server 5', url: id => `https://embed.su/embed/movie/${id}`},
+  {name:'Server 6', url: id => `https://vidsrc.xyz/embed/movie?imdb=${id}`},
 ];
 
 // IMDB IDs for popular movies
@@ -351,39 +367,35 @@ function renderMusic(){
 }
 
 function openMovie(imdbId, title, year){
-  curImdbId=imdbId; curMovieTitle=title; curServerIdx=0;
+  curImdbId=imdbId; curMovieTitle=title;
   document.getElementById('modalTitle').textContent=title;
-  document.getElementById('modalMeta').textContent=year+' · Try different servers if one is blocked';
-  renderServerBtns();
-  loadServer(0);
+  document.getElementById('modalTitleBig').textContent=title;
+  document.getElementById('modalMeta').textContent=year;
+  document.getElementById('btnYT').onclick=watchYT;
+  document.getElementById('btnTubi').style.display='';
   document.getElementById('modal').classList.add('show');
 }
 
 function openMusic(id, title, artist){
-  curImdbId=''; curMovieTitle=title; curServerIdx=0;
+  curImdbId=''; curMovieTitle=title;
   document.getElementById('modalTitle').textContent=title;
-  document.getElementById('modalMeta').textContent=artist+' · Free on Internet Archive';
-  document.getElementById('serverBtns').innerHTML='';
-  document.getElementById('modalFrame').src=`https://archive.org/embed/${id}`;
+  document.getElementById('modalTitleBig').textContent=title;
+  document.getElementById('modalMeta').textContent=artist+' · Free on YouTube';
+  document.getElementById('btnYT').onclick=()=>window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(title+' '+artist+' full album')}`, '_blank');
+  document.getElementById('btnTubi').style.display='none';
   document.getElementById('modal').classList.add('show');
 }
 
-function renderServerBtns(){
-  const el=document.getElementById('serverBtns');
-  el.innerHTML=SERVERS.map((s,i)=>`
-    <button class="srv-btn ${i===curServerIdx?'active':''}" onclick="loadServer(${i})">${s.name}</button>
-  `).join('');
+function watchYT(){
+  window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(curMovieTitle+' full movie free')}`, '_blank');
 }
 
-function loadServer(idx){
-  curServerIdx=idx;
-  document.querySelectorAll('.srv-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
-  document.getElementById('modalFrame').src=SERVERS[idx].url(curImdbId);
+function watchTubi(){
+  window.open(`https://tubitv.com/search/${encodeURIComponent(curMovieTitle)}`, '_blank');
 }
 
 function closeModal(){
   document.getElementById('modal').classList.remove('show');
-  document.getElementById('modalFrame').src='';
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
