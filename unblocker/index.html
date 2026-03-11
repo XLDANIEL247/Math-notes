@@ -281,6 +281,27 @@
 <script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@2.6.3/dist/uv.bundle.js"></script>
 <script src="uv.config.js"></script>
 <script>
+// ── If inside an iframe, pop out into a new tab immediately ───────────────────
+if (window.self !== window.top) {
+  document.body.innerHTML = `
+    <div style="background:#080808;color:#e0e0e0;font-family:Segoe UI,sans-serif;
+      height:100vh;display:flex;flex-direction:column;align-items:center;
+      justify-content:center;gap:16px;text-align:center;padding:30px;">
+      <div style="font-size:36px;">🌐</div>
+      <div style="font-size:18px;font-weight:700;color:#fff;">Browser</div>
+      <div style="font-size:13px;color:#666;max-width:320px;line-height:1.6;">
+        The proxy needs to run in its own tab to work properly.
+      </div>
+      <button onclick="window.open(window.location.href,'_blank')"
+        style="background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;
+          border:none;padding:12px 28px;border-radius:20px;cursor:pointer;
+          font-weight:700;font-size:14px;margin-top:8px;">
+        Open in New Tab
+      </button>
+    </div>`;
+  throw new Error('In iframe — showing popup prompt instead');
+}
+
 const frame     = document.getElementById('proxy-frame');
 const urlBar    = document.getElementById('url-bar');
 const homeEl    = document.getElementById('home-screen');
@@ -464,7 +485,16 @@ frame.addEventListener('error', () => {
 });
 
 // ── Init ──────────────────────────────────────────────────────────────────────
-setupSW();
+setupSW().then(() => {
+  // Auto-navigate if a ?url= param was passed from StudyHub
+  const params = new URLSearchParams(window.location.search);
+  const target = params.get('url');
+  if (target) {
+    urlBar.value = target;
+    // Wait a moment for SW to be ready before navigating
+    setTimeout(() => navigate(), 800);
+  }
+});
 </script>
 </body>
 </html>
