@@ -101,27 +101,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <div class="mtitle-m" id="modalTitle">-</div>
     <button class="mclose" onclick="closeModal()">✕ Close</button>
   </div>
-  <div class="mbody" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;padding:40px 24px;">
-    <div style="text-align:center;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:0.1em;margin-bottom:6px;" id="modalTitleBig">-</div>
-      <div style="font-size:0.82rem;color:var(--muted);" id="modalMeta"></div>
-    </div>
-    <div style="font-size:0.8rem;color:var(--muted);text-align:center;">Choose where to watch — both are 100% free and legal</div>
-    <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
-      <button id="btnYT" onclick="watchYT()" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 32px;background:#ff0000;border:none;border-radius:12px;cursor:pointer;transition:transform 0.15s;min-width:140px;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-        <svg width="32" height="22" viewBox="0 0 32 22" fill="white"><path d="M31.3 3.4C30.9 1.9 29.7.7 28.2.3 25.7 0 16 0 16 0S6.3 0 3.8.3C2.3.7 1.1 1.9.7 3.4 0 6 0 11 0 11s0 5 .7 7.6c.4 1.5 1.6 2.7 3.1 3.1C6.3 22 16 22 16 22s9.7 0 12.2-.3c1.5-.4 2.7-1.6 3.1-3.1C32 16 32 11 32 11s0-5-.7-7.6zM13 15.5v-9l8 4.5-8 4.5z"/></svg>
-        <span style="color:white;font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.9rem;">YouTube</span>
-        <span style="color:rgba(255,255,255,0.7);font-size:0.7rem;">Free with ads</span>
-      </button>
-      <button id="btnTubi" onclick="watchTubi()" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 32px;background:#fa500e;border:none;border-radius:12px;cursor:pointer;transition:transform 0.15s;min-width:140px;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-        <svg width="32" height="32" viewBox="0 0 50 50" fill="white"><text x="2" y="38" font-size="42" font-family="Arial Black,sans-serif" font-weight="900">T</text></svg>
-        <span style="color:white;font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.9rem;">Tubi</span>
-        <span style="color:rgba(255,255,255,0.7);font-size:0.7rem;">Free with ads</span>
-      </button>
-    </div>
-    <div style="font-size:0.72rem;color:var(--muted2);text-align:center;max-width:380px;line-height:1.8;border-top:1px solid var(--border);padding-top:20px;">
-      💡 <strong style="color:var(--muted);">Tip:</strong> Tubi has the bigger library. YouTube is better for classics.<br/>Both open in a new tab — completely safe, no popups.
-    </div>
+  <div class="mbody">
+    <iframe id="modalFrame" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
+  </div>
+  <div class="mmeta">
+    <span id="modalMeta"></span>
+    <span class="block-warn">📺 Streaming from Internet Archive — 100% free &amp; legal</span>
   </div>
 </div>
 
@@ -175,99 +160,99 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
 <script>
 // Streaming servers - tried in order
-const SERVERS = [
-  {name:'Server 1', url: id => `https://www.2embed.cc/embed/${id}`},
-  {name:'Server 2', url: id => `https://multiembed.mov/?video_id=${id}`},
-  {name:'Server 3', url: id => `https://player.autoembed.cc/embed/movie/${id}`},
-  {name:'Server 4', url: id => `https://moviesapi.club/movie/${id}`},
-  {name:'Server 5', url: id => `https://embed.su/embed/movie/${id}`},
-  {name:'Server 6', url: id => `https://vidsrc.xyz/embed/movie?imdb=${id}`},
-];
-
-// IMDB IDs for popular movies
-const P = 'https://image.tmdb.org/t/p/w300';
+// Movies use IMDB IDs for cineby.gd
 const MOVIES = [
   // ACTION
-  {id:'tt1375666',title:'Inception',year:'2010',genre:'action',e:'🌀',poster:P+'/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg'},
-  {id:'tt0468569',title:'The Dark Knight',year:'2008',genre:'action',e:'🦇',poster:P+'/qJ2tW6WMUDux911r6m7haRef0WH.jpg'},
-  {id:'tt4154796',title:'Avengers: Endgame',year:'2019',genre:'action',e:'⚡',poster:P+'/or06FN3Dka5tukK1e9sl16pB3iy.jpg'},
-  {id:'tt0816692',title:'Interstellar',year:'2014',genre:'action',e:'🚀',poster:P+'/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg'},
-  {id:'tt0110912',title:'Pulp Fiction',year:'1994',genre:'action',e:'💼',poster:P+'/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg'},
-  {id:'tt0137523',title:'Fight Club',year:'1999',genre:'action',e:'🥊',poster:P+'/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg'},
-  {id:'tt0372784',title:'Batman Begins',year:'2005',genre:'action',e:'🦇',poster:P+'/dr6x9YMdDSKTCksiQ8dFKXzpFJG.jpg'},
-  {id:'tt0848228',title:'The Avengers',year:'2012',genre:'action',e:'🛡️',poster:P+'/RYMX2wpaya38y5KaJFVjCM5I8hj.jpg'},
-  {id:'tt1745960',title:'Top Gun: Maverick',year:'2022',genre:'action',e:'✈️',poster:P+'/62HCnUTziyWcpDaBO2i1DX17ljH.jpg'},
-  {id:'tt0325980',title:'Pirates of the Caribbean',year:'2003',genre:'action',e:'☠️',poster:P+'/z8onk7LV9Mmw6zKz4hT6pzzvmvl.jpg'},
-  {id:'tt0120737',title:'Lord of the Rings: Fellowship',year:'2001',genre:'action',e:'💍',poster:P+'/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg'},
-  {id:'tt0167261',title:'Lord of the Rings: Two Towers',year:'2002',genre:'action',e:'🧙',poster:P+'/5VTN0pR8gcqV3EPUHHfMGnJYspL.jpg'},
-  {id:'tt0167260',title:'Lord of the Rings: Return of the King',year:'2003',genre:'action',e:'⚔️',poster:P+'/rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg'},
-  {id:'tt1853728',title:'Django Unchained',year:'2012',genre:'action',e:'🤠',poster:P+'/4RIg5l2oRBzXQm1pCmgBMrqvgsj.jpg'},
-  {id:'tt0361748',title:'Inglourious Basterds',year:'2009',genre:'action',e:'💣',poster:P+'/7sfbEnaARXDDhKm0CZ7D7uc2sbo.jpg'},
-  {id:'tt0172495',title:'Gladiator',year:'2000',genre:'action',e:'⚔️',poster:P+'/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg'},
-  {id:'tt0986264',title:'The Dark Knight Rises',year:'2012',genre:'action',e:'🦇',poster:P+'/hr0L2aueqlP2BYUblTTjmtn41ng.jpg'},
-  {id:'tt5108870',title:'Black Panther',year:'2018',genre:'action',e:'🐾',poster:P+'/uxzzxijgPIY7slzFvMotPv8wjKA.jpg'},
-  {id:'tt1825683',title:'Black Panther: Wakanda Forever',year:'2022',genre:'action',e:'💜',poster:P+'/sv1xJUazXoQuIDQqQp8CyqIMfns.jpg'},
-  {id:'tt9114286',title:'Guardians of the Galaxy Vol. 3',year:'2023',genre:'action',e:'🦝',poster:P+'/r2J02Z6ja4NRoG4s2EkUZEFGGMJ.jpg'},
-  {id:'tt6791350',title:'Guardians of the Galaxy Vol. 2',year:'2017',genre:'action',e:'🌟',poster:P+'/y4MBh0EjBlMuOzv9axM4godfe4H.jpg'},
-  {id:'tt3498820',title:'Captain America: Civil War',year:'2016',genre:'action',e:'🛡️',poster:P+'/rAGiXaUfDVY6KmhjOgNIQqinuS.jpg'},
-  {id:'tt1877830',title:'The Batman',year:'2022',genre:'action',e:'🦇',poster:P+'/b0PlSFdDwbyK0cf5RxwDpaOJQvQ.jpg'},
-  {id:'tt0816711',title:'True Grit',year:'2010',genre:'action',e:'🤠',poster:P+'/y5IFgBBnEZEPpMqRePmrJhEj9J1.jpg'},
+  {id:'tt1375666',title:'Inception',year:'2010',genre:'action',e:'🌀'},
+  {id:'tt0468569',title:'The Dark Knight',year:'2008',genre:'action',e:'🦇'},
+  {id:'tt4154796',title:'Avengers: Endgame',year:'2019',genre:'action',e:'⚡'},
+  {id:'tt0816692',title:'Interstellar',year:'2014',genre:'action',e:'🚀'},
+  {id:'tt0110912',title:'Pulp Fiction',year:'1994',genre:'action',e:'💼'},
+  {id:'tt0137523',title:'Fight Club',year:'1999',genre:'action',e:'🥊'},
+  {id:'tt0372784',title:'Batman Begins',year:'2005',genre:'action',e:'🦇'},
+  {id:'tt0848228',title:'The Avengers',year:'2012',genre:'action',e:'🛡️'},
+  {id:'tt1745960',title:'Top Gun: Maverick',year:'2022',genre:'action',e:'✈️'},
+  {id:'tt0325980',title:'Pirates of the Caribbean',year:'2003',genre:'action',e:'☠️'},
+  {id:'tt0120737',title:'Lord of the Rings: Fellowship',year:'2001',genre:'action',e:'💍'},
+  {id:'tt0167261',title:'Lord of the Rings: Two Towers',year:'2002',genre:'action',e:'🧙'},
+  {id:'tt0167260',title:'Lord of the Rings: Return of the King',year:'2003',genre:'action',e:'⚔️'},
+  {id:'tt1853728',title:'Django Unchained',year:'2012',genre:'action',e:'🤠'},
+  {id:'tt0361748',title:'Inglourious Basterds',year:'2009',genre:'action',e:'💣'},
+  {id:'tt0172495',title:'Gladiator',year:'2000',genre:'action',e:'⚔️'},
+  {id:'tt0986264',title:'The Dark Knight Rises',year:'2012',genre:'action',e:'🦇'},
+  {id:'tt5108870',title:'Black Panther',year:'2018',genre:'action',e:'🐾'},
+  {id:'tt1825683',title:'Black Panther: Wakanda Forever',year:'2022',genre:'action',e:'💜'},
+  {id:'tt9114286',title:'Guardians of the Galaxy Vol. 3',year:'2023',genre:'action',e:'🦝'},
+  {id:'tt6791350',title:'Guardians of the Galaxy Vol. 2',year:'2017',genre:'action',e:'🌟'},
+  {id:'tt3498820',title:'Captain America: Civil War',year:'2016',genre:'action',e:'🛡️'},
+  {id:'tt1877830',title:'The Batman',year:'2022',genre:'action',e:'🦇'},
+  {id:'tt0816711',title:'True Grit',year:'2010',genre:'action',e:'🤠'},
   // ANIMATION
-  {id:'tt0245429',title:'Spirited Away',year:'2001',genre:'animation',e:'🐉',poster:P+'/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg'},
-  {id:'tt0114709',title:'Toy Story',year:'1995',genre:'animation',e:'🤠',poster:P+'/uXDfjJbdP4ijW5hWSBrPrlKpxab.jpg'},
-  {id:'tt0266543',title:'Finding Nemo',year:'2003',genre:'animation',e:'🐠',poster:P+'/eHuGQ10FUzK1mdOY69wF5pGgEf5.jpg'},
-  {id:'tt0910970',title:'WALL-E',year:'2008',genre:'animation',e:'🤖',poster:P+'/hbhFnRzzg6ZDmm8YAmxBnjeN2Vy.jpg'},
-  {id:'tt0382932',title:'Ratatouille',year:'2007',genre:'animation',e:'🐀',poster:P+'/npHNjldbeTHdKKw28bJKs7lzqzj.jpg'},
-  {id:'tt0435761',title:'Toy Story 3',year:'2010',genre:'animation',e:'🧸',poster:P+'/AW3OFiHBmVOGCMzqPKQ7o43uyBJ.jpg'},
-  {id:'tt1049413',title:'Up',year:'2009',genre:'animation',e:'🎈',poster:P+'/vpGwMSxFoHHQVzHalTrHxHCg1GY.jpg'},
-  {id:'tt2096673',title:'Inside Out',year:'2015',genre:'animation',e:'😊',poster:P+'/2H1TmgdfNtsKlU9jKdeNyYL5y8T.jpg'},
-  {id:'tt0892769',title:'How to Train Your Dragon',year:'2010',genre:'animation',e:'🐲',poster:P+'/ygGmAO60t8GyqUKQiGxmMDDOBwm.jpg'},
-  {id:'tt2380307',title:'Coco',year:'2017',genre:'animation',e:'💀',poster:P+'/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg'},
-  {id:'tt4633694',title:'Spider-Man: Into the Spider-Verse',year:'2018',genre:'animation',e:'🕷️',poster:P+'/iiZZdoQBEYBv6id8su7ImL0ek5F.jpg'},
-  {id:'tt9362722',title:'Spider-Man: Across the Spider-Verse',year:'2023',genre:'animation',e:'🌀',poster:P+'/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg'},
-  {id:'tt9603212',title:'Migration',year:'2023',genre:'animation',e:'🦆',poster:P+'/ldfCF9RhR40mppkzmftxapaHeTo.jpg'},
-  {id:'tt0317219',title:'Cars',year:'2006',genre:'animation',e:'🏎️',poster:P+'/fQM5kKXPhZEKFEGZqyNHGanQFCg.jpg'},
+  {id:'tt0245429',title:'Spirited Away',year:'2001',genre:'animation',e:'🐉'},
+  {id:'tt0114709',title:'Toy Story',year:'1995',genre:'animation',e:'🤠'},
+  {id:'tt0266543',title:'Finding Nemo',year:'2003',genre:'animation',e:'🐠'},
+  {id:'tt0910970',title:'WALL-E',year:'2008',genre:'animation',e:'🤖'},
+  {id:'tt0382932',title:'Ratatouille',year:'2007',genre:'animation',e:'🐀'},
+  {id:'tt0435761',title:'Toy Story 3',year:'2010',genre:'animation',e:'🧸'},
+  {id:'tt1049413',title:'Up',year:'2009',genre:'animation',e:'🎈'},
+  {id:'tt2096673',title:'Inside Out',year:'2015',genre:'animation',e:'😊'},
+  {id:'tt0892769',title:'How to Train Your Dragon',year:'2010',genre:'animation',e:'🐲'},
+  {id:'tt2380307',title:'Coco',year:'2017',genre:'animation',e:'💀'},
+  {id:'tt4633694',title:'Spider-Man: Into the Spider-Verse',year:'2018',genre:'animation',e:'🕷️'},
+  {id:'tt9362722',title:'Spider-Man: Across the Spider-Verse',year:'2023',genre:'animation',e:'🌀'},
+  {id:'tt9603212',title:'Migration',year:'2023',genre:'animation',e:'🦆'},
+  {id:'tt0317219',title:'Cars',year:'2006',genre:'animation',e:'🏎️'},
   // COMEDY
-  {id:'tt0118715',title:'The Big Lebowski',year:'1998',genre:'comedy',e:'🎳',poster:P+'/xxWmGOvNO6ZRFLFqzfvCnLMJMnE.jpg'},
-  {id:'tt1517268',title:'Barbie',year:'2023',genre:'comedy',e:'👗',poster:P+'/iuFNMS8vlbzfAqIHpkgp2VZlAC8.jpg'},
+  {id:'tt0118715',title:'The Big Lebowski',year:'1998',genre:'comedy',e:'🎳'},
+  {id:'tt1517268',title:'Barbie',year:'2023',genre:'comedy',e:'👗'},
+  {id:'tt0107048',title:'Groundhog Day',year:'1993',genre:'comedy',e:'🦔'},
+  {id:'tt0110912',title:'Home Alone',year:'1990',genre:'comedy',e:'🏠'},
   // HORROR
-  {id:'tt1396484',title:'It',year:'2017',genre:'horror',e:'🤡',poster:P+'/9E2y5Q7WlCVHSfhLlLRm4qhJsH.jpg'},
-  {id:'tt5311514',title:'Get Out',year:'2017',genre:'horror',e:'👁️',poster:P+'/tFXcEccSQMf3lfhfXKSU9iRBpa3.jpg'},
-  {id:'tt1799516',title:'The Conjuring',year:'2013',genre:'horror',e:'👻',poster:P+'/wVYREutTvI2tmxr6ujrHT704wGF.jpg'},
+  {id:'tt1396484',title:'It',year:'2017',genre:'horror',e:'🤡'},
+  {id:'tt5311514',title:'Get Out',year:'2017',genre:'horror',e:'👁️'},
+  {id:'tt1799516',title:'The Conjuring',year:'2013',genre:'horror',e:'👻'},
+  {id:'tt0407664',title:'The Shining',year:'1980',genre:'horror',e:'🪓'},
+  {id:'tt0078748',title:'Alien',year:'1979',genre:'horror',e:'👾'},
+  {id:'tt0083658',title:'Blade Runner',year:'1982',genre:'horror',e:'🤖'},
   // SCI-FI
-  {id:'tt0076759',title:'Star Wars: A New Hope',year:'1977',genre:'scifi',e:'⭐',poster:P+'/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg'},
-  {id:'tt0080684',title:'Star Wars: Empire Strikes Back',year:'1980',genre:'scifi',e:'🌌',poster:P+'/2l05cFWJacyIsTpsqSgH0wQXe4V.jpg'},
-  {id:'tt0086190',title:'Star Wars: Return of the Jedi',year:'1983',genre:'scifi',e:'🚀',poster:P+'/mDCBQNhR6R0PxAdult0pGx5e6JA.jpg'},
-  {id:'tt2488496',title:'Star Wars: The Force Awakens',year:'2015',genre:'scifi',e:'🔦',poster:P+'/wqnLdwVXoBjKibFRR5U3y0aDUhs.jpg'},
-  {id:'tt0088763',title:'Back to the Future',year:'1985',genre:'scifi',e:'⏰',poster:P+'/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg'},
-  {id:'tt0133093',title:'The Matrix',year:'1999',genre:'scifi',e:'💊',poster:P+'/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg'},
-  {id:'tt1630029',title:'Avatar: The Way of Water',year:'2022',genre:'scifi',e:'🌊',poster:P+'/t6HIqrRAclMCA60NsSW-zecjcnk.jpg'},
-  {id:'tt10366460',title:'Dune: Part Two',year:'2024',genre:'scifi',e:'🏜️',poster:P+'/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg'},
+  {id:'tt0076759',title:'Star Wars: A New Hope',year:'1977',genre:'scifi',e:'⭐'},
+  {id:'tt0080684',title:'Star Wars: Empire Strikes Back',year:'1980',genre:'scifi',e:'🌌'},
+  {id:'tt0086190',title:'Star Wars: Return of the Jedi',year:'1983',genre:'scifi',e:'🚀'},
+  {id:'tt2488496',title:'Star Wars: The Force Awakens',year:'2015',genre:'scifi',e:'🔦'},
+  {id:'tt0088763',title:'Back to the Future',year:'1985',genre:'scifi',e:'⏰'},
+  {id:'tt0133093',title:'The Matrix',year:'1999',genre:'scifi',e:'💊'},
+  {id:'tt1630029',title:'Avatar: The Way of Water',year:'2022',genre:'scifi',e:'🌊'},
+  {id:'tt10366460',title:'Dune: Part Two',year:'2024',genre:'scifi',e:'🏜️'},
+  {id:'tt1160419',title:'Dune: Part One',year:'2021',genre:'scifi',e:'🏜️'},
+  {id:'tt0083658',title:'Blade Runner',year:'1982',genre:'scifi',e:'🤖'},
   // THRILLER
-  {id:'tt7286456',title:'Joker',year:'2019',genre:'thriller',e:'🃏',poster:P+'/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg'},
-  {id:'tt0102926',title:'The Silence of the Lambs',year:'1991',genre:'thriller',e:'🦋',poster:P+'/uS9m8OBk1A8eM9I042bx8XXpqAq.jpg'},
-  {id:'tt0482571',title:'The Prestige',year:'2006',genre:'thriller',e:'🎩',poster:P+'/5MXyQfz8xUP3dIFPTubhTsbFY6V.jpg'},
-  {id:'tt0407887',title:'The Departed',year:'2006',genre:'thriller',e:'🔫',poster:P+'/kWjEUyYFPnBNO82cFqJJ3VFQ1q8.jpg'},
-  {id:'tt1130884',title:'Shutter Island',year:'2010',genre:'thriller',e:'🏝️',poster:P+'/52d6jEoZqOkXWHCEjz3bY61JzKD.jpg'},
-  {id:'tt6751668',title:'Parasite',year:'2019',genre:'thriller',e:'🏠',poster:P+'/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg'},
-  {id:'tt0264464',title:'Catch Me If You Can',year:'2002',genre:'thriller',e:'✈️',poster:P+'/lyTge5B4jGcSMnDPOWlKCVIn7c5.jpg'},
+  {id:'tt7286456',title:'Joker',year:'2019',genre:'thriller',e:'🃏'},
+  {id:'tt0102926',title:'The Silence of the Lambs',year:'1991',genre:'thriller',e:'🦋'},
+  {id:'tt0482571',title:'The Prestige',year:'2006',genre:'thriller',e:'🎩'},
+  {id:'tt0407887',title:'The Departed',year:'2006',genre:'thriller',e:'🔫'},
+  {id:'tt1130884',title:'Shutter Island',year:'2010',genre:'thriller',e:'🏝️'},
+  {id:'tt6751668',title:'Parasite',year:'2019',genre:'thriller',e:'🏠'},
+  {id:'tt0264464',title:'Catch Me If You Can',year:'2002',genre:'thriller',e:'✈️'},
   // DRAMA
-  {id:'tt0111161',title:'The Shawshank Redemption',year:'1994',genre:'drama',e:'🔐',poster:P+'/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg'},
-  {id:'tt0108052',title:"Schindler's List",year:'1993',genre:'drama',e:'📋',poster:P+'/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg'},
-  {id:'tt0068646',title:'The Godfather',year:'1972',genre:'drama',e:'🎩',poster:P+'/3bhkrj58Vtu7enYsLegHnDmni2.jpg'},
-  {id:'tt0071562',title:'The Godfather: Part II',year:'1974',genre:'drama',e:'🌹',poster:P+'/hek3koDUyRQk7FIhPXsa6mT2Zc3.jpg'},
-  {id:'tt0120689',title:'The Green Mile',year:'1999',genre:'drama',e:'💚',poster:P+'/velWPhVMQeQKcxggNEU8YmU1pEH.jpg'},
-  {id:'tt0109830',title:'Forrest Gump',year:'1994',genre:'drama',e:'🍫',poster:P+'/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg'},
-  {id:'tt0120338',title:'Titanic',year:'1997',genre:'drama',e:'🚢',poster:P+'/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg'},
-  {id:'tt0268978',title:'A Beautiful Mind',year:'2001',genre:'drama',e:'🧠',poster:P+'/beaueEr2rnFZpYjNXGDOikHkVUc.jpg'},
-  {id:'tt0993846',title:'The Wolf of Wall Street',year:'2013',genre:'drama',e:'💰',poster:P+'/34m2NjkALmqdwneMsahCHqtZCa2.jpg'},
-  {id:'tt2084970',title:'The Imitation Game',year:'2014',genre:'drama',e:'🖥️',poster:P+'/zSqJ1qFq8NXFfi7JeIYMlzyR0dx.jpg'},
-  {id:'tt0120815',title:'Saving Private Ryan',year:'1998',genre:'drama',e:'🎖️',poster:P+'/uqx37cS8cpHg8U35f9U5IBlrCV3.jpg'},
-  {id:'tt0317248',title:'City of God',year:'2002',genre:'drama',e:'🌆',poster:P+'/mIfnjUqBmFROS3KZBM1bpsvZFBZ.jpg'},
+  {id:'tt0111161',title:'The Shawshank Redemption',year:'1994',genre:'drama',e:'🔐'},
+  {id:'tt0108052',title:"Schindler's List",year:'1993',genre:'drama',e:'📋'},
+  {id:'tt0068646',title:'The Godfather',year:'1972',genre:'drama',e:'🎩'},
+  {id:'tt0071562',title:'The Godfather: Part II',year:'1974',genre:'drama',e:'🌹'},
+  {id:'tt0120689',title:'The Green Mile',year:'1999',genre:'drama',e:'💚'},
+  {id:'tt0109830',title:'Forrest Gump',year:'1994',genre:'drama',e:'🍫'},
+  {id:'tt0120338',title:'Titanic',year:'1997',genre:'drama',e:'🚢'},
+  {id:'tt0993846',title:'The Wolf of Wall Street',year:'2013',genre:'drama',e:'💰'},
+  {id:'tt2084970',title:'The Imitation Game',year:'2014',genre:'drama',e:'🖥️'},
+  {id:'tt0120815',title:'Saving Private Ryan',year:'1998',genre:'drama',e:'🎖️'},
+  {id:'tt6751668',title:'Parasite',year:'2019',genre:'drama',e:'🏠'},
   // FAMILY
-  {id:'tt0110357',title:'The Lion King',year:'1994',genre:'family',e:'🦁',poster:P+'/sKCr78MXSLixwmZ8DyJLrpMsd15.jpg'},
-  {id:'tt0099785',title:'Home Alone',year:'1990',genre:'family',e:'🏠',poster:P+'/9wSbe4CwObACCQvaUVCTWnAfBww.jpg'},
-  {id:'tt0120363',title:'Toy Story 2',year:'1999',genre:'family',e:'🤠',poster:P+'/kkgVTBGMsxqvePQDLM5C0j8AJJDs.jpg'},
+  {id:'tt0110357',title:'The Lion King',year:'1994',genre:'family',e:'🦁'},
+  {id:'tt0099785',title:'Home Alone',year:'1990',genre:'family',e:'🏠'},
+  {id:'tt0120363',title:'Toy Story 2',year:'1999',genre:'family',e:'🤠'},
+  {id:'tt0435761',title:'Moana',year:'2016',genre:'family',e:'🌊'},
+  {id:'tt3521164',title:'Moana',year:'2016',genre:'family',e:'🌊'},
+  {id:'tt2948372',title:'Zootopia',year:'2016',genre:'family',e:'🦊'},
+  {id:'tt4520988',title:'Frozen II',year:'2019',genre:'family',e:'❄️'},
 ];
 
 // Archive.org music — proven to work
@@ -369,33 +354,22 @@ function renderMusic(){
 function openMovie(imdbId, title, year){
   curImdbId=imdbId; curMovieTitle=title;
   document.getElementById('modalTitle').textContent=title;
-  document.getElementById('modalTitleBig').textContent=title;
   document.getElementById('modalMeta').textContent=year;
-  document.getElementById('btnYT').onclick=watchYT;
-  document.getElementById('btnTubi').style.display='';
+  document.getElementById('modalFrame').src=`https://vidlink.pro/movie/${imdbId}?autoplay=true&title=false`;
   document.getElementById('modal').classList.add('show');
 }
 
 function openMusic(id, title, artist){
-  curImdbId=''; curMovieTitle=title;
+  curImdbId=id; curMovieTitle=title;
   document.getElementById('modalTitle').textContent=title;
-  document.getElementById('modalTitleBig').textContent=title;
-  document.getElementById('modalMeta').textContent=artist+' · Free on YouTube';
-  document.getElementById('btnYT').onclick=()=>window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(title+' '+artist+' full album')}`, '_blank');
-  document.getElementById('btnTubi').style.display='none';
+  document.getElementById('modalMeta').textContent=artist+' · Free on Internet Archive';
+  document.getElementById('modalFrame').src=`https://archive.org/embed/${id}`;
   document.getElementById('modal').classList.add('show');
-}
-
-function watchYT(){
-  window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(curMovieTitle+' full movie free')}`, '_blank');
-}
-
-function watchTubi(){
-  window.open(`https://tubitv.com/search/${encodeURIComponent(curMovieTitle)}`, '_blank');
 }
 
 function closeModal(){
   document.getElementById('modal').classList.remove('show');
+  document.getElementById('modalFrame').src='';
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
