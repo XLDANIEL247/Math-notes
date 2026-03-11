@@ -313,23 +313,63 @@ let swReady = false;
 let navHistory = [];
 let navIndex = -1;
 
+// ── Bare servers to try in order ──────────────────────────────────────────────
+const BARE_SERVERS = [
+  'https://uv.holyubofficial.net/',
+  'https://bare.operatorequals.net/',
+  'https://uv-bare.vercel.app/',
+  'https://bare.rabloxy.site/',
+  'https://uv.northwestdata.net/',
+];
+
 // ── Status helpers ────────────────────────────────────────────────────────────
 function setStatus(color, msg) {
   statusDot.className = color;
   statusTxt.textContent = msg;
 }
 
+// ── Find a working bare server ────────────────────────────────────────────────
+async function findWorkingBare() {
+  for (const bare of BARE_SERVERS) {
+    try {
+      const resp = await fetch(bare, {
+        method: 'HEAD',
+        signal: AbortSignal.timeout(3000)
+      });
+      if (resp.ok || resp.status === 405 || resp.status === 400) {
+        // 400/405 is fine — means the server is alive, just rejecting HEAD
+        console.log('Working bare server:', bare);
+        return bare;
+      }
+    } catch (e) {
+      console.log('Bare server blocked:', bare);
+    }
+  }
+  return null;
+}
+
 // ── Service Worker setup ──────────────────────────────────────────────────────
 async function setupSW() {
   if (!('serviceWorker' in navigator)) {
-    setStatus('red', 'Service workers not supported — try opening this page directly (not in an iframe)');
+    setStatus('red', 'Service workers not supported');
     return;
   }
 
-  setStatus('yellow', 'Registering proxy service worker…');
+  setStatus('yellow', 'Finding working proxy server…');
+
+  // Find a bare server Zscaler hasn't blocked
+  const workingBare = await findWorkingBare();
+
+  if (!workingBare) {
+    setStatus('red', '⚠️ All proxy servers are blocked by your school. Try again tomorrow — schools update blocklists periodically.');
+    return;
+  }
+
+  // Update the config to use the working bare server
+  self.__uv$config.bare = workingBare;
+  setStatus('yellow', 'Connecting via ' + workingBare.replace('https://','').replace('/','') + '…');
 
   try {
-    // First, unregister stale SWs to avoid scope conflicts
     const registrations = await navigator.serviceWorker.getRegistrations();
     for (const r of registrations) {
       if (r.scope.includes('/Math-notes/unblocker/')) {
@@ -337,44 +377,18 @@ async function setupSW() {
       }
     }
 
-    const reg = await navigator.serviceWorker.register('./uv.sw.js', {
+    await navigator.serviceWorker.register('./uv.sw.js', {
       scope: '/Math-notes/unblocker/',
       updateViaCache: 'none',
     });
 
     await navigator.serviceWorker.ready;
     swReady = true;
-    setStatus('green', 'Proxy ready — enter a URL above');
-
-    // Test bare server connectivity
-    testBareServer();
+    setStatus('green', '✓ Proxy ready via ' + workingBare.replace('https://','').split('/')[0]);
 
   } catch (err) {
     console.error('SW failed:', err);
-    if (err.message.includes('SecurityError') || err.message.includes('blocked')) {
-      setStatus('red', 'Service workers blocked in this iframe — open the unblocker in a new tab for full functionality');
-    } else {
-      setStatus('red', 'Setup error: ' + err.message);
-    }
-  }
-}
-
-// ── Test if bare server is reachable ─────────────────────────────────────────
-async function testBareServer() {
-  const bare = __uv$config.bare;
-  try {
-    const resp = await fetch(bare, {
-      method: 'HEAD',
-      signal: AbortSignal.timeout(4000)
-    });
-    if (resp.ok) {
-      setStatus('green', 'Proxy ready ✓');
-    } else {
-      setStatus('yellow', 'Proxy server returned ' + resp.status + ' — may still work');
-    }
-  } catch (e) {
-    setStatus('red', '⚠️ Proxy server blocked by Zscaler — see instructions below');
-    // Don't show error screen yet — user might try anyway
+    setStatus('red', 'Setup error: ' + err.message);
   }
 }
 
