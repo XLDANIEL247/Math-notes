@@ -1,78 +1,470 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Proxy</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; background: #0a0a0f; font-family: 'Courier New', monospace; color: #e0e0e0; overflow: hidden; }
-    #splash { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0a0a0f; transition: opacity 0.5s ease; }
-    #splash.hidden { opacity: 0; pointer-events: none; }
-    .logo { font-size: 2rem; font-weight: bold; letter-spacing: 0.3em; color: #00ff88; margin-bottom: 8px; }
-    .tagline { font-size: 0.75rem; letter-spacing: 0.2em; color: #444; margin-bottom: 40px; }
-    .bar-wrap { width: 220px; height: 2px; background: #1a1a2e; border-radius: 2px; overflow: hidden; margin-bottom: 16px; }
-    .bar { height: 100%; width: 0%; background: #00ff88; border-radius: 2px; transition: width 0.4s ease; }
-    .status { font-size: 0.7rem; letter-spacing: 0.15em; color: #555; min-height: 1em; }
-    #error { position: fixed; inset: 0; z-index: 200; display: none; flex-direction: column; align-items: center; justify-content: center; background: #0a0a0f; text-align: center; padding: 40px; }
-    .err-title { font-size: 1.2rem; color: #ff4466; letter-spacing: 0.2em; margin-bottom: 12px; }
-    .err-msg { font-size: 0.75rem; color: #555; line-height: 1.8; margin-bottom: 24px; }
-    .retry-btn { padding: 10px 28px; background: transparent; border: 1px solid #00ff88; color: #00ff88; font-family: 'Courier New', monospace; font-size: 0.75rem; letter-spacing: 0.15em; cursor: pointer; }
-    iframe { width: 100%; height: 100%; border: none; position: fixed; inset: 0; display: none; }
-  </style>
-</head>
-<body>
-<div id="splash">
-  <div class="logo">PROXY</div>
-  <div class="tagline">SECURE · FAST · PRIVATE</div>
-  <div class="bar-wrap"><div class="bar" id="bar"></div></div>
-  <div class="status" id="status">Initializing...</div>
-</div>
-<div id="error">
-  <div class="err-title">BLOCKED</div>
-  <div class="err-msg" id="err-msg">Your school is blocking all proxy servers.<br>Try changing the proxy URL in Settings.</div>
-  <button class="retry-btn" onclick="location.reload()">RETRY</button>
-</div>
-<iframe id="frame"></iframe>
-<script>
-  // These use well-known domains/CDNs that are harder for schools to block
-  const PROXIES = [
-    u => `https://www.croxyproxy.com/requests/send/?url=${encodeURIComponent(u)}`,
-    u => `https://translate.google.com/translate?sl=en&tl=en&u=${encodeURIComponent(u)}`,
-    u => `https://webcache.googleusercontent.com/search?q=cache:${encodeURIComponent(u)}`,
-  ];
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Browser</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  const splash = document.getElementById('splash');
-  const bar = document.getElementById('bar');
-  const status = document.getElementById('status');
-  const frame = document.getElementById('frame');
-  const errorDiv = document.getElementById('error');
-
-  function setProgress(pct, msg) { bar.style.width = pct + '%'; status.textContent = msg; }
-  function showError(msg) { errorDiv.style.display = 'flex'; document.getElementById('err-msg').innerHTML = msg; splash.classList.add('hidden'); }
-  function showFrame() { frame.style.display = 'block'; splash.classList.add('hidden'); }
-
-  async function start() {
-    const targetUrl = decodeURIComponent(location.hash.slice(1));
-    if (!targetUrl || !targetUrl.startsWith('http')) {
-      showError('No URL provided.<br><small>Format: index.html#https://example.com</small>');
-      return;
-    }
-
-    for (let i = 0; i < PROXIES.length; i++) {
-      setProgress(20 + (i * 25), `Trying server ${i+1} of ${PROXIES.length}...`);
-      frame.src = PROXIES[i](targetUrl);
-      const ok = await new Promise(resolve => {
-        const t = setTimeout(() => resolve(false), 7000);
-        frame.onload = () => { clearTimeout(t); resolve(true); };
-        frame.onerror = () => { clearTimeout(t); resolve(false); };
-      });
-      if (ok) { setProgress(100, 'Loaded!'); showFrame(); return; }
-    }
-    showError('All proxy servers are blocked by your school.<br>Ask your admin or try a different network.');
+  body {
+    background: #080808;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
 
-  window.addEventListener('load', start);
+  .toolbar {
+    background: #111;
+    border-bottom: 1px solid #1e1e1e;
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+  }
+
+  .nav-btn {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    color: #777;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .nav-btn:hover { background: #222; color: #ccc; border-color: #333; }
+
+  .url-bar {
+    flex: 1;
+    background: #1a1a1a;
+    border: 1.5px solid #2a2a2a;
+    border-radius: 20px;
+    padding: 6px 15px;
+    color: #e0e0e0;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .url-bar:focus { border-color: #00ff88; background: #151515; }
+
+  .go-btn {
+    background: linear-gradient(135deg, #00ff88, #00cc6a);
+    color: #000;
+    border: none;
+    padding: 6px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+  }
+
+  .go-btn:hover { opacity: 0.85; }
+
+  .bookmarks {
+    background: #0d0d0d;
+    border-bottom: 1px solid #1a1a1a;
+    padding: 5px 10px;
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+    flex-shrink: 0;
+    scrollbar-width: none;
+  }
+
+  .bookmarks::-webkit-scrollbar { display: none; }
+
+  .bm {
+    background: #161616;
+    border: 1px solid #222;
+    color: #999;
+    padding: 3px 13px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 11px;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+
+  .bm:hover { background: #1e1e1e; color: #fff; border-color: #333; }
+
+  #status-bar {
+    background: #0a0a0a;
+    border-bottom: 1px solid #111;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: #555;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  #status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #333;
+    flex-shrink: 0;
+  }
+
+  #status-dot.green { background: #00ff88; }
+  #status-dot.yellow { background: #ffcc00; animation: pulse 1s infinite; }
+  #status-dot.red { background: #ff4444; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  #proxy-frame {
+    flex: 1;
+    border: none;
+    background: #fff;
+    display: none;
+  }
+
+  #home-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px;
+  }
+
+  .home-logo {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: #fff;
+    opacity: 0.1;
+  }
+
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 420px;
+    width: 100%;
+  }
+
+  .home-tile {
+    background: #111;
+    border: 1px solid #1e1e1e;
+    border-radius: 12px;
+    padding: 14px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .home-tile:hover {
+    background: #161616;
+    border-color: #2a2a2a;
+    transform: translateY(-2px);
+  }
+
+  .home-tile .icon { font-size: 22px; margin-bottom: 5px; }
+  .home-tile .label { font-size: 10px; color: #666; }
+
+  #error-screen {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+    gap: 12px;
+  }
+
+  #error-screen .err-title { font-size: 18px; color: #ff5555; font-weight: 700; }
+  #error-screen .err-msg { font-size: 13px; color: #555; max-width: 400px; line-height: 1.6; }
+  #error-screen .err-tip {
+    background: #111;
+    border: 1px solid #1e1e1e;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 12px;
+    color: #666;
+    max-width: 400px;
+    line-height: 1.8;
+    text-align: left;
+  }
+  #error-screen .err-tip code {
+    background: #1a1a1a;
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #00ff88;
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="nav-btn" id="btn-back" title="Back" onclick="navBack()">‹</button>
+  <button class="nav-btn" id="btn-fwd" title="Forward" onclick="navFwd()">›</button>
+  <button class="nav-btn" title="Reload" onclick="navReload()">↻</button>
+  <button class="nav-btn" title="Home" onclick="showHome()">⌂</button>
+  <input class="url-bar" id="url-bar" type="text"
+    placeholder="Search or enter URL (e.g. discord.com)"
+    onkeydown="if(event.key==='Enter') navigate()">
+  <button class="go-btn" onclick="navigate()">GO</button>
+</div>
+
+<div class="bookmarks">
+  <button class="bm" onclick="go('https://youtube.com')">▶ YouTube</button>
+  <button class="bm" onclick="go('https://discord.com')">Discord</button>
+  <button class="bm" onclick="go('https://roblox.com')">Roblox</button>
+  <button class="bm" onclick="go('https://spotify.com')">🎵 Spotify</button>
+  <button class="bm" onclick="go('https://instagram.com')">Instagram</button>
+  <button class="bm" onclick="go('https://reddit.com')">Reddit</button>
+  <button class="bm" onclick="go('https://chatgpt.com')">ChatGPT</button>
+  <button class="bm" onclick="go('https://netflix.com')">Netflix</button>
+  <button class="bm" onclick="go('https://tiktok.com')">TikTok</button>
+  <button class="bm" onclick="go('https://twitter.com')">𝕏 Twitter</button>
+  <button class="bm" onclick="go('https://google.com')">Google</button>
+  <button class="bm" onclick="go('https://1v1.lol')">1v1.lol</button>
+</div>
+
+<div id="status-bar">
+  <div id="status-dot"></div>
+  <span id="status-text">Setting up proxy…</span>
+</div>
+
+<div id="home-screen">
+  <div class="home-logo">BROWSER</div>
+  <div class="home-grid">
+    <div class="home-tile" onclick="go('https://youtube.com')"><div class="icon">▶️</div><div class="label">YouTube</div></div>
+    <div class="home-tile" onclick="go('https://discord.com')"><div class="icon">💬</div><div class="label">Discord</div></div>
+    <div class="home-tile" onclick="go('https://roblox.com')"><div class="icon">🎮</div><div class="label">Roblox</div></div>
+    <div class="home-tile" onclick="go('https://spotify.com')"><div class="icon">🎵</div><div class="label">Spotify</div></div>
+    <div class="home-tile" onclick="go('https://instagram.com')"><div class="icon">📸</div><div class="label">Instagram</div></div>
+    <div class="home-tile" onclick="go('https://reddit.com')"><div class="icon">🤖</div><div class="label">Reddit</div></div>
+    <div class="home-tile" onclick="go('https://chatgpt.com')"><div class="icon">🧠</div><div class="label">ChatGPT</div></div>
+    <div class="home-tile" onclick="go('https://tiktok.com')"><div class="icon">🎬</div><div class="label">TikTok</div></div>
+  </div>
+</div>
+
+<div id="error-screen">
+  <div class="err-title">⚠️ Proxy Blocked</div>
+  <div class="err-msg">Zscaler blocked the proxy server connection. The bare server we tried is categorized as an anonymizer.</div>
+  <div class="err-tip">
+    Try changing the bare server in <code>uv.config.js</code>:<br><br>
+    <code>bare: 'https://bare.operatorequals.net/'</code><br>
+    <code>bare: 'https://bare.rabloxy.site/'</code>
+  </div>
+</div>
+
+<iframe id="proxy-frame"
+  allow="autoplay; fullscreen; clipboard-write"
+  sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-downloads"
+></iframe>
+
+<!-- Load UV bundle from CDN, then config -->
+<script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@2.6.3/dist/uv.bundle.js"></script>
+<script src="uv.config.js"></script>
+<script>
+const frame     = document.getElementById('proxy-frame');
+const urlBar    = document.getElementById('url-bar');
+const homeEl    = document.getElementById('home-screen');
+const errEl     = document.getElementById('error-screen');
+const statusDot = document.getElementById('status-dot');
+const statusTxt = document.getElementById('status-text');
+
+let swReady = false;
+let navHistory = [];
+let navIndex = -1;
+
+// ── Status helpers ────────────────────────────────────────────────────────────
+function setStatus(color, msg) {
+  statusDot.className = color;
+  statusTxt.textContent = msg;
+}
+
+// ── Service Worker setup ──────────────────────────────────────────────────────
+async function setupSW() {
+  if (!('serviceWorker' in navigator)) {
+    setStatus('red', 'Service workers not supported — try opening this page directly (not in an iframe)');
+    return;
+  }
+
+  setStatus('yellow', 'Registering proxy service worker…');
+
+  try {
+    // First, unregister stale SWs to avoid scope conflicts
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    for (const r of registrations) {
+      if (r.scope.includes('/Math-notes/unblocker/')) {
+        await r.unregister();
+      }
+    }
+
+    const reg = await navigator.serviceWorker.register('./uv.sw.js', {
+      scope: '/Math-notes/unblocker/',
+      updateViaCache: 'none',
+    });
+
+    await navigator.serviceWorker.ready;
+    swReady = true;
+    setStatus('green', 'Proxy ready — enter a URL above');
+
+    // Test bare server connectivity
+    testBareServer();
+
+  } catch (err) {
+    console.error('SW failed:', err);
+    if (err.message.includes('SecurityError') || err.message.includes('blocked')) {
+      setStatus('red', 'Service workers blocked in this iframe — open the unblocker in a new tab for full functionality');
+    } else {
+      setStatus('red', 'Setup error: ' + err.message);
+    }
+  }
+}
+
+// ── Test if bare server is reachable ─────────────────────────────────────────
+async function testBareServer() {
+  const bare = __uv$config.bare;
+  try {
+    const resp = await fetch(bare, {
+      method: 'HEAD',
+      signal: AbortSignal.timeout(4000)
+    });
+    if (resp.ok) {
+      setStatus('green', 'Proxy ready ✓');
+    } else {
+      setStatus('yellow', 'Proxy server returned ' + resp.status + ' — may still work');
+    }
+  } catch (e) {
+    setStatus('red', '⚠️ Proxy server blocked by Zscaler — see instructions below');
+    // Don't show error screen yet — user might try anyway
+  }
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+function formatUrl(raw) {
+  raw = raw.trim();
+  if (!raw) return null;
+  if (raw.startsWith('http://') || raw.startsWith('https://')) return raw;
+  // Looks like a domain
+  if (/^[a-z0-9-]+\.[a-z]{2,}/i.test(raw) && !raw.includes(' ')) return 'https://' + raw;
+  // Search
+  return 'https://www.google.com/search?q=' + encodeURIComponent(raw);
+}
+
+function go(url) {
+  urlBar.value = url;
+  navigate();
+}
+
+function navigate() {
+  if (!swReady) {
+    setStatus('yellow', 'Still setting up, please wait…');
+    return;
+  }
+
+  const url = formatUrl(urlBar.value);
+  if (!url) return;
+
+  urlBar.value = url;
+  setStatus('yellow', 'Loading…');
+
+  const encoded = __uv$config.encodeUrl(url);
+  const proxied = __uv$config.prefix + encoded;
+
+  // Track history
+  navHistory = navHistory.slice(0, navIndex + 1);
+  navHistory.push(proxied);
+  navIndex = navHistory.length - 1;
+
+  homeEl.style.display = 'none';
+  errEl.style.display  = 'none';
+  frame.style.display  = 'block';
+  frame.src = proxied;
+}
+
+function showHome() {
+  frame.style.display  = 'none';
+  errEl.style.display  = 'none';
+  homeEl.style.display = 'flex';
+  urlBar.value = '';
+  setStatus('green', 'Proxy ready — enter a URL above');
+}
+
+function navBack() {
+  if (navIndex > 0) {
+    navIndex--;
+    frame.src = navHistory[navIndex];
+    updateUrlBarFromFrame();
+  }
+}
+
+function navFwd() {
+  if (navIndex < navHistory.length - 1) {
+    navIndex++;
+    frame.src = navHistory[navIndex];
+    updateUrlBarFromFrame();
+  }
+}
+
+function navReload() {
+  if (frame.style.display === 'block') {
+    frame.contentWindow?.location.reload();
+  }
+}
+
+function updateUrlBarFromFrame() {
+  try {
+    const src = frame.src;
+    if (src.includes(__uv$config.prefix)) {
+      const enc = src.split(__uv$config.prefix)[1];
+      if (enc) urlBar.value = __uv$config.decodeUrl(enc);
+    }
+  } catch(_) {}
+}
+
+// ── Frame events ──────────────────────────────────────────────────────────────
+frame.addEventListener('load', () => {
+  updateUrlBarFromFrame();
+
+  // Check if Zscaler blocked it by reading the frame title/content
+  try {
+    const doc = frame.contentDocument;
+    if (doc && doc.title && doc.title.toLowerCase().includes('blocked')) {
+      setStatus('red', '🚫 Zscaler blocked this site directly');
+    } else {
+      setStatus('green', 'Loaded');
+    }
+  } catch(_) {
+    setStatus('green', 'Loaded');
+  }
+});
+
+frame.addEventListener('error', () => {
+  setStatus('red', 'Failed to load — bare server may be blocked');
+  errEl.style.display = 'flex';
+  frame.style.display = 'none';
+  homeEl.style.display = 'none';
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+setupSW();
 </script>
 </body>
 </html>
