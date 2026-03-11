@@ -428,6 +428,11 @@ input:focus,textarea:focus{
 /* ══ BROWSER PAGE ══ */
 #browserPage{overflow-y:auto;}
 #browserPage{flex-direction:column;overflow:hidden;}
+.br-tile{background:#111;border:1px solid #1e1e1e;border-radius:12px;padding:12px 6px;
+  cursor:pointer;color:#999;font-size:11px;text-align:center;line-height:1.8;
+  font-family:inherit;transition:all 0.15s;}
+.br-tile:hover{background:#161616;border-color:#2a2a2a;color:#fff;transform:translateY(-2px);}
+.br-tile span{display:block;color:#666;font-size:10px;}
 .br-bar{display:flex;align-items:center;gap:8px;padding:9px 14px;background:rgba(6,9,16,.97);border-bottom:1px solid rgba(0,207,255,.1);flex-shrink:0;}
 .br-nav{background:none;border:1px solid rgba(0,207,255,.2);color:var(--b);width:30px;height:30px;border-radius:4px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
 .br-nav:hover{background:rgba(0,207,255,.12);}
@@ -789,31 +794,52 @@ input:focus,textarea:focus{
     </div>
 
     <!-- BROWSER PAGE -->
-    <div class="page" id="browserPage">
-      <div class="br-bar">
-        <button class="br-nav" onclick="brBack()">&#8592;</button>
-        <button class="br-nav" onclick="brForward()">&#8594;</button>
-        <button class="br-nav" onclick="brRefresh()">&#8635;</button>
-        <input id="brUrl" type="text" placeholder="Type URL or search..." onkeydown="if(event.key==='Enter')brGo()">
-        <button class="br-go" onclick="brGo()">GO</button>
-        <button class="br-nav" onclick="brNewTab()" style="font-size:.7rem;" title="Open in new tab">&#8599;</button>
-        <span class="br-status" id="brStatus">READY</span>
+    <div class="page" id="browserPage" style="align-items:center;justify-content:center;flex-direction:column;background:#080808;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:24px;padding:40px 20px;width:100%;max-width:520px;">
+
+        <div style="text-align:center;">
+          <div style="font-size:48px;margin-bottom:8px;">🌐</div>
+          <div style="font-size:22px;font-weight:900;color:#fff;letter-spacing:1px;">BROWSER</div>
+          <div style="font-size:12px;color:#444;margin-top:5px;">Proxy-powered • Bypasses school filters</div>
+        </div>
+
+        <div style="display:flex;gap:8px;width:100%;">
+          <input id="brQuickUrl" type="text" placeholder="Enter URL or search (e.g. discord.com)"
+            onkeydown="if(event.key==='Enter')brLaunch()"
+            style="flex:1;background:#111;border:1.5px solid #2a2a2a;border-radius:20px;
+              padding:10px 16px;color:#e0e0e0;font-size:13px;outline:none;font-family:inherit;"
+            onfocus="this.style.borderColor='#00ff88'" onblur="this.style.borderColor='#2a2a2a'">
+          <button onclick="brLaunch()"
+            style="background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;border:none;
+              padding:10px 22px;border-radius:20px;cursor:pointer;font-weight:800;font-size:13px;">
+            GO ↗
+          </button>
+        </div>
+
+        <button onclick="brOpenHome()"
+          style="width:100%;background:#111;border:1.5px solid #1e1e1e;border-radius:16px;
+            padding:18px;cursor:pointer;color:#fff;font-family:inherit;"
+          onmouseover="this.style.borderColor='#00ff88';this.style.background='#0d0d0d'"
+          onmouseout="this.style.borderColor='#1e1e1e';this.style.background='#111'">
+          <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Open Proxy Browser</div>
+          <div style="font-size:11px;color:#555;">Opens in a new tab — full access to any site</div>
+        </button>
+
+        <div style="width:100%;">
+          <div style="font-size:10px;color:#333;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Quick Access</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+            <button onclick="brLaunchUrl('https://youtube.com')" class="br-tile">▶️<br><span>YouTube</span></button>
+            <button onclick="brLaunchUrl('https://discord.com')" class="br-tile">💬<br><span>Discord</span></button>
+            <button onclick="brLaunchUrl('https://roblox.com')" class="br-tile">🎮<br><span>Roblox</span></button>
+            <button onclick="brLaunchUrl('https://spotify.com')" class="br-tile">🎵<br><span>Spotify</span></button>
+            <button onclick="brLaunchUrl('https://instagram.com')" class="br-tile">📸<br><span>Instagram</span></button>
+            <button onclick="brLaunchUrl('https://reddit.com')" class="br-tile">🤖<br><span>Reddit</span></button>
+            <button onclick="brLaunchUrl('https://tiktok.com')" class="br-tile">🎬<br><span>TikTok</span></button>
+            <button onclick="brLaunchUrl('https://1v1.lol')" class="br-tile">🎯<br><span>1v1.lol</span></button>
+          </div>
+        </div>
+
       </div>
-      <div class="br-bookmarks">
-        <button class="br-bm" onclick="brLoad('https://www.youtube.com')">&#128250; YouTube</button>
-        <button class="br-bm" onclick="brLoad('https://discord.com/app')">&#128172; Discord</button>
-        <button class="br-bm" onclick="brLoad('https://www.roblox.com')">&#127918; Roblox</button>
-        <button class="br-bm" onclick="brLoad('https://open.spotify.com')">&#127925; Spotify</button>
-        <button class="br-bm" onclick="brLoad('https://www.instagram.com')">&#128247; Instagram</button>
-        <button class="br-bm" onclick="brLoad('https://www.reddit.com')">&#128483; Reddit</button>
-        <button class="br-bm" onclick="brLoad('https://chat.openai.com')">&#129302; ChatGPT</button>
-        <button class="br-bm" onclick="brLoad('https://www.netflix.com')">&#127910; Netflix</button>
-        <button class="br-bm" onclick="brLoad('https://www.tiktok.com')">&#127916; TikTok</button>
-        <button class="br-bm" onclick="brLoad('https://twitter.com')">&#128038; Twitter</button>
-        <button class="br-bm" onclick="brLoad('https://www.google.com')">&#128269; Google</button>
-        <button class="br-bm" onclick="brHome()">&#127968; Proxy Home</button>
-      </div>
-      <iframe id="brFrame" allow="fullscreen *; autoplay *; camera *; microphone *; clipboard-read *; clipboard-write *"></iframe>
     </div>
 
   </div>
@@ -1654,72 +1680,28 @@ function hwClear() {
   if (out) out.innerHTML = '<div class="hw-empty"><div class="hw-empty-icon">&#129302;</div><div class="hw-empty-txt">READY TO HELP</div></div>';
 }
 
-// ══════ BROWSER — FIXED ══════
-var brCurrentUrl = '';
+// ══════ BROWSER — LAUNCH MODE ══════
+var PROXY_BASE = 'https://xldaniel247.github.io/Math-notes/unblocker/';
 
-// FIX: brLoad now uses UB2 proxy directly instead of missing local unlocker/index.html
-function brLoad(url) {
-  if (!url.startsWith('http')) url = 'https://' + url;
-  brCurrentUrl = url;
-  var frame = document.getElementById('brFrame');
-  var inp = document.getElementById('brUrl');
-  var status = document.getElementById('brStatus');
-  if (inp) inp.value = url;
-  if (status) { status.textContent = 'LOADING...'; status.style.color = 'var(--y)'; }
-  if (!frame) return;
-  // Route through proxy to bypass school blocks
-  frame.src = UB2 + url;
-  frame.onload = function() {
-    if (status) { status.textContent = 'LOADED ✓'; status.style.color = 'var(--g)'; }
-  };
-  frame.onerror = function() {
-    if (status) { status.textContent = 'ERROR — change proxy in Settings'; status.style.color = 'var(--p)'; }
-  };
+function brOpenHome() {
+  window.open(PROXY_BASE, '_blank');
 }
 
-// FIX: brHome loads proxy home directly
-function brHome() {
-  var frame = document.getElementById('brFrame');
-  var inp = document.getElementById('brUrl');
-  var status = document.getElementById('brStatus');
-  if (frame) frame.src = UB2;
-  if (inp) inp.value = '';
-  if (status) { status.textContent = 'PROXY HOME'; status.style.color = 'var(--g)'; }
+function brLaunchUrl(url) {
+  window.open(PROXY_BASE + '?url=' + encodeURIComponent(url), '_blank');
 }
 
-function brGo() {
-  var inp = document.getElementById('brUrl'); if (!inp) return;
-  var raw = inp.value.trim(); if (!raw) return;
+function brLaunch() {
+  var inp = document.getElementById('brQuickUrl');
+  if (!inp || !inp.value.trim()) { window.open(PROXY_BASE, '_blank'); return; }
+  var raw = inp.value.trim();
   var url;
   if (raw.startsWith('http://') || raw.startsWith('https://')) { url = raw; }
-  else if (raw.includes('.') && !raw.includes(' ') && raw.length > 3) { url = 'https://' + raw; }
+  else if (raw.includes('.') && !raw.includes(' ')) { url = 'https://' + raw; }
   else { url = 'https://www.google.com/search?q=' + encodeURIComponent(raw); }
-  brLoad(url);
+  window.open(PROXY_BASE + '?url=' + encodeURIComponent(url), '_blank');
 }
-
-function brBack() {
   var f = document.getElementById('brFrame');
-  try { if(f) f.contentWindow.history.back(); } catch(e) {}
-}
-
-function brForward() {
-  var f = document.getElementById('brFrame');
-  try { if(f) f.contentWindow.history.forward(); } catch(e) {}
-}
-
-function brRefresh() {
-  var f = document.getElementById('brFrame');
-  if (f && brCurrentUrl) { brLoad(brCurrentUrl); }
-  else if (f && f.src) { var s = f.src; f.src = 'about:blank'; setTimeout(function(){ f.src = s; }, 60); }
-}
-
-function brNewTab() {
-  var inp = document.getElementById('brUrl');
-  var url = (inp && inp.value.trim()) ? inp.value.trim() : UB2;
-  if (!url.startsWith('http')) url = 'https://' + url;
-  window.open(UB2 + encodeURIComponent(url), '_blank');
-}
-
 function brRenderRecent() {}
 
 // ══════ AI MEMORY ══════
