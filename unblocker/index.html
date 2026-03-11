@@ -328,22 +328,22 @@ function setStatus(color, msg) {
   statusTxt.textContent = msg;
 }
 
-// ── Find a working bare server ────────────────────────────────────────────────
+// ── Find a working bare server (tests ALL at once, takes fastest) ─────────────
 async function findWorkingBare() {
-  for (const bare of BARE_SERVERS) {
-    try {
+  const results = await Promise.allSettled(
+    BARE_SERVERS.map(async bare => {
       const resp = await fetch(bare, {
         method: 'HEAD',
-        signal: AbortSignal.timeout(3000)
+        signal: AbortSignal.timeout(2500)
       });
-      if (resp.ok || resp.status === 405 || resp.status === 400) {
-        // 400/405 is fine — means the server is alive, just rejecting HEAD
-        console.log('Working bare server:', bare);
-        return bare;
-      }
-    } catch (e) {
-      console.log('Bare server blocked:', bare);
-    }
+      // 400/405 means server is alive but rejecting HEAD — that's fine
+      if (resp.ok || resp.status === 400 || resp.status === 405) return bare;
+      throw new Error('bad status');
+    })
+  );
+
+  for (const r of results) {
+    if (r.status === 'fulfilled') return r.value;
   }
   return null;
 }
