@@ -493,7 +493,7 @@ input:focus,textarea:focus{
     <div class="g-welcome">Welcome back</div>
     <div class="g-email-chip">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="#4285f4"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-      <span style="font-family:Arial;font-size:14px;color:#202124">student@school.edu</span>
+      <span style="font-family:Arial;font-size:14px;color:#202124"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7c0f0809181912083c0f1f1413131052191809">[email&#160;protected]</a></span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368"><path d="M7 10l5 5 5-5z"/></svg>
     </div>
     <div class="g-field-label">Enter your password</div>
@@ -845,7 +845,7 @@ input:focus,textarea:focus{
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ══════ PASSWORD & LOGIN ══════
 var DEFAULT_PW = 'Jesus247';
 var PW = (function() {
@@ -1548,7 +1548,7 @@ function fetchWeather() {
 }
 
 // ══════ CHAT ══════
-var CHAT_BASE = 'https://studyhub-chat-default-rtdb.firebaseio.com';
+var CHAT_WORKER = 'https://quiet-moon-c670.adelacruz2021delacruz.workers.dev';
 var chatRoom = null, chatName = 'Anon', pollTimer = null, lastMsgTime = 0;
 
 function joinRoom() {
@@ -1572,13 +1572,10 @@ function joinRoom() {
 
 function loadMsgs() {
   if (!chatRoom) return;
-  var url = CHAT_BASE + '/rooms/' + chatRoom + '/messages.json?orderBy=%22ts%22&limitToLast=60';
-  fetch(url)
+  fetch(CHAT_WORKER + '/chat?room=' + encodeURIComponent(chatRoom))
     .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .then(function(data) {
-      if (!data || typeof data !== 'object') return;
-      var msgs = Object.values(data).filter(function(m){ return m && m.ts; }).sort(function(a,b){ return a.ts - b.ts; });
-      if (!msgs.length) return;
+    .then(function(msgs) {
+      if (!msgs || !msgs.length) return;
       var newest = msgs[msgs.length-1].ts;
       if (newest === lastMsgTime) return;
       lastMsgTime = newest;
@@ -1587,7 +1584,9 @@ function loadMsgs() {
       log.innerHTML = msgs.map(function(m) {
         var mine = m.name === chatName;
         var time = new Date(m.ts).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-        return '<div style="display:flex;flex-direction:column;gap:2px;'+(mine?'align-items:flex-end':'')+'"><span style="font-size:.52rem;color:#446688;letter-spacing:.8px;">'+escHtml(m.name||'Anon')+' &middot; '+time+'</span><div style="max-width:72%;background:'+(mine?'rgba(0,255,136,.07)':'rgba(255,0,170,.06)')+';border:1px solid '+(mine?'rgba(0,255,136,.15)':'rgba(255,0,170,.12)')+';border-radius:5px;padding:7px 11px;font-size:.68rem;color:#c0d8ff;line-height:1.7;">'+escHtml(m.text||'')+'</div></div>';
+        return '<div style="display:flex;flex-direction:column;gap:2px;'+(mine?'align-items:flex-end':'')+'">' +
+          '<span style="font-size:.52rem;color:#446688;letter-spacing:.8px;">'+escHtml(m.name||'Anon')+' &middot; '+time+'</span>' +
+          '<div style="max-width:72%;background:'+(mine?'rgba(0,255,136,.07)':'rgba(255,0,170,.06)')+';border:1px solid '+(mine?'rgba(0,255,136,.15)':'rgba(255,0,170,.12)')+';border-radius:5px;padding:7px 11px;font-size:.68rem;color:#c0d8ff;line-height:1.7;">'+escHtml(m.text||'')+'</div></div>';
       }).join('');
       if (wasBottom) log.scrollTop = log.scrollHeight;
     })
@@ -1599,10 +1598,12 @@ function sendMsg() {
   var text = inp.value.trim(); if (!text || !chatRoom) return;
   inp.value = '';
   var msg = {name: chatName, text: text, ts: Date.now()};
-  fetch(CHAT_BASE + '/rooms/' + chatRoom + '/messages.json', {
-    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(msg)
+  fetch(CHAT_WORKER + '/chat?room=' + encodeURIComponent(chatRoom), {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(msg)
   })
-  .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); setTimeout(loadMsgs, 300); })
+  .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); setTimeout(loadMsgs, 200); })
   .catch(function(e) { console.warn('Send failed:', e); toast('&#9888;', 'Message failed to send', 'var(--p)'); inp.value = text; });
 }
 
@@ -2012,12 +2013,3 @@ document.addEventListener('click', function(e) {
 })();
 
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    if (panicActive) { dismissPanic(); return; }
-    var app = document.getElementById('app');
-    if (app && app.style.display !== 'none') { triggerPanic(); return; }
-  }
-});
-</script>
-</body>
-</html>
